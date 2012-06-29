@@ -19,13 +19,15 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    NSString *imageFileName = nil;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.viewController = [[PZViewController alloc] initWithNibName:@"PZViewController_iPhone" bundle:nil];
-        self.viewController.puzzleImageFile = @"puzzle_iPhone.png";
+        imageFileName = @"puzzle_iPhone";
     } else {
         self.viewController = [[PZViewController alloc] initWithNibName:@"PZViewController_iPad" bundle:nil];
-        self.viewController.puzzleImageFile = @"puzzle_iPad.png";
+        imageFileName = @"puzzle_iPad";
     }
+    self.viewController.puzzleImageFile = [[NSBundle mainBundle] pathForResource:imageFileName ofType:@"png"];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
