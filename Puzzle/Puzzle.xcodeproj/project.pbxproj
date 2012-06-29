@@ -27,6 +27,9 @@
 		B7AEF1FF159C18D0006EFEF0 /* PZPuzzle.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */; };
 		B7AEF205159D37D6006EFEF0 /* PZTileLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */; };
 		B7AEF206159D37D6006EFEF0 /* PZTileLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */; };
+		B7AEF208159D6AE4006EFEF0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF207159D6AE4006EFEF0 /* QuartzCore.framework */; };
+		B7AEF20B159D735B006EFEF0 /* puzzle_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B7AEF20A159D735B006EFEF0 /* puzzle_iPhone.png */; };
+		B7AEF20C159D735B006EFEF0 /* puzzle_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B7AEF20A159D735B006EFEF0 /* puzzle_iPhone.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +69,8 @@
 		B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZPuzzle.m; sourceTree = "<group>"; };
 		B7AEF200159D3704006EFEF0 /* PZTileLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZTileLocation.h; sourceTree = "<group>"; };
 		B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZTileLocation.m; sourceTree = "<group>"; };
+		B7AEF207159D6AE4006EFEF0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B7AEF20A159D735B006EFEF0 /* puzzle_iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puzzle_iPhone.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7AEF208159D6AE4006EFEF0 /* QuartzCore.framework in Frameworks */,
 				B7AEF1C0159C15F8006EFEF0 /* UIKit.framework in Frameworks */,
 				B7AEF1C2159C15F8006EFEF0 /* Foundation.framework in Frameworks */,
 				B7AEF1C4159C15F8006EFEF0 /* CoreGraphics.framework in Frameworks */,
@@ -114,6 +120,7 @@
 		B7AEF1BE159C15F8006EFEF0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7AEF207159D6AE4006EFEF0 /* QuartzCore.framework */,
 				B7AEF1BF159C15F8006EFEF0 /* UIKit.framework */,
 				B7AEF1C1159C15F8006EFEF0 /* Foundation.framework */,
 				B7AEF1C3159C15F8006EFEF0 /* CoreGraphics.framework */,
@@ -126,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				B7AEF1F7159C174E006EFEF0 /* Model */,
+				B7AEF209159D735B006EFEF0 /* Resources */,
 				B7AEF1CE159C15F8006EFEF0 /* PZAppDelegate.h */,
 				B7AEF1CF159C15F8006EFEF0 /* PZAppDelegate.m */,
 				B7AEF1D1159C15F8006EFEF0 /* PZViewController.h */,
@@ -178,6 +186,14 @@
 				B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		B7AEF209159D735B006EFEF0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B7AEF20A159D735B006EFEF0 /* puzzle_iPhone.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,6 +270,7 @@
 				B7AEF1CA159C15F8006EFEF0 /* InfoPlist.strings in Resources */,
 				B7AEF1D6159C15F8006EFEF0 /* PZViewController_iPhone.xib in Resources */,
 				B7AEF1D9159C15F8006EFEF0 /* PZViewController_iPad.xib in Resources */,
+				B7AEF20B159D735B006EFEF0 /* puzzle_iPhone.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7AEF1EB159C15F9006EFEF0 /* InfoPlist.strings in Resources */,
+				B7AEF20C159D735B006EFEF0 /* puzzle_iPhone.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
