@@ -17,8 +17,9 @@
 @property (nonatomic, readonly) NSUInteger tilesCount;
 @property (nonatomic, assign) PZTileLocation emptyTileLocation;
 
-- (NSMutableArray *)newTilesWithImage:(UIImage *)anImage size:(NSUInteger)aSize;
++ (NSMutableArray *)newTilesWithImage:(UIImage *)anImage size:(NSUInteger)aSize;
 - (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex;
++ (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex size:(NSUInteger)aSize;
 - (NSArray *)affectedTilesLocationsByTileMoveAtLocation:(PZTileLocation)aLocation;
 - (PZTileLocation)randomMovableTileLocation;
 - (void)exchangeTileAtLocation:(PZTileLocation)aLocation1 withTileAtLocation:(PZTileLocation)aLocation2;
@@ -34,7 +35,9 @@
 {
     if (nil != (self = [super init]))
     {
-        self.tiles = [self newTilesWithImage:anImage size:aSize];
+        self.tiles = [[self class] newTilesWithImage:anImage size:aSize];
+        self.emptyTileLocation = PZTileLocationMake(aSize - 1, aSize - 1);
+        self.size = aSize;
     }
     return self;
 }
@@ -140,15 +143,16 @@
     return result;
 }
 
-- (NSMutableArray *)newTilesWithImage:(UIImage *)anImage size:(NSUInteger)aSize
++ (NSMutableArray *)newTilesWithImage:(UIImage *)anImage size:(NSUInteger)aSize
 {
     CGFloat tileWidth = anImage.size.width / aSize;
     CGFloat tileHeight = anImage.size.height / aSize;
 
-    NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:self.tilesCount];
-    for (NSUInteger tileIndex = 0; tileIndex < self.tilesCount; tileIndex++)
+    NSUInteger tilesCount = [self tilesCountForSize:aSize];
+    NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:tilesCount];
+    for (NSUInteger tileIndex = 0; tileIndex < tilesCount; tileIndex++)
     {
-        PZTileLocation location = [self locationForTileAtIndex:tileIndex];
+        PZTileLocation location = [self locationForTileAtIndex:tileIndex size:aSize];
         CGRect rect = CGRectMake(location.x * tileWidth, location.y * tileHeight,
                                  tileWidth, tileHeight);
         CGImageRef CGImage = CGImageCreateWithImageInRect([anImage CGImage], rect);
@@ -157,21 +161,29 @@
     }
     [result addObject:[NSNull null]]; // empty tile
 
-    self.emptyTileLocation = PZTileLocationMake(aSize - 1, aSize - 1);
-
     return result;
 }
 
 - (NSUInteger)tilesCount
 {
-    return self.size * self.size - 1;
+    return [[self class] tilesCountForSize:self.size];
+}
+
++ (NSUInteger)tilesCountForSize:(NSUInteger)aSize
+{
+    return aSize * aSize - 1;
 }
 
 - (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex
 {
-    NSUInteger y = anIndex / self.size;
-    NSUInteger x = anIndex - y * self.size;
+    return [[self class] locationForTileAtIndex:anIndex size:self.size];
+}
 
++ (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex size:(NSUInteger)aSize
+{
+    NSUInteger y = anIndex / aSize;
+    NSUInteger x = anIndex - y * aSize;
+    
     return PZTileLocationMake(x, y);
 }
 
