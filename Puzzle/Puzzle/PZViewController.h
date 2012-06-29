@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class PZPuzzle;
+
 @interface PZViewController : UIViewController
+{
+@private
+    PZPuzzle *puzzle;
+}
+
+@property (nonatomic, strong) NSString *puzzleImageFile;
 
 @end

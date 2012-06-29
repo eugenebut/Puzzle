@@ -7,8 +7,13 @@
 //
 
 #import "PZViewController.h"
+#import "PZPuzzle.h"
+
+static const NSUInteger kPuzzleSize = 4;
 
 @interface PZViewController ()
+
+@property (nonatomic, strong) PZPuzzle *puzzle;
 
 @end
 
@@ -26,13 +31,19 @@
     // Release any retained subviews of the main view.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void)didReceiveMemoryWarning
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
+    self.puzzle = nil;
+}
+
+- (PZPuzzle *)puzzle
+{
+    if (nil == puzzle)
+    {
+        UIImage *image = [[UIImage alloc] initWithContentsOfFile:self.puzzleImageFile];
+        puzzle = [[PZPuzzle alloc] initWithImage:image size:kPuzzleSize];
     }
+    return puzzle;
 }
 
 @end

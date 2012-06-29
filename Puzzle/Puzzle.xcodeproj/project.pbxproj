@@ -25,6 +25,8 @@
 		B7AEF1FB159C177C006EFEF0 /* PZTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1F9159C177C006EFEF0 /* PZTile.m */; };
 		B7AEF1FE159C18D0006EFEF0 /* PZPuzzle.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */; };
 		B7AEF1FF159C18D0006EFEF0 /* PZPuzzle.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */; };
+		B7AEF205159D37D6006EFEF0 /* PZTileLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */; };
+		B7AEF206159D37D6006EFEF0 /* PZTileLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,8 @@
 		B7AEF1F9159C177C006EFEF0 /* PZTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZTile.m; sourceTree = "<group>"; };
 		B7AEF1FC159C18D0006EFEF0 /* PZPuzzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZPuzzle.h; sourceTree = "<group>"; };
 		B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZPuzzle.m; sourceTree = "<group>"; };
+		B7AEF200159D3704006EFEF0 /* PZTileLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZTileLocation.h; sourceTree = "<group>"; };
+		B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZTileLocation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +174,8 @@
 				B7AEF1F9159C177C006EFEF0 /* PZTile.m */,
 				B7AEF1FC159C18D0006EFEF0 /* PZPuzzle.h */,
 				B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */,
+				B7AEF200159D3704006EFEF0 /* PZTileLocation.h */,
+				B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -287,6 +293,7 @@
 				B7AEF1D3159C15F8006EFEF0 /* PZViewController.m in Sources */,
 				B7AEF1FA159C177C006EFEF0 /* PZTile.m in Sources */,
 				B7AEF1FE159C18D0006EFEF0 /* PZPuzzle.m in Sources */,
+				B7AEF205159D37D6006EFEF0 /* PZTileLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +304,7 @@
 				B7AEF1EE159C15F9006EFEF0 /* PuzzleTests.m in Sources */,
 				B7AEF1FB159C177C006EFEF0 /* PZTile.m in Sources */,
 				B7AEF1FF159C18D0006EFEF0 /* PZPuzzle.m in Sources */,
+				B7AEF206159D37D6006EFEF0 /* PZTileLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
