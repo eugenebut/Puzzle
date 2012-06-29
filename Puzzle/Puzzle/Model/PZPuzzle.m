@@ -61,7 +61,7 @@
     if (PZTileLocationInSameColumnAsLocation(aLocation, self.emptyTileLocation))
     {
         // vertical move allowed
-        return (aLocation.y < self.emptyTileLocation.y) ? kTopDirection : kBottomDirection;
+        return (aLocation.y < self.emptyTileLocation.y) ? kBottomDirection : kTopDirection;
     }
     if (PZTileLocationInSameRowAsLocation(aLocation, self.emptyTileLocation))
     {
@@ -114,8 +114,8 @@
                 addTileLocation(aLocation.x, y);
             }
             break;
-        case kBottomDirection:          
-            for (NSUInteger y = aLocation.y; self.emptyTileLocation.y < y; y--)
+        case kBottomDirection:
+            for (NSUInteger y = aLocation.y; y < self.emptyTileLocation.y; y++)
             {
                 addTileLocation(aLocation.x, y);
             }

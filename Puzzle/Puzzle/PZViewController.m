@@ -27,6 +27,9 @@ static const NSUInteger kPuzzleSize = 4;
     [super viewDidLoad];
     
     [self addTiles];
+    
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc]
+            initWithTarget:self action:@selector(handleTap:)]];
 }
 
 - (void)viewDidUnload
@@ -38,6 +41,46 @@ static const NSUInteger kPuzzleSize = 4;
 - (void)didReceiveMemoryWarning
 {
     self.puzzle = nil;
+}
+
+- (void)handleTap:(UIGestureRecognizer *)aRecognizer
+{
+    PZTileLocation location = [self tileLocationAtPoint:[aRecognizer locationInView:self.view]];
+//    NSLog(@"Location: %dx%d", location.x, location.y);
+    PZMoveDirection direction = [self.puzzle allowedMoveDirectionForTileAtLocation:location];
+    NSLog(@"Direction: %d", direction);
+
+    if (kNoneDirection != direction)
+    {
+        NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:location];
+        switch (direction) {
+            case kLeftDirection:
+                [self moveTiles:tiles offset:CGPointMake(-[self tileWidth], 0.0)];
+                break;
+            case kRightDirection:
+                [self moveTiles:tiles offset:CGPointMake([self tileWidth], 0.0)];
+                break;
+            case kTopDirection:
+                [self moveTiles:tiles offset:CGPointMake(0.0, -[self tileHeight])];
+                break;
+            case kBottomDirection:
+                [self moveTiles:tiles offset:CGPointMake(0.0, [self tileHeight])];
+                break;
+            case kNoneDirection:
+                break;
+//                NSAssert(NO);
+        }
+        [self.puzzle moveTileAtLocation:location];
+    }
+}
+
+- (void)moveTiles:(NSArray *)aTiles offset:(CGPoint)anOffset
+{
+    for (PZTile *tile in aTiles)
+    {
+        CALayer *layer = tile.representedObject;
+        layer.position = CGPointMake(layer.position.x + anOffset.x, layer.position.y + anOffset.y);  
+    }
 }
 
 - (PZPuzzle *)puzzle
@@ -73,7 +116,8 @@ static const NSUInteger kPuzzleSize = 4;
 
 - (PZTileLocation)tileLocationAtPoint:(CGPoint)aPoint
 {
-    return PZTileLocationMake(aPoint.x * kPuzzleSize / [self tileWidth], aPoint.y * kPuzzleSize / [self tileHeight]);
+    return PZTileLocationMake((NSUInteger)aPoint.x / [self tileWidth],
+                              (NSUInteger)aPoint.y / [self tileHeight]);
 }
 
 - (CGFloat)tileWidth
