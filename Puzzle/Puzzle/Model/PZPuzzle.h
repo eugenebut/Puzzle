@@ -26,6 +26,7 @@ typedef enum
 - (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize;
 
 @property (nonatomic, assign) NSUInteger size;
+@property (nonatomic, assign) NSUInteger turnsCount;
 
 - (PZTile *)tileAtLocation:(PZTileLocation)aLocation;
 - (PZMoveDirection)allowedMoveDirectionForTileAtLocation:(PZTileLocation)aLocation;
