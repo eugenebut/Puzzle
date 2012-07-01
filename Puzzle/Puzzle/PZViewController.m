@@ -17,15 +17,15 @@ static const NSUInteger kPuzzleSize = 4;
 
 @property (nonatomic, strong) PZPuzzle *puzzle;
 
-@property (nonatomic, assign) PZTileLocation pivotLocation;
-@property (nonatomic, strong) NSArray *pivotTiles;
+@property (nonatomic, assign) PZTileLocation panTileLocation;
+@property (nonatomic, strong) NSArray *pannedTiles;
 @property (nonatomic, assign) CGRect panConstraints;
 
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZViewController
-@synthesize  puzzle, puzzleImageFile, pivotLocation, pivotTiles, panConstraints;
+@synthesize  puzzle, puzzleImageFile, panTileLocation, pannedTiles, panConstraints;
 
 - (void)viewDidLoad
 {
@@ -110,46 +110,48 @@ static const NSUInteger kPuzzleSize = 4;
 
 - (void)handlePan:(UIPanGestureRecognizer *)aRecognizer
 {
-    if (UIGestureRecognizerStateBegan == aRecognizer.state)
-    {
-        // remember location we started pan from
-        self.pivotLocation = [self tileLocationAtPoint:[aRecognizer locationOfTouch:0 inView:self.view]];
-        
-        // remember all tiles we going to move
-        NSArray *tilesLocations = [self.puzzle affectedTilesLocationsByTileMoveAtLocation:self.pivotLocation];
-        self.pivotTiles = [self.puzzle tilesAtLocations:tilesLocations];
-        
-        // setup constraints rect we want to keep out moving tiles in
-        self.panConstraints = CGRectInset(CGRectUnion([self rectForTilesAtLocations:tilesLocations],
-                                                      [self rectForTileAtLocation:self.puzzle.emptyTileLocation]), 1.0, 1.0);
-    }
-    else if (UIGestureRecognizerStateEnded == aRecognizer.state || UIGestureRecognizerStateCancelled == aRecognizer.state)
-    {
-        CGRect originalTileRect = CGRectInset([self rectForTileAtLocation:self.pivotLocation], 1.0, 1.0);
-        CGRect currentTileRect = ((CALayer *)[self.puzzle tileAtLocation:self.pivotLocation].representedObject).frame;
-        CGRect intersection = CGRectIntersection(originalTileRect, currentTileRect);
-
-        if (CGRectGetWidth(intersection) < CGRectGetWidth(originalTileRect) / 2 ||
-            (CGRectGetHeight(intersection) < CGRectGetHeight(originalTileRect) / 2))
-        {
-            // proceed with horizontal move
-            [self.puzzle moveTileAtLocation:self.pivotLocation];
-        }
-
-        for (PZTile *tile in self.pivotTiles)
-        {
-//            NSLog(@"tile.currentLocation: %d %d", tile.currentLocation.x, tile.currentLocation.y);
-//            NSLog(@"Rect: %@", NSStringFromCGRect([self rectForTileAtLocation:tile.currentLocation]));
-            ((CALayer *)tile.representedObject).frame = CGRectInset([self rectForTileAtLocation:tile.currentLocation], 1.0, 1.0);
-        }
-    }
-    else if (UIGestureRecognizerStateBegan == aRecognizer.state ||
+    if (UIGestureRecognizerStateBegan == aRecognizer.state ||
         UIGestureRecognizerStateChanged == aRecognizer.state)
     {
+        if (UIGestureRecognizerStateBegan == aRecognizer.state)
+        {
+            // remember location we started pan from
+            self.panTileLocation = [self tileLocationAtPoint:[aRecognizer locationOfTouch:0 inView:self.view]];
+            
+            // remember all tiles we going to move
+            NSArray *tilesLocations = [self.puzzle affectedTilesLocationsByTileMoveAtLocation:self.panTileLocation];
+            self.pannedTiles = [self.puzzle tilesAtLocations:tilesLocations];
+            
+            // setup constraints rect we want to keep out moving tiles in
+            self.panConstraints = CGRectUnion([self rectForTilesAtLocations:tilesLocations],
+                                              [self rectForTileAtLocation:self.puzzle.emptyTileLocation]);
+        }
+
         CGPoint translation = [aRecognizer translationInView:self.view];
         [CATransaction setDisableActions:YES]; // turn off layers animation
-        [self moveTiles:self.pivotTiles offset:translation constraints:self.panConstraints];
+        [self moveTiles:self.pannedTiles offset:translation constraints:self.panConstraints];
         [aRecognizer setTranslation:CGPointZero inView:self.view];
+    }
+    else if (UIGestureRecognizerStateEnded == aRecognizer.state ||
+             UIGestureRecognizerStateCancelled == aRecognizer.state)
+    {
+        if (UIGestureRecognizerStateEnded == aRecognizer.state)
+        {
+            CGRect originalTileRect = [self rectForTileAtLocation:self.panTileLocation];
+            CGRect currentTileRect = ((CALayer *)[self.puzzle tileAtLocation:self.panTileLocation].representedObject).frame;
+            CGSize distancePassed = CGRectIntersection(originalTileRect, currentTileRect).size;
+
+            // check if halfway is passed
+            BOOL halfwayPassed = (distancePassed.width < CGRectGetWidth(originalTileRect) / 2) ||
+                                 (distancePassed.height < CGRectGetHeight(originalTileRect) / 2);
+            
+            if (halfwayPassed)
+            {
+                [self.puzzle moveTileAtLocation:self.panTileLocation];
+            }
+        }
+        [self updateTilesLocations:self.pannedTiles];
+        self.pannedTiles = nil;
     }
 }
 
@@ -177,25 +179,32 @@ static const NSUInteger kPuzzleSize = 4;
         CGRect newLayerFrame = CGRectOffset(layer.frame, constrainedOffset.x, constrainedOffset.y);
         if (!CGRectContainsRect(aConstraints, newLayerFrame))
         {
-//            NSLog(@"constrainedOffset.x: %f", constrainedOffset.x);
-//            NSLog(@"constrainedOffset.y: %f", constrainedOffset.y);
             CGRect intersection = CGRectIntersection(newLayerFrame, aConstraints);
-
+            if (CGRectIsEmpty(intersection))
+            {
+                return;
+            }
+            
             CGFloat xCorrection = CGRectGetWidth(newLayerFrame) - CGRectGetWidth(intersection);
-//            NSLog(@"xCorrection: %f", xCorrection);
             BOOL shiftLeft = (CGRectGetMinX(intersection) == CGRectGetMinX(newLayerFrame));
-//            NSLog(@"shiftRight: %d", shiftLeft);
             constrainedOffset.x += shiftLeft ? -xCorrection : xCorrection;
 
             CGFloat yCorrection = CGRectGetHeight(newLayerFrame) - CGRectGetHeight(intersection);
-            //NSLog(@"yCorrection: %f", yCorrection);
             BOOL shiftUp = (CGRectGetMinY(intersection) == CGRectGetMinY(newLayerFrame));
-            //NSLog(@"shiftUp: %d", shiftUp);
             constrainedOffset.y += shiftUp ? -yCorrection : yCorrection;
         }
     }
     
     [self moveTiles:aTiles offset:constrainedOffset];
+}
+
+- (void)updateTilesLocations:(NSArray *)aTiles
+{
+    for (PZTile *tile in aTiles)
+    {
+        CGRect frame = [self rectForTileAtLocation:tile.currentLocation];
+        ((CALayer *)tile.representedObject).frame = frame;
+    }
 }
 
 - (PZPuzzle *)puzzle
@@ -215,15 +224,16 @@ static const NSUInteger kPuzzleSize = 4;
     {
         for (NSUInteger y = 0; y < kPuzzleSize; y++)
         {
+            PZTileLocation tileLocation = PZTileLocationMake(x, y);
+            PZTile *tile = [self.puzzle tileAtLocation:tileLocation];
             CALayer *tileLayer = [CALayer new];
-            
-            PZTileLocation location = PZTileLocationMake(x, y);
-            PZTile *tile = [self.puzzle tileAtLocation:location];
             tile.representedObject = tileLayer;
-            
+
             tileLayer.opaque = YES;
             tileLayer.contents = (id)[tile.image CGImage];
-            tileLayer.frame = CGRectInset([self rectForTileAtLocation:location], 1.0, 1.0);
+            tileLayer.frame = [self rectForTileAtLocation:tileLocation];
+            tileLayer.shadowOpacity = 0.7;
+            tileLayer.shadowOffset = CGSizeMake(3.0, 3.0);
             [self.view.layer addSublayer:tileLayer];
         }
     }
