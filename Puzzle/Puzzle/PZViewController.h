@@ -14,8 +14,6 @@
 {
 @private
     PZPuzzle *puzzle;
-    
-
 }
 
 @property (nonatomic, strong) NSString *puzzleImageFile;
