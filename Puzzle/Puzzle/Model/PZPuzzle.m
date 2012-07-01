@@ -16,12 +16,14 @@
 @property (nonatomic, strong) NSMutableArray *mutableTiles;
 @property (nonatomic, assign) PZTileLocation emptyTileLocation;
 @property (nonatomic, assign) PZTileLocation previousEmptyTileLocation;
+@property (nonatomic, assign) BOOL previousRandomMoveWasHorizontal;
 
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZPuzzle
-@synthesize size, movesCount, mutableTiles, emptyTileLocation, previousEmptyTileLocation;
+@synthesize size, movesCount, mutableTiles, emptyTileLocation, previousEmptyTileLocation,
+            previousRandomMoveWasHorizontal;
 
 - (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize
 {
@@ -204,13 +206,18 @@
     NSUInteger safetyCounter = 100;
     do 
     {
-        PZTileLocation newLocation = [self randomMovableTileLocation];
+        PZTileLocation newLocation = self.previousRandomMoveWasHorizontal ?
+                                    [self randomVerticalMovableTileLocation] :
+                                    [self randomHorizontalMovableTileLocation];
+
         if (!PZTileLocationEqualToLocation(self.previousEmptyTileLocation, newLocation)) 
         {
             NSArray *tiles = [self affectedTilesByTileMoveAtLocation:newLocation];
             PZMoveDirection direction = [self allowedMoveDirectionForTileAtLocation:newLocation];
             [self moveTileAtLocation:newLocation];
             aBlock(tiles, direction);
+            self.previousRandomMoveWasHorizontal = kLeftDirection == direction ||
+                                                   kRightDirection == direction;
             break;
         }
         
@@ -218,38 +225,27 @@
     self.movesCount = 0;
 }
 
-- (PZTileLocation)randomMovableTileLocation
+- (PZTileLocation)randomHorizontalMovableTileLocation
 {
-    // we have (columnsCount - 1) + (rowsCount - 1) movable tiles
-    NSUInteger movableLocationsCount = 2 * (self.size - 1);
-    
-    // first just pick an index
-    NSUInteger randomLocation = arc4random() % movableLocationsCount;
-    
-    // half of indices belongs to horizontal line, another half to vertical
-    if (randomLocation < (self.size - 1))
+    NSUInteger randomLocation = arc4random() % self.size - 1;    
+    if (self.emptyTileLocation.x <= randomLocation )
     {
-        // lets our first half be vertical line 
-        if (self.emptyTileLocation.y <= randomLocation )
-        {
-            // we must take into account empty tile and skip it
-            ++randomLocation;
-        }
-
-        return PZTileLocationMake(self.emptyTileLocation.x, randomLocation);
+        // we must take into account empty tile and skip it
+        ++randomLocation;
     }
-    else
+    return PZTileLocationMake(randomLocation, self.emptyTileLocation.y);
+}
+
+- (PZTileLocation)randomVerticalMovableTileLocation
+{
+    NSUInteger randomLocation = arc4random() % self.size - 1;
+    if (self.emptyTileLocation.y <= randomLocation )
     {
-        // this is our horizontal line, lets cut a half from our random number
-        randomLocation -= self.size - 1;
-        if (self.emptyTileLocation.x <= randomLocation )
-        {
-            // take into account empty tile and skip it
-            ++randomLocation;
-        }
-
-        return PZTileLocationMake(randomLocation, self.emptyTileLocation.y);
+        // we must take into account empty tile and skip it
+        ++randomLocation;
     }
+        
+    return PZTileLocationMake(self.emptyTileLocation.x, randomLocation);
 }
 
 - (NSUInteger)indexOfTileAtLocation:(PZTileLocation)aLocation
