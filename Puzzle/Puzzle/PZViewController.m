@@ -12,10 +12,12 @@
 #import <QuartzCore/QuartzCore.h>
 
 static const NSUInteger kPuzzleSize = 4;
+static const NSUInteger kShufflesCount = 3;
 
 @interface PZViewController ()
 
 @property (nonatomic, strong) PZPuzzle *puzzle;
+@property (nonatomic, assign) BOOL wasInitialyShuffled;
 
 @property (nonatomic, assign) PZTileLocation panTileLocation;
 @property (nonatomic, strong) NSArray *pannedTiles;
@@ -25,8 +27,8 @@ static const NSUInteger kPuzzleSize = 4;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZViewController
-@synthesize winInfoLabel;
-@synthesize  puzzle, puzzleImageFile, panTileLocation, pannedTiles, panConstraints;
+@synthesize winInfoLabel, puzzle, puzzleImageFile, panTileLocation, pannedTiles,
+            panConstraints, wasInitialyShuffled;
 
 #pragma mark -
 #pragma mark View Lifecycle
@@ -50,6 +52,12 @@ static const NSUInteger kPuzzleSize = 4;
 {
     // support shakes handling
     [self becomeFirstResponder];
+    
+    if (!self.wasInitialyShuffled)
+    {
+        [self shuffle];
+        self.wasInitialyShuffled = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,24 +105,7 @@ static const NSUInteger kPuzzleSize = 4;
 {
     PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
     NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:location];
-    switch ([self.puzzle allowedMoveDirectionForTileAtLocation:location])
-    {
-        case kLeftDirection:
-            [self moveTiles:tiles offset:CGPointMake(-[self tileWidth], 0.0)];
-            break;
-        case kRightDirection:
-            [self moveTiles:tiles offset:CGPointMake([self tileWidth], 0.0)];
-            break;
-        case kUpDirection:
-            [self moveTiles:tiles offset:CGPointMake(0.0, -[self tileHeight])];
-            break;
-        case kDownDirection:
-            [self moveTiles:tiles offset:CGPointMake(0.0, [self tileHeight])];
-            break;
-        case kNoneDirection:
-            NSAssert(NO, @"We should not even begin gesture recognition");
-            break;
-    }
+    [self moveTiles:tiles direction:[self.puzzle allowedMoveDirectionForTileAtLocation:location]];
     [self moveTileAtLocation:location];
 }
 
@@ -172,6 +163,28 @@ static const NSUInteger kPuzzleSize = 4;
 
 #pragma mark -
 #pragma mark Tiles moving
+
+- (void)moveTiles:(NSArray *)aTiles direction:(PZMoveDirection)aDirection
+{
+    switch (aDirection)
+    {
+        case kLeftDirection:
+            [self moveTiles:aTiles offset:CGPointMake(-[self tileWidth], 0.0)];
+            break;
+        case kRightDirection:
+            [self moveTiles:aTiles offset:CGPointMake([self tileWidth], 0.0)];
+            break;
+        case kUpDirection:
+            [self moveTiles:aTiles offset:CGPointMake(0.0, -[self tileHeight])];
+            break;
+        case kDownDirection:
+            [self moveTiles:aTiles offset:CGPointMake(0.0, [self tileHeight])];
+            break;
+        case kNoneDirection:
+            NSAssert(NO, @"We should not be here");
+            break;
+    }
+}
 
 - (void)moveTiles:(NSArray *)aTiles offset:(CGPoint)anOffset
 {
@@ -280,13 +293,39 @@ static const NSUInteger kPuzzleSize = 4;
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-    // do shuffle
-
+    [self shuffle];
 }
 
 - (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-    // cancel shuffle
+    self.view.userInteractionEnabled = YES;
+}
+
+- (void)shuffle
+{
+    [self hideWinMessageIfNecessary];
+    self.view.userInteractionEnabled = NO;
+    [self shufflePuzzleWithNumberOfMoves:kShufflesCount];
+}
+
+- (void)shufflePuzzleWithNumberOfMoves:(NSUInteger)aNumberOfMoves
+{
+    if (0 == aNumberOfMoves)
+    {
+        // we done shuffling
+        self.view.userInteractionEnabled = YES;
+        return;
+    }
+
+    [self.puzzle moveTileToRandomLocationWithCompletionBlock:^(NSArray *aTiles, PZMoveDirection aDirection)
+    {
+        [CATransaction setAnimationDuration:0.1];
+        [CATransaction setCompletionBlock:^
+        {
+            [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1];
+        }];
+        [self moveTiles:aTiles direction:aDirection];
+    }];
 }
 
 #pragma mark -
@@ -349,6 +388,20 @@ static const NSUInteger kPuzzleSize = 4;
     [UIView animateWithDuration:0.5 animations:^
     {
         self.winInfoLabel.alpha = 1.0;
+    }];
+}
+
+- (void)hideWinMessageIfNecessary
+{
+    if (self.winInfoLabel.hidden)
+    {
+        return;
+    }
+
+    [UIView animateWithDuration:0.5 animations:^ {
+         self.winInfoLabel.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        self.winInfoLabel.hidden = YES;
     }];
 }
 

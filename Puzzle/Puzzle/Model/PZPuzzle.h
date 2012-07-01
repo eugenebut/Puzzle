@@ -37,6 +37,6 @@ typedef enum
 - (NSArray *)affectedTilesLocationsByTileMoveAtLocation:(PZTileLocation)aLocation;
 - (BOOL)moveTileAtLocation:(PZTileLocation)aLocation;
 
-- (void)shuffleUsingBlock:(void (^)(NSArray *tiles, PZMoveDirection direction))aBlock;
+- (void)moveTileToRandomLocationWithCompletionBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock;
 
 @end

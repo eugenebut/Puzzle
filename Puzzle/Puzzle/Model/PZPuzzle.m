@@ -15,12 +15,13 @@
 
 @property (nonatomic, strong) NSMutableArray *mutableTiles;
 @property (nonatomic, assign) PZTileLocation emptyTileLocation;
+@property (nonatomic, assign) PZTileLocation previousEmptyTileLocation;
 
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZPuzzle
-@synthesize size, movesCount, mutableTiles, emptyTileLocation;
+@synthesize size, movesCount, mutableTiles, emptyTileLocation, previousEmptyTileLocation;
 
 - (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize
 {
@@ -28,6 +29,7 @@
     {
         self.mutableTiles = [[self class] newTilesWithImage:anImage size:aSize];
         self.emptyTileLocation = PZTileLocationMake(aSize - 1, aSize - 1);
+        self.previousEmptyTileLocation = self.emptyTileLocation;
         self.size = aSize;
         self.movesCount = 0;
     }
@@ -136,6 +138,7 @@
     {
         ++self.movesCount;
         self.emptyTileLocation = aLocation;
+        self.previousEmptyTileLocation = self.emptyTileLocation;
     }
     return result;
 }
@@ -196,24 +199,22 @@
     [[self.mutableTiles objectAtIndex:tile2Index] setCurrentLocation:aLocation2];
 }
 
-- (void)shuffleUsingBlock:(void (^)(NSArray *tiles, PZMoveDirection direction))aBlock
+- (void)moveTileToRandomLocationWithCompletionBlock:(void (^)(NSArray *tiles, PZMoveDirection direction))aBlock
 {
-    PZTileLocation previousLocation = self.emptyTileLocation;
-    NSUInteger numberOfMoves = self.size;
-    while (numberOfMoves)
+    NSUInteger safetyCounter = 100;
+    do 
     {
         PZTileLocation newLocation = [self randomMovableTileLocation];
-        if (!PZTileLocationEqualToLocation(previousLocation, newLocation))
+        if (!PZTileLocationEqualToLocation(self.previousEmptyTileLocation, newLocation)) 
         {
+            NSArray *tiles = [self affectedTilesByTileMoveAtLocation:newLocation];
+            PZMoveDirection direction = [self allowedMoveDirectionForTileAtLocation:newLocation];
             [self moveTileAtLocation:newLocation];
-            if (NULL != aBlock)
-            {
-                aBlock([self affectedTilesByTileMoveAtLocation:newLocation],
-                       [self allowedMoveDirectionForTileAtLocation:newLocation]);
-            }
-            --numberOfMoves;
+            aBlock(tiles, direction);
+            break;
         }
-    }
+        
+    } while (--safetyCounter);
     self.movesCount = 0;
 }
 
