@@ -1,11 +1,8 @@
 //
 //  PZPuzzle.m
 //  Puzzle
-//
-//  Created by Eugene But on 6/27/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
 
+//////////////////////////////////////////////////////////////////////////////////////////
 #import "PZPuzzle.h"
 #import "PZTileLocation.h"
 #import "PZTileImpl.h"
