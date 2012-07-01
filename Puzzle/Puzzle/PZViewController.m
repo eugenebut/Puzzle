@@ -34,7 +34,7 @@ static const NSUInteger kPuzzleSize = 4;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     [self addTiles];
     [self addGestureRecognizers];
 }
@@ -46,9 +46,21 @@ static const NSUInteger kPuzzleSize = 4;
     [super viewDidUnload];
 }
 
+- (void)viewDidAppear:(BOOL)anAnimated
+{
+    // support shakes handling
+    [self becomeFirstResponder];
+}
+
 - (void)didReceiveMemoryWarning
 {
-    self.puzzle = nil;
+    // TODO: Don't do that if state is not saved
+//    self.puzzle = nil;
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
 }
 
 #pragma mark -
@@ -62,6 +74,7 @@ static const NSUInteger kPuzzleSize = 4;
     tapRecognizer.delegate = self;
     [self.view addGestureRecognizer:tapRecognizer];
 
+    // pan gesture recognizer
     UIGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]
                                           initWithTarget:self action:@selector(handlePan:)];
     panRecognizer.delegate = self;
@@ -257,7 +270,26 @@ static const NSUInteger kPuzzleSize = 4;
                                   [self tileWidth], [self tileHeight]), 1.0, 1.0);
 }
 
-#pragma mark
+#pragma mark -
+#pragma mark Shuffle
+
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    // do shuffle
+
+}
+
+- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    // cancel shuffle
+}
+
+#pragma mark -
 #pragma mark Misc
 
 - (PZPuzzle *)puzzle
