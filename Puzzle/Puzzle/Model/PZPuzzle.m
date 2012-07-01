@@ -14,7 +14,6 @@
 @interface PZPuzzle()
 
 @property (nonatomic, strong) NSMutableArray *mutableTiles;
-@property (nonatomic, readonly) NSUInteger tilesCount;
 @property (nonatomic, assign) PZTileLocation emptyTileLocation;
 
 @end
@@ -146,7 +145,7 @@
     CGFloat tileWidth = anImage.size.width / aSize;
     CGFloat tileHeight = anImage.size.height / aSize;
 
-    NSUInteger tilesCount = [self tilesCountForSize:aSize];
+    NSUInteger tilesCount = aSize * aSize;
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:tilesCount];
     for (NSUInteger tileIndex = 0; tileIndex < tilesCount; tileIndex++)
     {
@@ -159,16 +158,6 @@
     }
 
     return result;
-}
-
-- (NSUInteger)tilesCount
-{
-    return [[self class] tilesCountForSize:self.size];
-}
-
-+ (NSUInteger)tilesCountForSize:(NSUInteger)aSize
-{
-    return aSize * aSize;
 }
 
 - (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex
@@ -186,7 +175,7 @@
 
 - (BOOL)isWin
 {
-    for (NSUInteger tileIndex = 0; tileIndex < self.tilesCount; tileIndex++)
+    for (NSUInteger tileIndex = 0; tileIndex < self.mutableTiles.count; tileIndex++)
     {
         PZTile *tile = [self.mutableTiles objectAtIndex:tileIndex];
         if (!PZTileLocationEqualToLocation([self locationForTileAtIndex:tileIndex],
