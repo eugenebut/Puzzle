@@ -13,29 +13,21 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZPuzzle()
 
-@property (nonatomic, strong) NSMutableArray *tiles;
+@property (nonatomic, strong) NSMutableArray *mutableTiles;
 @property (nonatomic, readonly) NSUInteger tilesCount;
 @property (nonatomic, assign) PZTileLocation emptyTileLocation;
-
-+ (NSMutableArray *)newTilesWithImage:(UIImage *)anImage size:(NSUInteger)aSize;
-- (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex;
-+ (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex size:(NSUInteger)aSize;
-- (NSArray *)affectedTilesLocationsByTileMoveAtLocation:(PZTileLocation)aLocation;
-- (PZTileLocation)randomMovableTileLocation;
-- (void)exchangeTileAtLocation:(PZTileLocation)aLocation1 withTileAtLocation:(PZTileLocation)aLocation2;
-- (NSUInteger)indexOfTileAtLocation:(PZTileLocation)aLocation;
 
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZPuzzle
-@synthesize size, turnsCount, tiles, emptyTileLocation;
+@synthesize size, turnsCount, mutableTiles, emptyTileLocation;
 
 - (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize
 {
     if (nil != (self = [super init]))
     {
-        self.tiles = [[self class] newTilesWithImage:anImage size:aSize];
+        self.mutableTiles = [[self class] newTilesWithImage:anImage size:aSize];
         self.emptyTileLocation = PZTileLocationMake(aSize - 1, aSize - 1);
         self.size = aSize;
         self.turnsCount = 0;
@@ -49,7 +41,7 @@
     {
         return nil;
     }
-    return [self.tiles objectAtIndex:[self indexOfTileAtLocation:aLocation]];
+    return [self.mutableTiles objectAtIndex:[self indexOfTileAtLocation:aLocation]];
 }
 
 - (PZMoveDirection)allowedMoveDirectionForTileAtLocation:(PZTileLocation)aLocation
@@ -62,7 +54,7 @@
     if (PZTileLocationInSameColumnAsLocation(aLocation, self.emptyTileLocation))
     {
         // vertical move allowed
-        return (aLocation.y < self.emptyTileLocation.y) ? kBottomDirection : kTopDirection;
+        return (aLocation.y < self.emptyTileLocation.y) ? kDownDirection : kUpDirection;
     }
     if (PZTileLocationInSameRowAsLocation(aLocation, self.emptyTileLocation))
     {
@@ -74,10 +66,14 @@
 
 - (NSArray *)affectedTilesByTileMoveAtLocation:(PZTileLocation)aLocation
 {
-    NSArray *locations = [self affectedTilesLocationsByTileMoveAtLocation:aLocation];
-    NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:locations.count];
+    return [self tilesAtLocations:[self affectedTilesLocationsByTileMoveAtLocation:aLocation]];
+}
 
-    for (NSValue *location in locations)
+- (NSArray *)tilesAtLocations:(NSArray *)aLocations
+{
+    NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:aLocations.count];
+    
+    for (NSValue *location in aLocations)
     {
         [result addObject:[self tileAtLocation:[location tileLocation]]];    
     }
@@ -109,13 +105,13 @@
                 addTileLocation(x, aLocation.y);
             }
             break;
-        case kTopDirection:          
+        case kUpDirection:          
             for (NSUInteger y = aLocation.y; self.emptyTileLocation.y < y; y--)
             {
                 addTileLocation(aLocation.x, y);
             }
             break;
-        case kBottomDirection:
+        case kDownDirection:
             for (NSUInteger y = aLocation.y; y < self.emptyTileLocation.y; y++)
             {
                 addTileLocation(aLocation.x, y);
@@ -159,9 +155,8 @@
                                  tileWidth, tileHeight);
         CGImageRef CGImage = CGImageCreateWithImageInRect([anImage CGImage], rect);
         UIImage *image = [[UIImage alloc] initWithCGImage:CGImage];
-        [result addObject:[[PZTile alloc] initWithImage:image winLocation:location]];
+        [result addObject:[[PZTile alloc] initWithImage:image currentLocation:location winLocation:location]];
     }
-    [result addObject:[NSNull null]]; // empty tile
 
     return result;
 }
@@ -173,7 +168,7 @@
 
 + (NSUInteger)tilesCountForSize:(NSUInteger)aSize
 {
-    return aSize * aSize - 1;
+    return aSize * aSize;
 }
 
 - (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex
@@ -193,7 +188,7 @@
 {
     for (NSUInteger tileIndex = 0; tileIndex < self.tilesCount; tileIndex++)
     {
-        PZTile *tile = [self.tiles objectAtIndex:tileIndex];
+        PZTile *tile = [self.mutableTiles objectAtIndex:tileIndex];
         if (!PZTileLocationEqualToLocation([self locationForTileAtIndex:tileIndex],
                                            tile.winLocation))
         {
@@ -205,8 +200,11 @@
 
 - (void)exchangeTileAtLocation:(PZTileLocation)aLocation1 withTileAtLocation:(PZTileLocation)aLocation2
 {
-    [self.tiles exchangeObjectAtIndex:[self indexOfTileAtLocation:aLocation1]
-                    withObjectAtIndex:[self indexOfTileAtLocation:aLocation2]];
+    NSUInteger tile1Index = [self indexOfTileAtLocation:aLocation1];
+    NSUInteger tile2Index = [self indexOfTileAtLocation:aLocation2];
+    [self.mutableTiles exchangeObjectAtIndex:tile1Index withObjectAtIndex:tile2Index];
+    [[self.mutableTiles objectAtIndex:tile1Index] setCurrentLocation:aLocation1];
+    [[self.mutableTiles objectAtIndex:tile2Index] setCurrentLocation:aLocation2];
 }
 
 - (void)shuffleUsingBlock:(void (^)(NSArray *tiles, PZMoveDirection direction))aBlock

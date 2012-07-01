@@ -10,10 +10,12 @@
 
 @class PZPuzzle;
 
-@interface PZViewController : UIViewController
+@interface PZViewController : UIViewController<UIGestureRecognizerDelegate>
 {
 @private
     PZPuzzle *puzzle;
+    
+
 }
 
 @property (nonatomic, strong) NSString *puzzleImageFile;

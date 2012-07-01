@@ -16,8 +16,8 @@ typedef enum
     kNoneDirection = 0,
     kLeftDirection,
     kRightDirection,
-    kTopDirection,
-    kBottomDirection
+    kUpDirection,
+    kDownDirection
     
 } PZMoveDirection;
 
@@ -27,10 +27,13 @@ typedef enum
 
 @property (nonatomic, assign) NSUInteger size;
 @property (nonatomic, assign) NSUInteger turnsCount;
+@property (nonatomic, readonly) PZTileLocation emptyTileLocation;
 
 - (PZTile *)tileAtLocation:(PZTileLocation)aLocation;
+- (NSArray *)tilesAtLocations:(NSArray *)aLocations;
 - (PZMoveDirection)allowedMoveDirectionForTileAtLocation:(PZTileLocation)aLocation;
 - (NSArray *)affectedTilesByTileMoveAtLocation:(PZTileLocation)aLocation;
+- (NSArray *)affectedTilesLocationsByTileMoveAtLocation:(PZTileLocation)aLocation;
 - (BOOL)moveTileAtLocation:(PZTileLocation)aLocation;
 
 - (BOOL)isWin;
