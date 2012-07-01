@@ -16,6 +16,8 @@
     PZPuzzle *puzzle;
 }
 
+@property (strong, nonatomic) IBOutlet UILabel *winInfoLabel;
+
 @property (nonatomic, strong) NSString *puzzleImageFile;
 
 @end

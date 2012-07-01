@@ -26,8 +26,9 @@ typedef enum
 - (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize;
 
 @property (nonatomic, assign) NSUInteger size;
-@property (nonatomic, assign) NSUInteger turnsCount;
 @property (nonatomic, readonly) PZTileLocation emptyTileLocation;
+@property (nonatomic, assign) NSUInteger movesCount;
+@property (nonatomic, readonly, getter = isWin) BOOL win;
 
 - (PZTile *)tileAtLocation:(PZTileLocation)aLocation;
 - (NSArray *)tilesAtLocations:(NSArray *)aLocations;
@@ -36,7 +37,6 @@ typedef enum
 - (NSArray *)affectedTilesLocationsByTileMoveAtLocation:(PZTileLocation)aLocation;
 - (BOOL)moveTileAtLocation:(PZTileLocation)aLocation;
 
-- (BOOL)isWin;
 - (void)shuffleUsingBlock:(void (^)(NSArray *tiles, PZMoveDirection direction))aBlock;
 
 @end

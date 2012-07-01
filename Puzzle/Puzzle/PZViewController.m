@@ -25,6 +25,7 @@ static const NSUInteger kPuzzleSize = 4;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZViewController
+@synthesize winInfoLabel;
 @synthesize  puzzle, puzzleImageFile, panTileLocation, pannedTiles, panConstraints;
 
 #pragma mark -
@@ -40,6 +41,8 @@ static const NSUInteger kPuzzleSize = 4;
 
 - (void)viewDidUnload
 {
+    self.winInfoLabel = nil;
+
     [super viewDidUnload];
 }
 
@@ -99,7 +102,7 @@ static const NSUInteger kPuzzleSize = 4;
             NSAssert(NO, @"We should not even begin gesture recognition");
             break;
     }
-    [self.puzzle moveTileAtLocation:location];
+    [self moveTileAtLocation:location];
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)aRecognizer
@@ -141,7 +144,7 @@ static const NSUInteger kPuzzleSize = 4;
             
             if (halfwayPassed)
             {
-                [self.puzzle moveTileAtLocation:self.panTileLocation];
+                [self moveTileAtLocation:self.panTileLocation];
             }
         }
         [self updateTilesLocations:self.pannedTiles];
@@ -288,6 +291,33 @@ static const NSUInteger kPuzzleSize = 4;
             [self.view.layer addSublayer:tileLayer];
         }
     }
+}
+
+- (void)moveTileAtLocation:(PZTileLocation)aLocation
+{
+    [self.puzzle moveTileAtLocation:aLocation];
+    if (self.puzzle.isWin)
+    {
+        [self showWinMessage];
+    }
+}
+
+- (void)showWinMessage
+{
+    self.view.userInteractionEnabled = NO;
+    
+    self.winInfoLabel.text = [[NSString alloc] initWithFormat:
+                              @"Puzzle solved using %d moves\nShake your device to shuffle",
+                              self.puzzle.movesCount];
+
+    [self.view bringSubviewToFront:self.winInfoLabel];
+    self.winInfoLabel.hidden = NO;
+    self.winInfoLabel.alpha = 0.0;
+
+    [UIView animateWithDuration:0.5 animations:^
+    {
+        self.winInfoLabel.alpha = 1.0;
+    }];
 }
 
 @end

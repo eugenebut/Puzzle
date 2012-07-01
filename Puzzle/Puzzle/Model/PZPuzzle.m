@@ -20,7 +20,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZPuzzle
-@synthesize size, turnsCount, mutableTiles, emptyTileLocation;
+@synthesize size, movesCount, mutableTiles, emptyTileLocation;
 
 - (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize
 {
@@ -29,7 +29,7 @@
         self.mutableTiles = [[self class] newTilesWithImage:anImage size:aSize];
         self.emptyTileLocation = PZTileLocationMake(aSize - 1, aSize - 1);
         self.size = aSize;
-        self.turnsCount = 0;
+        self.movesCount = 0;
     }
     return self;
 }
@@ -134,7 +134,7 @@
     BOOL result = nil != locations;
     if (result)
     {
-        ++self.turnsCount;
+        ++self.movesCount;
         self.emptyTileLocation = aLocation;
     }
     return result;
@@ -214,7 +214,7 @@
             --numberOfMoves;
         }
     }
-    self.turnsCount = 0;
+    self.movesCount = 0;
 }
 
 - (PZTileLocation)randomMovableTileLocation
