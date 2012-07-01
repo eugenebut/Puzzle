@@ -27,6 +27,9 @@ static const NSUInteger kPuzzleSize = 4;
 @implementation PZViewController
 @synthesize  puzzle, puzzleImageFile, panTileLocation, pannedTiles, panConstraints;
 
+#pragma mark -
+#pragma mark View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -62,23 +65,14 @@ static const NSUInteger kPuzzleSize = 4;
     [self.view addGestureRecognizer:panRecognizer];
 }
 
-- (UISwipeGestureRecognizer *)newSwipeGestureRecognizerForDirection:(UISwipeGestureRecognizerDirection)aDirection
-    handler:(SEL)aSelector
-{
-    UISwipeGestureRecognizer *result = [[UISwipeGestureRecognizer alloc]
-                                       initWithTarget:self action:aSelector];
-    result.delegate = self;
-    result.direction = aDirection;
-    return result;
-}
-
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)aRecognizer
 {
     PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
     return kNoneDirection != [self.puzzle allowedMoveDirectionForTileAtLocation:location];
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)aGestureRecognizer
+    shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)anOtherGestureRecognizer
 {
     return YES;
 }
@@ -160,6 +154,9 @@ static const NSUInteger kPuzzleSize = 4;
     return [self tileLocationAtPoint:[aRecognizer locationInView:self.view]];
 }
 
+#pragma mark -
+#pragma mark Tiles moving
+
 - (void)moveTiles:(NSArray *)aTiles offset:(CGPoint)anOffset
 {
     for (PZTile *tile in aTiles)
@@ -207,37 +204,8 @@ static const NSUInteger kPuzzleSize = 4;
     }
 }
 
-- (PZPuzzle *)puzzle
-{
-    if (nil == puzzle)
-    {
-        // TODO: restore state
-        UIImage *image = [[UIImage alloc] initWithContentsOfFile:self.puzzleImageFile];
-        puzzle = [[PZPuzzle alloc] initWithImage:image size:kPuzzleSize];
-    }
-    return puzzle;
-}
-
-- (void)addTiles
-{
-    for (NSUInteger x = 0; x < kPuzzleSize; x++)
-    {
-        for (NSUInteger y = 0; y < kPuzzleSize; y++)
-        {
-            PZTileLocation tileLocation = PZTileLocationMake(x, y);
-            PZTile *tile = [self.puzzle tileAtLocation:tileLocation];
-            CALayer *tileLayer = [CALayer new];
-            tile.representedObject = tileLayer;
-
-            tileLayer.opaque = YES;
-            tileLayer.contents = (id)[tile.image CGImage];
-            tileLayer.frame = [self rectForTileAtLocation:tileLocation];
-            tileLayer.shadowOpacity = 0.7;
-            tileLayer.shadowOffset = CGSizeMake(3.0, 3.0);
-            [self.view.layer addSublayer:tileLayer];
-        }
-    }
-}
+#pragma mark -
+#pragma mark Tiles Info
 
 - (PZTileLocation)tileLocationAtPoint:(CGPoint)aPoint
 {
@@ -284,6 +252,42 @@ static const NSUInteger kPuzzleSize = 4;
     return CGRectInset(CGRectMake([self tileWidth] * aLocation.x,
                                   [self tileHeight] * aLocation.y,
                                   [self tileWidth], [self tileHeight]), 1.0, 1.0);
+}
+
+#pragma mark
+#pragma mark Misc
+
+- (PZPuzzle *)puzzle
+{
+    if (nil == puzzle)
+    {
+        // TODO: restore state
+        UIImage *image = [[UIImage alloc] initWithContentsOfFile:self.puzzleImageFile];
+        puzzle = [[PZPuzzle alloc] initWithImage:image size:kPuzzleSize];
+    }
+    return puzzle;
+}
+
+- (void)addTiles
+{
+    for (NSUInteger x = 0; x < kPuzzleSize; x++)
+    {
+        for (NSUInteger y = 0; y < kPuzzleSize; y++)
+        {
+            PZTileLocation tileLocation = PZTileLocationMake(x, y);
+            PZTile *tile = [self.puzzle tileAtLocation:tileLocation];
+            CALayer *tileLayer = [CALayer new];
+            tile.representedObject = tileLayer;
+            
+            tileLayer.opaque = YES;
+            tileLayer.contents = (id)[tile.image CGImage];
+            tileLayer.frame = [self rectForTileAtLocation:tileLocation];
+            tileLayer.shadowOpacity = 0.7;
+            tileLayer.shadowOffset = CGSizeMake(3.0, 3.0);
+            tileLayer.shouldRasterize = YES;
+            [self.view.layer addSublayer:tileLayer];
+        }
+    }
 }
 
 @end
