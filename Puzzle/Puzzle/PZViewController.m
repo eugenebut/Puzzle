@@ -359,6 +359,7 @@ static const NSUInteger kShufflesCount = 3;
             tileLayer.shadowOpacity = 0.7;
             tileLayer.shadowOffset = CGSizeMake(3.0, 3.0);
             tileLayer.shouldRasterize = YES;
+            tileLayer.rasterizationScale = [UIScreen mainScreen].scale;
             [self.view.layer addSublayer:tileLayer];
         }
     }

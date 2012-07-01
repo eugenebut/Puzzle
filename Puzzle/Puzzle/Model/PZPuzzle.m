@@ -145,8 +145,8 @@
 
 + (NSMutableArray *)newTilesWithImage:(UIImage *)anImage size:(NSUInteger)aSize
 {
-    CGFloat tileWidth = anImage.size.width / aSize;
-    CGFloat tileHeight = anImage.size.height / aSize;
+    CGFloat tileWidth = (anImage.size.width / aSize) * [UIScreen mainScreen].scale;
+    CGFloat tileHeight = (anImage.size.height / aSize) * [UIScreen mainScreen].scale;
 
     NSUInteger tilesCount = aSize * aSize;
     NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:tilesCount];
