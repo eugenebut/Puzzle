@@ -78,7 +78,8 @@
     
     for (NSValue *location in aLocations)
     {
-        [result addObject:[self tileAtLocation:[location tileLocation]]];    
+        id tile = [self tileAtLocation:[location tileLocation]];
+        [result addObject:tile ? tile : [NSNull null]];    
     }
     
     return [[NSArray alloc] initWithArray:result];
