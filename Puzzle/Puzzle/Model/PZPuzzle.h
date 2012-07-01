@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PZTileLocation.h"
 
-@class PZTile;
+@protocol IPZTile;
 
 typedef enum
 {
@@ -30,7 +30,7 @@ typedef enum
 @property (nonatomic, assign) NSUInteger movesCount;
 @property (nonatomic, readonly, getter = isWin) BOOL win;
 
-- (PZTile *)tileAtLocation:(PZTileLocation)aLocation;
+- (id<IPZTile>)tileAtLocation:(PZTileLocation)aLocation;
 - (NSArray *)tilesAtLocations:(NSArray *)aLocations;
 - (PZMoveDirection)allowedMoveDirectionForTileAtLocation:(PZTileLocation)aLocation;
 - (NSArray *)affectedTilesByTileMoveAtLocation:(PZTileLocation)aLocation;

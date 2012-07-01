@@ -162,7 +162,7 @@ static const NSUInteger kPuzzleSize = 4;
 
 - (void)moveTiles:(NSArray *)aTiles offset:(CGPoint)anOffset
 {
-    for (PZTile *tile in aTiles)
+    for (id<IPZTile> tile in aTiles)
     {
         CALayer *layer = tile.representedObject;
         layer.position = CGPointMake(layer.position.x + anOffset.x, layer.position.y + anOffset.y);
@@ -173,7 +173,7 @@ static const NSUInteger kPuzzleSize = 4;
 {
     // first apply constraints
     CGPoint constrainedOffset = anOffset;
-    for (PZTile *tile in aTiles)
+    for (id<IPZTile> tile in aTiles)
     {
         CALayer *layer = tile.representedObject;
         CGRect newLayerFrame = CGRectOffset(layer.frame, constrainedOffset.x, constrainedOffset.y);
@@ -200,7 +200,7 @@ static const NSUInteger kPuzzleSize = 4;
 
 - (void)updateTilesLocations:(NSArray *)aTiles
 {
-    for (PZTile *tile in aTiles)
+    for (id<IPZTile>tile in aTiles)
     {
         CGRect frame = [self rectForTileAtLocation:tile.currentLocation];
         ((CALayer *)tile.representedObject).frame = frame;
@@ -278,7 +278,7 @@ static const NSUInteger kPuzzleSize = 4;
         for (NSUInteger y = 0; y < kPuzzleSize; y++)
         {
             PZTileLocation tileLocation = PZTileLocationMake(x, y);
-            PZTile *tile = [self.puzzle tileAtLocation:tileLocation];
+            id<IPZTile> tile = [self.puzzle tileAtLocation:tileLocation];
             CALayer *tileLayer = [CALayer new];
             tile.representedObject = tileLayer;
             

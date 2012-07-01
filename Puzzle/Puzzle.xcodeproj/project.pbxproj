@@ -21,8 +21,8 @@
 		B7AEF1E3159C15F9006EFEF0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C1159C15F8006EFEF0 /* Foundation.framework */; };
 		B7AEF1EB159C15F9006EFEF0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B7AEF1E9159C15F9006EFEF0 /* InfoPlist.strings */; };
 		B7AEF1EE159C15F9006EFEF0 /* PuzzleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1ED159C15F9006EFEF0 /* PuzzleTests.m */; };
-		B7AEF1FA159C177C006EFEF0 /* PZTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1F9159C177C006EFEF0 /* PZTile.m */; };
-		B7AEF1FB159C177C006EFEF0 /* PZTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1F9159C177C006EFEF0 /* PZTile.m */; };
+		B7AEF1FA159C177C006EFEF0 /* PZTileImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1F9159C177C006EFEF0 /* PZTileImpl.m */; };
+		B7AEF1FB159C177C006EFEF0 /* PZTileImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1F9159C177C006EFEF0 /* PZTileImpl.m */; };
 		B7AEF1FE159C18D0006EFEF0 /* PZPuzzle.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */; };
 		B7AEF1FF159C18D0006EFEF0 /* PZPuzzle.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */; };
 		B7AEF205159D37D6006EFEF0 /* PZTileLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */; };
@@ -63,14 +63,15 @@
 		B7AEF1EA159C15F9006EFEF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B7AEF1EC159C15F9006EFEF0 /* PuzzleTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PuzzleTests.h; sourceTree = "<group>"; };
 		B7AEF1ED159C15F9006EFEF0 /* PuzzleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PuzzleTests.m; sourceTree = "<group>"; };
-		B7AEF1F8159C177C006EFEF0 /* PZTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZTile.h; sourceTree = "<group>"; };
-		B7AEF1F9159C177C006EFEF0 /* PZTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZTile.m; sourceTree = "<group>"; };
+		B7AEF1F8159C177C006EFEF0 /* PZTileImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZTileImpl.h; sourceTree = "<group>"; };
+		B7AEF1F9159C177C006EFEF0 /* PZTileImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZTileImpl.m; sourceTree = "<group>"; };
 		B7AEF1FC159C18D0006EFEF0 /* PZPuzzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZPuzzle.h; sourceTree = "<group>"; };
 		B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZPuzzle.m; sourceTree = "<group>"; };
 		B7AEF200159D3704006EFEF0 /* PZTileLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZTileLocation.h; sourceTree = "<group>"; };
 		B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZTileLocation.m; sourceTree = "<group>"; };
 		B7AEF207159D6AE4006EFEF0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B7AEF20A159D735B006EFEF0 /* puzzle_iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puzzle_iPhone.png; sourceTree = "<group>"; };
+		B7EEBE1C15A0C28D00EC5BBB /* PZTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PZTile.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,8 +179,9 @@
 		B7AEF1F7159C174E006EFEF0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B7AEF1F8159C177C006EFEF0 /* PZTile.h */,
-				B7AEF1F9159C177C006EFEF0 /* PZTile.m */,
+				B7AEF1F8159C177C006EFEF0 /* PZTileImpl.h */,
+				B7AEF1F9159C177C006EFEF0 /* PZTileImpl.m */,
+				B7EEBE1C15A0C28D00EC5BBB /* PZTile.h */,
 				B7AEF1FC159C18D0006EFEF0 /* PZPuzzle.h */,
 				B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */,
 				B7AEF200159D3704006EFEF0 /* PZTileLocation.h */,
@@ -309,7 +311,7 @@
 				B7AEF1CC159C15F8006EFEF0 /* main.m in Sources */,
 				B7AEF1D0159C15F8006EFEF0 /* PZAppDelegate.m in Sources */,
 				B7AEF1D3159C15F8006EFEF0 /* PZViewController.m in Sources */,
-				B7AEF1FA159C177C006EFEF0 /* PZTile.m in Sources */,
+				B7AEF1FA159C177C006EFEF0 /* PZTileImpl.m in Sources */,
 				B7AEF1FE159C18D0006EFEF0 /* PZPuzzle.m in Sources */,
 				B7AEF205159D37D6006EFEF0 /* PZTileLocation.m in Sources */,
 			);
@@ -320,7 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7AEF1EE159C15F9006EFEF0 /* PuzzleTests.m in Sources */,
-				B7AEF1FB159C177C006EFEF0 /* PZTile.m in Sources */,
+				B7AEF1FB159C177C006EFEF0 /* PZTileImpl.m in Sources */,
 				B7AEF1FF159C18D0006EFEF0 /* PZPuzzle.m in Sources */,
 				B7AEF206159D37D6006EFEF0 /* PZTileLocation.m in Sources */,
 			);

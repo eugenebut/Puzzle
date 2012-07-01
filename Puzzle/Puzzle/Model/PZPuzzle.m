@@ -8,7 +8,7 @@
 
 #import "PZPuzzle.h"
 #import "PZTileLocation.h"
-#import "PZTile.h"
+#import "PZTileImpl.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZPuzzle()
@@ -34,7 +34,7 @@
     return self;
 }
 
-- (PZTile *)tileAtLocation:(PZTileLocation)aLocation
+- (id<IPZTile>)tileAtLocation:(PZTileLocation)aLocation
 {
     if (PZTileLocationEqualToLocation(self.emptyTileLocation, aLocation))
     {
@@ -154,7 +154,7 @@
                                  tileWidth, tileHeight);
         CGImageRef CGImage = CGImageCreateWithImageInRect([anImage CGImage], rect);
         UIImage *image = [[UIImage alloc] initWithCGImage:CGImage];
-        [result addObject:[[PZTile alloc] initWithImage:image currentLocation:location winLocation:location]];
+        [result addObject:[[PZTileImpl alloc] initWithImage:image currentLocation:location winLocation:location]];
     }
 
     return result;
@@ -177,7 +177,7 @@
 {
     for (NSUInteger tileIndex = 0; tileIndex < self.mutableTiles.count; tileIndex++)
     {
-        PZTile *tile = [self.mutableTiles objectAtIndex:tileIndex];
+        PZTileImpl *tile = [self.mutableTiles objectAtIndex:tileIndex];
         if (!PZTileLocationEqualToLocation([self locationForTileAtIndex:tileIndex],
                                            tile.winLocation))
         {

@@ -2,20 +2,17 @@
 //  PZTile.h
 //  Puzzle
 //
-//  Created by Eugene But on 6/27/12.
+//  Created by Eugene But on 7/1/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import "PZTileLocation.h"
 
-@interface PZTile : NSObject
+@protocol IPZTile <NSObject>
 
-- (id)initWithImage:(UIImage *)anImage currentLocation:(PZTileLocation)aCurrent winLocation:(PZTileLocation)aWinLocation;
-
-@property (nonatomic, strong) UIImage *image;
-@property (nonatomic, assign) PZTileLocation winLocation;
-@property (nonatomic, assign) PZTileLocation currentLocation;
+@property (nonatomic, strong, readonly) UIImage *image;
+@property (nonatomic, assign, readonly) PZTileLocation currentLocation;
 
 @property (nonatomic, strong) id representedObject;
 
