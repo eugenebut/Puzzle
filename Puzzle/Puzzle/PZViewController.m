@@ -12,7 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 static const NSUInteger kPuzzleSize = 4;
-static const NSUInteger kShufflesCount = 3;
+static const NSUInteger kShufflesCount = 30;
 
 @interface PZViewController ()
 
@@ -319,7 +319,7 @@ static const NSUInteger kShufflesCount = 3;
 
     [self.puzzle moveTileToRandomLocationWithCompletionBlock:^(NSArray *aTiles, PZMoveDirection aDirection)
     {
-        [CATransaction setAnimationDuration:0.1];
+        [CATransaction setAnimationDuration:0.05];
         [CATransaction setCompletionBlock:^
         {
             [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1];
