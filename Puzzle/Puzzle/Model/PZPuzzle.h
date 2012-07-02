@@ -31,12 +31,22 @@ typedef enum
 @property (nonatomic, readonly, getter = isWin) BOOL win;
 
 - (id<IPZTile>)tileAtLocation:(PZTileLocation)aLocation;
+
+// aLocations - array of NSValues wrapping PZTileLocation structs
 - (NSArray *)tilesAtLocations:(NSArray *)aLocations;
+
+// where our tiles can move from the given location?
 - (PZMoveDirection)allowedMoveDirectionForTileAtLocation:(PZTileLocation)aLocation;
+
+// moving one tile can affect others, which ones?
 - (NSArray *)affectedTilesByTileMoveAtLocation:(PZTileLocation)aLocation;
 - (NSArray *)affectedTilesLocationsByTileMoveAtLocation:(PZTileLocation)aLocation;
+
+// move tile in our puzzle. Returns NO if move was not possible
 - (BOOL)moveTileAtLocation:(PZTileLocation)aLocation;
 
-- (void)moveTileToRandomLocationWithCompletionBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock;
+// allows shuffling the puzzle
+- (void)moveTileToRandomLocationWithCompletionBlock:
+    (void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock;
 
 @end

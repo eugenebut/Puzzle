@@ -201,13 +201,13 @@
 		B7AEF1F7159C174E006EFEF0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B7AEF1F8159C177C006EFEF0 /* PZTileImpl.h */,
-				B7AEF1F9159C177C006EFEF0 /* PZTileImpl.m */,
 				B7EEBE1C15A0C28D00EC5BBB /* PZTile.h */,
-				B7AEF1FC159C18D0006EFEF0 /* PZPuzzle.h */,
-				B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */,
 				B7AEF200159D3704006EFEF0 /* PZTileLocation.h */,
 				B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */,
+				B7AEF1F8159C177C006EFEF0 /* PZTileImpl.h */,
+				B7AEF1F9159C177C006EFEF0 /* PZTileImpl.m */,
+				B7AEF1FC159C18D0006EFEF0 /* PZPuzzle.h */,
+				B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";

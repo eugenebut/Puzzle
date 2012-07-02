@@ -20,8 +20,9 @@ static const NSUInteger kShufflesCount = 30;
 @interface PZViewController ()
 
 @property (nonatomic, strong) PZPuzzle *puzzle;
-@property (nonatomic, assign) BOOL wasInitialyShuffled;
+@property (nonatomic, assign) BOOL wasInitialyShuffled; // shuffle at launch only
 
+// properties below are helpers for pan gesture
 @property (nonatomic, assign) PZTileLocation panTileLocation;
 @property (nonatomic, strong) NSArray *pannedTiles;
 @property (nonatomic, assign) CGRect panConstraints;
@@ -40,12 +41,13 @@ static const NSUInteger kShufflesCount = 30;
 {
     [super viewDidLoad];
 
-    [self addTiles];
+    [self addTilesLayers];
     [self addGestureRecognizers];
 }
 
 - (void)viewDidUnload
 {
+    // TODO: make this weak
     self.winInfoLabel = nil;
 
     [super viewDidUnload];
@@ -56,6 +58,7 @@ static const NSUInteger kShufflesCount = 30;
     // support shakes handling
     [self becomeFirstResponder];
     
+    // shuffle if necessary
     if (!self.wasInitialyShuffled)
     {
         [self shuffle];
@@ -65,8 +68,8 @@ static const NSUInteger kShufflesCount = 30;
 
 - (void)didReceiveMemoryWarning
 {
-    // TODO: Don't do that if state is not saved
-//    self.puzzle = nil;
+    // TODO: save puzzle state and unload it from memory
+    // self.puzzle = nil;
 }
 
 - (BOOL)canBecomeFirstResponder
@@ -108,7 +111,7 @@ static const NSUInteger kShufflesCount = 30;
 {
     PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
     NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:location];
-    [self moveTiles:tiles direction:[self.puzzle allowedMoveDirectionForTileAtLocation:location]];
+    [self moveLayersOfTiles:tiles direction:[self.puzzle allowedMoveDirectionForTileAtLocation:location]];
     [self moveTileAtLocation:location];
 }
 
@@ -131,9 +134,10 @@ static const NSUInteger kShufflesCount = 30;
                                               [self rectForTileAtLocation:self.puzzle.emptyTileLocation]);
         }
 
+        // move tiles
         CGPoint translation = [aRecognizer translationInView:self.view];
         [CATransaction setDisableActions:YES]; // turn off layers animation
-        [self moveTiles:self.pannedTiles offset:translation constraints:self.panConstraints];
+        [self moveLayersOfTiles:self.pannedTiles offset:translation constraints:self.panConstraints];
         [aRecognizer setTranslation:CGPointZero inView:self.view];
     }
     else if (UIGestureRecognizerStateEnded == aRecognizer.state ||
@@ -141,6 +145,7 @@ static const NSUInteger kShufflesCount = 30;
     {
         if (UIGestureRecognizerStateEnded == aRecognizer.state)
         {
+            // finish move if necessary
             CGRect originalTileRect = [self rectForTileAtLocation:self.panTileLocation];
             CGRect currentTileRect = ((CALayer *)[self.puzzle tileAtLocation:self.panTileLocation].representedObject).frame;
             CGSize distancePassed = CGRectIntersection(originalTileRect, currentTileRect).size;
@@ -154,6 +159,8 @@ static const NSUInteger kShufflesCount = 30;
                 [self moveTileAtLocation:self.panTileLocation];
             }
         }
+        
+        // update tiles and cleanup state
         [self updateTilesLocations:self.pannedTiles];
         self.pannedTiles = nil;
     }
@@ -167,38 +174,39 @@ static const NSUInteger kShufflesCount = 30;
 #pragma mark -
 #pragma mark Tiles moving
 
-- (void)moveTiles:(NSArray *)aTiles direction:(PZMoveDirection)aDirection
+- (void)moveLayersOfTiles:(NSArray *)aTiles direction:(PZMoveDirection)aDirection
 {
     switch (aDirection)
     {
         case kLeftDirection:
-            [self moveTiles:aTiles offset:CGPointMake(-[self tileWidth], 0.0)];
+            [self moveLayersOfTiles:aTiles offset:CGPointMake(-[self tileWidth], 0.0)];
             break;
         case kRightDirection:
-            [self moveTiles:aTiles offset:CGPointMake([self tileWidth], 0.0)];
+            [self moveLayersOfTiles:aTiles offset:CGPointMake([self tileWidth], 0.0)];
             break;
         case kUpDirection:
-            [self moveTiles:aTiles offset:CGPointMake(0.0, -[self tileHeight])];
+            [self moveLayersOfTiles:aTiles offset:CGPointMake(0.0, -[self tileHeight])];
             break;
         case kDownDirection:
-            [self moveTiles:aTiles offset:CGPointMake(0.0, [self tileHeight])];
+            [self moveLayersOfTiles:aTiles offset:CGPointMake(0.0, [self tileHeight])];
             break;
         case kNoneDirection:
-            NSAssert(NO, @"We should not be here");
+            NSAssert(NO, @"We must not be here");
             break;
     }
 }
 
-- (void)moveTiles:(NSArray *)aTiles offset:(CGPoint)anOffset
+- (void)moveLayersOfTiles:(NSArray *)aTiles offset:(CGPoint)anOffset
 {
     for (id<IPZTile> tile in aTiles)
     {
         CALayer *layer = tile.representedObject;
-        layer.position = CGPointMake(layer.position.x + anOffset.x, layer.position.y + anOffset.y);
+        layer.position = CGPointMake(layer.position.x + anOffset.x,
+                                     layer.position.y + anOffset.y);
     }
 }
 
-- (void)moveTiles:(NSArray *)aTiles offset:(CGPoint)anOffset constraints:(CGRect)aConstraints
+- (void)moveLayersOfTiles:(NSArray *)aTiles offset:(CGPoint)anOffset constraints:(CGRect)aConstraints
 {
     // first apply constraints
     CGPoint constrainedOffset = anOffset;
@@ -206,6 +214,9 @@ static const NSUInteger kShufflesCount = 30;
     {
         CALayer *layer = tile.representedObject;
         CGRect newLayerFrame = CGRectOffset(layer.frame, constrainedOffset.x, constrainedOffset.y);
+        
+        // lets check if the new layer frame is out of constraints rect. If so we alter
+        // the offset to keep constraints
         if (!CGRectContainsRect(aConstraints, newLayerFrame))
         {
             CGRect intersection = CGRectIntersection(newLayerFrame, aConstraints);
@@ -214,17 +225,19 @@ static const NSUInteger kShufflesCount = 30;
                 return;
             }
             
+            // do we need horizontal correction?
             CGFloat xCorrection = CGRectGetWidth(newLayerFrame) - CGRectGetWidth(intersection);
             BOOL shiftLeft = (CGRectGetMinX(intersection) == CGRectGetMinX(newLayerFrame));
             constrainedOffset.x += shiftLeft ? -xCorrection : xCorrection;
 
+            // do we need vertical correction?
             CGFloat yCorrection = CGRectGetHeight(newLayerFrame) - CGRectGetHeight(intersection);
             BOOL shiftUp = (CGRectGetMinY(intersection) == CGRectGetMinY(newLayerFrame));
             constrainedOffset.y += shiftUp ? -yCorrection : yCorrection;
         }
     }
     
-    [self moveTiles:aTiles offset:constrainedOffset];
+    [self moveLayersOfTiles:aTiles offset:constrainedOffset];
 }
 
 - (void)updateTilesLocations:(NSArray *)aTiles
@@ -281,6 +294,7 @@ static const NSUInteger kShufflesCount = 30;
 
 - (CGRect)rectForTileAtLocation:(PZTileLocation)aLocation
 {
+    // we allow 1.0 inset for border
     return CGRectInset(CGRectMake([self tileWidth] * aLocation.x,
                                   [self tileHeight] * aLocation.y,
                                   [self tileWidth], [self tileHeight]), 1.0, 1.0);
@@ -289,19 +303,25 @@ static const NSUInteger kShufflesCount = 30;
 #pragma mark -
 #pragma mark Shuffle
 
-- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
+- (void)motionBegan:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent
 {
     
 }
 
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+- (void)motionEnded:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent
 {
-    [self shuffle];
+    if (UIEventSubtypeMotionShake == aMotion)
+    {
+        [self shuffle];
+    }
 }
 
-- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event
-{
-    self.view.userInteractionEnabled = YES;
+- (void)motionCancelled:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent
+{    
+    if (UIEventSubtypeMotionShake == aMotion)
+    {
+        self.view.userInteractionEnabled = YES;
+    }
 }
 
 - (void)shuffle
@@ -327,7 +347,7 @@ static const NSUInteger kShufflesCount = 30;
         {
             [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1];
         }];
-        [self moveTiles:aTiles direction:aDirection];
+        [self moveLayersOfTiles:aTiles direction:aDirection];
     }];
 }
 
@@ -338,14 +358,14 @@ static const NSUInteger kShufflesCount = 30;
 {
     if (nil == puzzle)
     {
-        // TODO: restore state
+        // TODO: restore state after memory warning
         UIImage *image = [[UIImage alloc] initWithContentsOfFile:self.puzzleImageFile];
         puzzle = [[PZPuzzle alloc] initWithImage:image size:kPuzzleSize];
     }
     return puzzle;
 }
 
-- (void)addTiles
+- (void)addTilesLayers
 {
     for (NSUInteger x = 0; x < kPuzzleSize; x++)
     {
