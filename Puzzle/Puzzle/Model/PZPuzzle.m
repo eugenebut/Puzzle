@@ -96,7 +96,6 @@
     return [self tilesAtLocations:[self affectedTilesLocationsByTileMoveAtLocation:aLocation]];
 }
 
-
 - (NSArray *)affectedTilesLocationsByTileMoveAtLocation:(PZTileLocation)aLocation
 {
     NSMutableArray *result = [NSMutableArray new];
