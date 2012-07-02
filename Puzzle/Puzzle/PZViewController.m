@@ -45,14 +45,6 @@ static const NSUInteger kShufflesCount = 30;
     [self addGestureRecognizers];
 }
 
-- (void)viewDidUnload
-{
-    // TODO: make this weak
-    self.winInfoLabel = nil;
-
-    [super viewDidUnload];
-}
-
 - (void)viewDidAppear:(BOOL)anAnimated
 {
     // support shakes handling
@@ -64,12 +56,6 @@ static const NSUInteger kShufflesCount = 30;
         [self shuffle];
         self.wasInitialyShuffled = YES;
     }
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // TODO: save puzzle state and unload it from memory
-    // self.puzzle = nil;
 }
 
 - (BOOL)canBecomeFirstResponder
@@ -358,7 +344,6 @@ static const NSUInteger kShufflesCount = 30;
 {
     if (nil == puzzle)
     {
-        // TODO: restore state after memory warning
         UIImage *image = [[UIImage alloc] initWithContentsOfFile:self.puzzleImageFile];
         puzzle = [[PZPuzzle alloc] initWithImage:image size:kPuzzleSize];
     }
