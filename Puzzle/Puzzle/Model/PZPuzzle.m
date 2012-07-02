@@ -20,6 +20,9 @@
 @implementation PZPuzzle
 @synthesize size, movesCount, mutableTiles, emptyTileLocation, previousRandomMoveWasHorizontal;
 
+#pragma mark -
+#pragma mark Interface
+
 - (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize
 {
     if (nil != (self = [super init]))
@@ -32,6 +35,20 @@
     return self;
 }
 
+- (BOOL)isWin
+{
+    for (NSUInteger tileIndex = 0; tileIndex < self.mutableTiles.count; tileIndex++)
+    {
+        PZTileImpl *tile = [self.mutableTiles objectAtIndex:tileIndex];
+        if (!PZTileLocationEqualToLocation([self locationForTileAtIndex:tileIndex],
+                                           tile.winLocation))
+        {
+            return NO;
+        }
+    }
+    return YES;
+}
+
 - (id<IPZTile>)tileAtLocation:(PZTileLocation)aLocation
 {
     if (PZTileLocationEqualToLocation(self.emptyTileLocation, aLocation))
@@ -39,6 +56,19 @@
         return nil;
     }
     return [self.mutableTiles objectAtIndex:[self indexOfTileAtLocation:aLocation]];
+}
+
+- (NSArray *)tilesAtLocations:(NSArray *)aLocations
+{
+    NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:aLocations.count];
+    
+    for (NSValue *location in aLocations)
+    {
+        id tile = [self tileAtLocation:[location tileLocation]];
+        [result addObject:tile ? tile : [NSNull null]];    
+    }
+    
+    return [[NSArray alloc] initWithArray:result];
 }
 
 - (PZMoveDirection)allowedMoveDirectionForTileAtLocation:(PZTileLocation)aLocation
@@ -66,18 +96,6 @@
     return [self tilesAtLocations:[self affectedTilesLocationsByTileMoveAtLocation:aLocation]];
 }
 
-- (NSArray *)tilesAtLocations:(NSArray *)aLocations
-{
-    NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:aLocations.count];
-    
-    for (NSValue *location in aLocations)
-    {
-        id tile = [self tileAtLocation:[location tileLocation]];
-        [result addObject:tile ? tile : [NSNull null]];    
-    }
-    
-    return [[NSArray alloc] initWithArray:result];
-}
 
 - (NSArray *)affectedTilesLocationsByTileMoveAtLocation:(PZTileLocation)aLocation
 {
@@ -142,6 +160,30 @@
     return result;
 }
 
+- (void)moveTileToRandomLocationWithCompletionBlock:
+    (void (^)(NSArray *tiles, PZMoveDirection direction))aBlock
+{
+    // we have alternate horizontal and vertical moves to have good random moves
+    PZTileLocation newLocation = self.previousRandomMoveWasHorizontal ?
+    [self randomVerticalMovableTileLocation] :
+    [self randomHorizontalMovableTileLocation];
+    
+    // remember tiles and direction to pass them to block
+    NSArray *tiles = [self affectedTilesByTileMoveAtLocation:newLocation];
+    PZMoveDirection direction = [self allowedMoveDirectionForTileAtLocation:newLocation];
+    
+    // do move
+    [self moveTileAtLocation:newLocation];
+    self.movesCount = 0;
+    self.previousRandomMoveWasHorizontal = kLeftDirection == direction ||
+    kRightDirection == direction;    
+    // notify about move completion
+    aBlock(tiles, direction);
+}
+
+#pragma mark -
+#pragma mark Implementation
+
 + (NSMutableArray *)newTilesWithImage:(UIImage *)anImage size:(NSUInteger)aSize
 {
     CGFloat tileWidth = (anImage.size.width / aSize) * [UIScreen mainScreen].scale;
@@ -167,33 +209,6 @@
     return result;
 }
 
-- (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex
-{
-    return [[self class] locationForTileAtIndex:anIndex size:self.size];
-}
-
-+ (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex size:(NSUInteger)aSize
-{
-    NSUInteger y = anIndex / aSize;
-    NSUInteger x = anIndex - y * aSize;
-    
-    return PZTileLocationMake(x, y);
-}
-
-- (BOOL)isWin
-{
-    for (NSUInteger tileIndex = 0; tileIndex < self.mutableTiles.count; tileIndex++)
-    {
-        PZTileImpl *tile = [self.mutableTiles objectAtIndex:tileIndex];
-        if (!PZTileLocationEqualToLocation([self locationForTileAtIndex:tileIndex],
-                                           tile.winLocation))
-        {
-            return NO;
-        }
-    }
-    return YES;
-}
-
 - (void)exchangeTileAtLocation:(PZTileLocation)aLocation1
             withTileAtLocation:(PZTileLocation)aLocation2
 {
@@ -206,27 +221,6 @@
     // update locations
     [[self.mutableTiles objectAtIndex:tile1Index] setCurrentLocation:aLocation1];
     [[self.mutableTiles objectAtIndex:tile2Index] setCurrentLocation:aLocation2];
-}
-
-- (void)moveTileToRandomLocationWithCompletionBlock:
-    (void (^)(NSArray *tiles, PZMoveDirection direction))aBlock
-{
-    // we have alternate horizontal and vertical moves to have good random moves
-    PZTileLocation newLocation = self.previousRandomMoveWasHorizontal ?
-                                [self randomVerticalMovableTileLocation] :
-                                [self randomHorizontalMovableTileLocation];
-
-    // remember tiles and direction to pass them to block
-    NSArray *tiles = [self affectedTilesByTileMoveAtLocation:newLocation];
-    PZMoveDirection direction = [self allowedMoveDirectionForTileAtLocation:newLocation];
-    
-    // do move
-    [self moveTileAtLocation:newLocation];
-    self.movesCount = 0;
-    self.previousRandomMoveWasHorizontal = kLeftDirection == direction ||
-                                           kRightDirection == direction;    
-    // notify about move completion
-    aBlock(tiles, direction);
 }
 
 - (PZTileLocation)randomHorizontalMovableTileLocation
@@ -249,6 +243,19 @@
         ++randomLocation;
     }
     return PZTileLocationMake(self.emptyTileLocation.x, randomLocation);
+}
+
+- (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex
+{
+    return [[self class] locationForTileAtIndex:anIndex size:self.size];
+}
+
++ (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex size:(NSUInteger)aSize
+{
+    NSUInteger y = anIndex / aSize;
+    NSUInteger x = anIndex - y * aSize;
+    
+    return PZTileLocationMake(x, y);
 }
 
 - (NSUInteger)indexOfTileAtLocation:(PZTileLocation)aLocation
