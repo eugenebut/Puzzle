@@ -16,8 +16,6 @@
 static const NSUInteger kPuzzleSize = 4;
 static const NSUInteger kShufflesCount = 30;
 
-static const CGRect kTilesArea = {{12.0, 82.0}, {296.0, 296.0}};
-
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZViewController ()
 
@@ -85,7 +83,7 @@ static const CGRect kTilesArea = {{12.0, 82.0}, {296.0, 296.0}};
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)aRecognizer
 {
-    if (CGRectContainsPoint(kTilesArea, [aRecognizer locationInView:self.view]))
+    if (CGRectContainsPoint([self tilesArea], [aRecognizer locationInView:self.view]))
     {
         PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
         return kNoneDirection != [self.puzzle allowedMoveDirectionForTileAtLocation:location];
@@ -246,8 +244,19 @@ static const CGRect kTilesArea = {{12.0, 82.0}, {296.0, 296.0}};
 
 - (PZTileLocation)tileLocationAtPoint:(CGPoint)aPoint
 {
-    return PZTileLocationMake((NSUInteger)(aPoint.x  - CGRectGetMinX(kTilesArea)) / [self tileWidth],
+    return PZTileLocationMake((NSUInteger)(aPoint.x  - CGRectGetMinX([self tilesArea])) / [self tileWidth],
                               (NSUInteger)(aPoint.y  - [self topBorder]) / [self tileHeight]);
+}
+
+- (CGRect)tilesArea
+{
+    static CGRect result = {};
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+    {
+        result = CGRectMake(12.0, 82.0, 296.0, 296.0);
+    });
+    return result;
 }
 
 - (CGFloat)tileWidth
@@ -256,7 +265,7 @@ static const CGRect kTilesArea = {{12.0, 82.0}, {296.0, 296.0}};
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
     {
-        result = CGRectGetWidth(kTilesArea) / kPuzzleSize;
+        result = CGRectGetWidth([self tilesArea]) / kPuzzleSize;
     });
     return result;
 }
@@ -267,7 +276,7 @@ static const CGRect kTilesArea = {{12.0, 82.0}, {296.0, 296.0}};
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
     {
-        result = CGRectGetHeight(kTilesArea) / kPuzzleSize;
+        result = CGRectGetHeight([self tilesArea]) / kPuzzleSize;
     });
     return result;
 }
@@ -278,7 +287,7 @@ static const CGRect kTilesArea = {{12.0, 82.0}, {296.0, 296.0}};
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
     {
-        result = CGRectGetHeight([[UIScreen mainScreen] applicationFrame]) - CGRectGetMaxY(kTilesArea);
+        result = CGRectGetHeight([[UIScreen mainScreen] applicationFrame]) - CGRectGetMaxY([self tilesArea]);
     });
     return result;
 }
@@ -298,7 +307,7 @@ static const CGRect kTilesArea = {{12.0, 82.0}, {296.0, 296.0}};
 - (CGRect)rectForTileAtLocation:(PZTileLocation)aLocation
 {
     // we allow 1.0 inset for border
-    return CGRectInset(CGRectMake([self tileWidth] * aLocation.x + CGRectGetMinX(kTilesArea),
+    return CGRectInset(CGRectMake([self tileWidth] * aLocation.x + CGRectGetMinX([self tilesArea]),
                                   [self tileHeight] * aLocation.y + [self topBorder],
                                   [self tileWidth], [self tileHeight]), 1.0, 1.0);
 }
@@ -362,8 +371,13 @@ static const CGRect kTilesArea = {{12.0, 82.0}, {296.0, 296.0}};
     if (nil == puzzle)
     {
         UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
+        CGFloat scale = [UIScreen mainScreen].scale;
+        CGRect rect = CGRectMake(CGRectGetMinX([self tilesArea]) * scale,
+                                 CGRectGetMinY([self tilesArea]) * scale,
+                                 CGRectGetWidth([self tilesArea]) * scale,
+                                 CGRectGetHeight([self tilesArea]) * scale);
         UIImage *tilesImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([wholeImage CGImage],
-                                                          kTilesArea)];
+                                                          rect)];
 
         puzzle = [[PZPuzzle alloc] initWithImage:tilesImage size:kPuzzleSize];
     }
