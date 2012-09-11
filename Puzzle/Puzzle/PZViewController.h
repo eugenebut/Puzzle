@@ -15,7 +15,8 @@
     PZPuzzle *puzzle;
 }
 
+@property (nonatomic, weak) IBOutlet UIView *layersView;
 @property (nonatomic, weak) IBOutlet UILabel *winInfoLabel;
-@property (nonatomic, strong) NSString *puzzleImageFile;
+@property (nonatomic, strong) NSString *tilesImageFile;
 
 @end

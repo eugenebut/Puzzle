@@ -16,6 +16,8 @@
 static const NSUInteger kPuzzleSize = 4;
 static const NSUInteger kShufflesCount = 30;
 
+static const CGRect kTilesArea = {{12.0, 82.0}, {296.0, 296.0}};
+
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZViewController ()
 
@@ -31,7 +33,7 @@ static const NSUInteger kShufflesCount = 30;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZViewController
-@synthesize winInfoLabel, puzzle, puzzleImageFile, panTileLocation, pannedTiles,
+@synthesize winInfoLabel, puzzle, tilesImageFile, panTileLocation, pannedTiles,
             panConstraints, wasInitialyShuffled;
 
 #pragma mark -
@@ -83,8 +85,12 @@ static const NSUInteger kShufflesCount = 30;
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)aRecognizer
 {
-    PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
-    return kNoneDirection != [self.puzzle allowedMoveDirectionForTileAtLocation:location];
+    if (CGRectContainsPoint(kTilesArea, [aRecognizer locationInView:self.view]))
+    {
+        PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
+        return kNoneDirection != [self.puzzle allowedMoveDirectionForTileAtLocation:location];
+    }
+    return NO;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)aGestureRecognizer
@@ -240,8 +246,8 @@ static const NSUInteger kShufflesCount = 30;
 
 - (PZTileLocation)tileLocationAtPoint:(CGPoint)aPoint
 {
-    return PZTileLocationMake((NSUInteger)aPoint.x / [self tileWidth],
-                              (NSUInteger)aPoint.y / [self tileHeight]);
+    return PZTileLocationMake((NSUInteger)(aPoint.x  - CGRectGetMinX(kTilesArea)) / [self tileWidth],
+                              (NSUInteger)(aPoint.y  - [self topBorder]) / [self tileHeight]);
 }
 
 - (CGFloat)tileWidth
@@ -250,7 +256,7 @@ static const NSUInteger kShufflesCount = 30;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
     {
-        result = [UIScreen mainScreen].applicationFrame.size.width / kPuzzleSize;
+        result = CGRectGetWidth(kTilesArea) / kPuzzleSize;
     });
     return result;
 }
@@ -261,7 +267,18 @@ static const NSUInteger kShufflesCount = 30;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
     {
-        result = [UIScreen mainScreen].applicationFrame.size.height / kPuzzleSize;
+        result = CGRectGetHeight(kTilesArea) / kPuzzleSize;
+    });
+    return result;
+}
+
+- (CGFloat)topBorder
+{
+    static CGFloat result = 0.0;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+    {
+        result = CGRectGetHeight([[UIScreen mainScreen] applicationFrame]) - CGRectGetMaxY(kTilesArea);
     });
     return result;
 }
@@ -281,8 +298,8 @@ static const NSUInteger kShufflesCount = 30;
 - (CGRect)rectForTileAtLocation:(PZTileLocation)aLocation
 {
     // we allow 1.0 inset for border
-    return CGRectInset(CGRectMake([self tileWidth] * aLocation.x,
-                                  [self tileHeight] * aLocation.y,
+    return CGRectInset(CGRectMake([self tileWidth] * aLocation.x + CGRectGetMinX(kTilesArea),
+                                  [self tileHeight] * aLocation.y + [self topBorder],
                                   [self tileWidth], [self tileHeight]), 1.0, 1.0);
 }
 
@@ -344,8 +361,11 @@ static const NSUInteger kShufflesCount = 30;
 {
     if (nil == puzzle)
     {
-        UIImage *image = [[UIImage alloc] initWithContentsOfFile:self.puzzleImageFile];
-        puzzle = [[PZPuzzle alloc] initWithImage:image size:kPuzzleSize];
+        UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
+        UIImage *tilesImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([wholeImage CGImage],
+                                                          kTilesArea)];
+
+        puzzle = [[PZPuzzle alloc] initWithImage:tilesImage size:kPuzzleSize];
     }
     return puzzle;
 }
@@ -368,7 +388,7 @@ static const NSUInteger kShufflesCount = 30;
             tileLayer.shadowOffset = CGSizeMake(3.0, 3.0);
             tileLayer.shouldRasterize = YES;
             tileLayer.rasterizationScale = [UIScreen mainScreen].scale;
-            [self.view.layer addSublayer:tileLayer];
+            [self.layersView.layer addSublayer:tileLayer];
         }
     }
 }

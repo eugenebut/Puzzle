@@ -22,14 +22,14 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         self.viewController = [[PZViewController alloc] initWithNibName:@"PZViewController_iPhone" bundle:nil];
-        imageFileName = @"puzzle_iPhone";
+        imageFileName = @"Tiles_iPhone";
     }
     else
     {
         self.viewController = [[PZViewController alloc] initWithNibName:@"PZViewController_iPad" bundle:nil];
-        imageFileName = @"puzzle_iPad";
+        imageFileName = @"Tiles_iPad";
     }
-    self.viewController.puzzleImageFile = [[NSBundle mainBundle] pathForResource:imageFileName ofType:@"png"];
+    self.viewController.tilesImageFile = [[NSBundle mainBundle] pathForResource:imageFileName ofType:@"png"];
     
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
