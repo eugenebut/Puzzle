@@ -10,17 +10,7 @@
 #import "PZMessageFormatter.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
-static NSNumberFormatter *sFormatter = nil;
-
-//////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZMessageFormatter
-
-+ (void)load
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-            selector:@selector(localeDidChangeNotification:)
-            name:NSCurrentLocaleDidChangeNotification object:nil];
-}
 
 + (NSString *)timeMessage:(NSUInteger)aSeconds
 {
@@ -32,6 +22,8 @@ static NSNumberFormatter *sFormatter = nil;
 
 + (NSString *)movesCountMessage:(NSUInteger)aCount
 {
+    static NSNumberFormatter *sFormatter = nil;
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
     {
@@ -44,13 +36,6 @@ static NSNumberFormatter *sFormatter = nil;
     });
     
     return [sFormatter stringFromNumber:[NSNumber numberWithUnsignedInteger:aCount]];
-}
-
-+ (void)localeDidChangeNotification:(NSNotification *)aNotification
-{
-    [sFormatter setLocale:[NSLocale autoupdatingCurrentLocale]];
-    [sFormatter setPaddingCharacter:[sFormatter stringFromNumber:
-                                    [NSNumber numberWithUnsignedInteger:0]]];
 }
 
 @end
