@@ -338,6 +338,7 @@ static const NSUInteger kShufflesCount = 30;
         [self shuffleWithCompletionBlock:^{
             [self.stopWatch start];
         }];
+        [self updateMoveLabel];
     }
 }
 
@@ -378,7 +379,7 @@ static const NSUInteger kShufflesCount = 30;
 }
 
 #pragma mark -
-#pragma mark Time
+#pragma mark Time And Moves
 
 - (PZStopWatch *)stopWatch
 {
@@ -393,6 +394,11 @@ static const NSUInteger kShufflesCount = 30;
 - (void)PZStopWatchDidChangeTime:(PZStopWatch *)aStopWatch
 {
     [self updateTimeLabel];
+}
+
+- (void)updateMoveLabel
+{
+    self.movesLabel.text = [NSString stringWithFormat:@"%04d", self.puzzle.movesCount];
 }
 
 - (void)updateTimeLabel
@@ -450,6 +456,9 @@ static const NSUInteger kShufflesCount = 30;
 - (void)moveTileAtLocation:(PZTileLocation)aLocation
 {
     [self.puzzle moveTileAtLocation:aLocation];
+    
+    [self updateMoveLabel];
+    
     if (self.puzzle.isWin)
     {
         [self.stopWatch stop];
