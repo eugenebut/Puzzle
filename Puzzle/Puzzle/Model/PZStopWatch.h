@@ -21,9 +21,7 @@
 
 @property (nonatomic, assign) id<PZStopWatchDelegate> delegate;
 
-@property (nonatomic, readonly) NSUInteger seconds;
-@property (nonatomic, readonly) NSUInteger minutes;
-@property (nonatomic, readonly) NSUInteger hours;
+@property (nonatomic, readonly) NSUInteger totalSeconds;
 
 @end
 

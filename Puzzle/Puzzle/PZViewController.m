@@ -11,11 +11,12 @@
 #import "PZWinViewController.h"
 #import "PZPuzzle.h"
 #import "PZTile.h"
+#import "PZMessageFormatter.h"
 #import <QuartzCore/QuartzCore.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////
 static const NSUInteger kPuzzleSize = 4;
-static const NSUInteger kShufflesCount = 2;
+static const NSUInteger kShufflesCount = 30;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZViewController ()
@@ -402,15 +403,12 @@ static const NSUInteger kShufflesCount = 2;
 
 - (void)updateMoveLabel
 {
-    self.movesLabel.text = [NSString stringWithFormat:@"%04d", self.puzzle.movesCount];
+    self.movesLabel.text = [PZMessageFormatter movesCountMessage:self.puzzle.movesCount];
 }
 
 - (void)updateTimeLabel
 {
-    self.timeLabel.text = [NSString stringWithFormat:@"%02d:%02d:%02d",
-                           self.stopWatch.hours,
-                           self.stopWatch.minutes,
-                           self.stopWatch.seconds];
+    self.timeLabel.text = [PZMessageFormatter timeMessage:self.stopWatch.totalSeconds];
 }
 
 #pragma mark -
@@ -474,7 +472,10 @@ static const NSUInteger kShufflesCount = 2;
 {
     self.view.userInteractionEnabled = NO;
     
-    self.winViewController = [PZWinViewController new];
+    self.winViewController = [[PZWinViewController alloc]
+                              initWithTime:self.stopWatch.totalSeconds
+                              movesCount:self.puzzle.movesCount];
+    
     [self.view addSubview:self.winViewController.view];
 
     self.winViewController.view.alpha = 0.0;

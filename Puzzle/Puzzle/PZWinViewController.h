@@ -12,4 +12,14 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZWinViewController : UIViewController
 
+- (id)initWithTime:(NSUInteger)aTime movesCount:(NSUInteger)aMovesCount;
+
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *yourMovesLabel;
+@property (nonatomic, weak) IBOutlet UILabel *yourTimeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *bestMovesLabel;
+@property (nonatomic, weak) IBOutlet UILabel *bestTimeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *messageLabel;
+
 @end
+

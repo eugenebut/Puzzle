@@ -44,19 +44,9 @@
     [self.delegate PZStopWatchDidChangeTime:self];
 }
 
-- (NSUInteger)seconds
+- (NSUInteger)totalSeconds
 {
-    return self.time % 60;
-}
-
-- (NSUInteger)minutes
-{
-    return self.time / 60 % 60;
-}
-
-- (NSUInteger)hours
-{
-    return self.time / 60 / 60;
+    return self.time;
 }
 
 @end
