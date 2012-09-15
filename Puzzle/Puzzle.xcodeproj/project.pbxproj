@@ -42,13 +42,14 @@
 		B7BA97D515FF1D5B002E296D /* Background_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BA97D415FF1D5B002E296D /* Background_iPhone@2x.png */; };
 		B7BA97D815FF1D6A002E296D /* Frame_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BA97D715FF1D6A002E296D /* Frame_iPhone@2x.png */; };
 		B7BA97DA15FF1D79002E296D /* Tiles_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BA97D915FF1D79002E296D /* Tiles_iPhone@2x.png */; };
+		B7BA97E01601B679002E296D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BA97DF1601B679002E296D /* Default@2x.png */; };
+		B7BA97E3160442C0002E296D /* PZStopWatch.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BA97E2160442C0002E296D /* PZStopWatch.m */; };
 		B7EEBE2215A0E69600EC5BBB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE2115A0E69600EC5BBB /* Default.png */; };
 		B7EEBE2415A0E9E800EC5BBB /* puzzle_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE2315A0E9E800EC5BBB /* puzzle_iPhone@2x.png */; };
 		B7EEBE3315A0EE9200EC5BBB /* Icon_iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE2F15A0EE9100EC5BBB /* Icon_iPad.png */; };
 		B7EEBE3415A0EE9200EC5BBB /* Icon_iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3015A0EE9100EC5BBB /* Icon_iPad@2x.png */; };
 		B7EEBE3515A0EE9200EC5BBB /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3115A0EE9100EC5BBB /* Icon.png */; };
 		B7EEBE3615A0EE9200EC5BBB /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3215A0EE9200EC5BBB /* Icon@2x.png */; };
-		B7EEBE4015A0F27500EC5BBB /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3F15A0F27500EC5BBB /* Default@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +101,9 @@
 		B7BA97D415FF1D5B002E296D /* Background_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Background_iPhone@2x.png"; sourceTree = "<group>"; };
 		B7BA97D715FF1D6A002E296D /* Frame_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Frame_iPhone@2x.png"; sourceTree = "<group>"; };
 		B7BA97D915FF1D79002E296D /* Tiles_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tiles_iPhone@2x.png"; sourceTree = "<group>"; };
+		B7BA97DF1601B679002E296D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		B7BA97E1160442C0002E296D /* PZStopWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZStopWatch.h; sourceTree = "<group>"; };
+		B7BA97E2160442C0002E296D /* PZStopWatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZStopWatch.m; sourceTree = "<group>"; };
 		B7EEBE1C15A0C28D00EC5BBB /* PZTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PZTile.h; sourceTree = "<group>"; };
 		B7EEBE2115A0E69600EC5BBB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B7EEBE2315A0E9E800EC5BBB /* puzzle_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "puzzle_iPhone@2x.png"; sourceTree = "<group>"; };
@@ -107,7 +111,6 @@
 		B7EEBE3015A0EE9100EC5BBB /* Icon_iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon_iPad@2x.png"; sourceTree = "<group>"; };
 		B7EEBE3115A0EE9100EC5BBB /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		B7EEBE3215A0EE9200EC5BBB /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		B7EEBE3F15A0F27500EC5BBB /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +227,8 @@
 				B7AEF1F9159C177C006EFEF0 /* PZTileImpl.m */,
 				B7AEF1FC159C18D0006EFEF0 /* PZPuzzle.h */,
 				B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */,
+				B7BA97E1160442C0002E296D /* PZStopWatch.h */,
+				B7BA97E2160442C0002E296D /* PZStopWatch.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -231,6 +236,7 @@
 		B7AEF209159D735B006EFEF0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B7BA97DF1601B679002E296D /* Default@2x.png */,
 				B7B00A5C15FF0C830085434D /* Background_iPhone.png */,
 				B7BA97D415FF1D5B002E296D /* Background_iPhone@2x.png */,
 				B7B00A6515FF170C0085434D /* Frame_iPhone.png */,
@@ -242,7 +248,6 @@
 				B742378E15A15E6B00719A6C /* puzzle_iPad.png */,
 				B742378F15A15E6B00719A6C /* puzzle_iPad@2x.png */,
 				B7EEBE2115A0E69600EC5BBB /* Default.png */,
-				B7EEBE3F15A0F27500EC5BBB /* Default@2x.png */,
 				B7EEBE2F15A0EE9100EC5BBB /* Icon_iPad.png */,
 				B7EEBE3015A0EE9100EC5BBB /* Icon_iPad@2x.png */,
 				B7EEBE3115A0EE9100EC5BBB /* Icon.png */,
@@ -334,7 +339,6 @@
 				B7EEBE3415A0EE9200EC5BBB /* Icon_iPad@2x.png in Resources */,
 				B7EEBE3515A0EE9200EC5BBB /* Icon.png in Resources */,
 				B7EEBE3615A0EE9200EC5BBB /* Icon@2x.png in Resources */,
-				B7EEBE4015A0F27500EC5BBB /* Default@2x.png in Resources */,
 				B75FC92315A0FEE6002D7185 /* Default-Portrait@2x~ipad.png in Resources */,
 				B75FC92415A0FEE6002D7185 /* Default-Portrait~ipad.png in Resources */,
 				B742379015A15E6B00719A6C /* puzzle_iPad.png in Resources */,
@@ -345,6 +349,7 @@
 				B7BA97D515FF1D5B002E296D /* Background_iPhone@2x.png in Resources */,
 				B7BA97D815FF1D6A002E296D /* Frame_iPhone@2x.png in Resources */,
 				B7BA97DA15FF1D79002E296D /* Tiles_iPhone@2x.png in Resources */,
+				B7BA97E01601B679002E296D /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +391,7 @@
 				B7AEF1FA159C177C006EFEF0 /* PZTileImpl.m in Sources */,
 				B7AEF1FE159C18D0006EFEF0 /* PZPuzzle.m in Sources */,
 				B7AEF205159D37D6006EFEF0 /* PZTileLocation.m in Sources */,
+				B7BA97E3160442C0002E296D /* PZStopWatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

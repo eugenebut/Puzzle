@@ -4,19 +4,22 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 #import <UIKit/UIKit.h>
+#import "PZStopWatch.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @class PZPuzzle;
 
 //////////////////////////////////////////////////////////////////////////////////////////
-@interface PZViewController : UIViewController<UIGestureRecognizerDelegate>
+@interface PZViewController : UIViewController<UIGestureRecognizerDelegate, PZStopWatchDelegate>
 {
 @private
+    PZStopWatch *stopWatch;
     PZPuzzle *puzzle;
 }
 
 @property (nonatomic, weak) IBOutlet UIView *layersView;
 @property (nonatomic, weak) IBOutlet UILabel *winInfoLabel;
+@property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, strong) NSString *tilesImageFile;
 
 @end

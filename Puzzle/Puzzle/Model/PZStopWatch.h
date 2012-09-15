@@ -1,0 +1,35 @@
+//
+//  PZStopWatch.h
+//  Puzzle
+//
+//  Created by Eugene But on 9/14/12.
+//
+//
+
+//////////////////////////////////////////////////////////////////////////////////////////
+#import <Foundation/Foundation.h>
+
+//////////////////////////////////////////////////////////////////////////////////////////
+@protocol PZStopWatchDelegate;
+
+//////////////////////////////////////////////////////////////////////////////////////////
+@interface PZStopWatch : NSObject
+
+- (void)start;
+- (void)stop;
+- (void)reset;
+
+@property (nonatomic, assign) id<PZStopWatchDelegate> delegate;
+
+@property (nonatomic, readonly) NSUInteger seconds;
+@property (nonatomic, readonly) NSUInteger minutes;
+@property (nonatomic, readonly) NSUInteger hours;
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////////
+@protocol PZStopWatchDelegate <NSObject>
+
+- (void)PZStopWatchDidChangeTime:(PZStopWatch *)aStopWatch;
+
+@end

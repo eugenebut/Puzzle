@@ -20,7 +20,8 @@ static const NSUInteger kShufflesCount = 30;
 @interface PZViewController ()
 
 @property (nonatomic, strong) PZPuzzle *puzzle;
-@property (nonatomic, assign) BOOL wasInitialyShuffled; // shuffle at launch only
+@property (nonatomic, strong) PZStopWatch *stopWatch;
+@property (nonatomic, assign, getter=isGameStarted) BOOL gameStarted; // shuffle at launch only
 
 // properties below are helpers for pan gesture
 @property (nonatomic, assign) PZTileLocation panTileLocation;
@@ -32,7 +33,7 @@ static const NSUInteger kShufflesCount = 30;
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZViewController
 @synthesize winInfoLabel, puzzle, tilesImageFile, panTileLocation, pannedTiles,
-            panConstraints, wasInitialyShuffled;
+            panConstraints, gameStarted;
 
 #pragma mark -
 #pragma mark View Lifecycle
@@ -51,11 +52,18 @@ static const NSUInteger kShufflesCount = 30;
     [self becomeFirstResponder];
     
     // shuffle if necessary
-    if (!self.wasInitialyShuffled)
+    if (!self.isGameStarted)
     {
-        [self shuffle];
-        self.wasInitialyShuffled = YES;
+        [self shuffleWithCompletionBlock:^{
+            [self.stopWatch start];
+        }];
+        self.gameStarted = YES;
     }
+}
+
+- (void)dealloc
+{
+    [self.stopWatch stop];
 }
 
 - (BOOL)canBecomeFirstResponder
@@ -324,7 +332,12 @@ static const NSUInteger kShufflesCount = 30;
 {
     if (UIEventSubtypeMotionShake == aMotion)
     {
-        [self shuffle];
+        [self.stopWatch stop];
+        [self.stopWatch reset];
+
+        [self shuffleWithCompletionBlock:^{
+            [self.stopWatch start];
+        }];
     }
 }
 
@@ -336,19 +349,20 @@ static const NSUInteger kShufflesCount = 30;
     }
 }
 
-- (void)shuffle
+- (void)shuffleWithCompletionBlock:(void (^)(void))aBlock
 {
     [self hideWinMessageIfNecessary];
     self.view.userInteractionEnabled = NO;
-    [self shufflePuzzleWithNumberOfMoves:kShufflesCount];
+    [self shufflePuzzleWithNumberOfMoves:kShufflesCount completionBlock:aBlock];
 }
 
-- (void)shufflePuzzleWithNumberOfMoves:(NSUInteger)aNumberOfMoves
+- (void)shufflePuzzleWithNumberOfMoves:(NSUInteger)aNumberOfMoves completionBlock:(void (^)(void))aBlock
 {
     if (0 == aNumberOfMoves)
     {
         // we done shuffling
         self.view.userInteractionEnabled = YES;
+        aBlock();
         return;
     }
 
@@ -357,10 +371,36 @@ static const NSUInteger kShufflesCount = 30;
         [CATransaction setAnimationDuration:0.05];
         [CATransaction setCompletionBlock:^
         {
-            [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1];
+            [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1 completionBlock:aBlock];
         }];
         [self moveLayersOfTiles:aTiles direction:aDirection];
     }];
+}
+
+#pragma mark -
+#pragma mark Time
+
+- (PZStopWatch *)stopWatch
+{
+    if (nil == stopWatch)
+    {
+        stopWatch = [PZStopWatch new];
+        stopWatch.delegate = self;
+    }
+    return stopWatch;
+}
+
+- (void)PZStopWatchDidChangeTime:(PZStopWatch *)aStopWatch
+{
+    [self updateTimeLabel];
+}
+
+- (void)updateTimeLabel
+{
+    self.timeLabel.text = [NSString stringWithFormat:@"%02d:%02d:%02d",
+                           self.stopWatch.hours,
+                           self.stopWatch.minutes,
+                           self.stopWatch.seconds];
 }
 
 #pragma mark -
@@ -412,6 +452,7 @@ static const NSUInteger kShufflesCount = 30;
     [self.puzzle moveTileAtLocation:aLocation];
     if (self.puzzle.isWin)
     {
+        [self.stopWatch stop];
         [self showWinMessage];
     }
 }
