@@ -79,7 +79,7 @@
 							<object class="IBUILabel" id="110059993">
 								<reference key="NSNextResponder" ref="651012204"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{32, 121}, {91, 22}}</string>
+								<string key="NSFrame">{{0, 121}, {123, 22}}</string>
 								<reference key="NSSuperview" ref="651012204"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="985378253"/>
@@ -172,7 +172,7 @@
 							<object class="IBUILabel" id="727269938">
 								<reference key="NSNextResponder" ref="651012204"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{213, 63}, {39, 22}}</string>
+								<string key="NSFrame">{{203, 63}, {59, 22}}</string>
 								<reference key="NSSuperview" ref="651012204"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="472934770"/>
@@ -196,7 +196,7 @@
 							<object class="IBUILabel" id="775623511">
 								<reference key="NSNextResponder" ref="651012204"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{83, 22}, {113, 21}}</string>
+								<string key="NSFrame">{{20, 22}, {240, 21}}</string>
 								<reference key="NSSuperview" ref="651012204"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="640532777"/>
@@ -213,16 +213,16 @@
 								<string key="IBUIShadowOffset">{1, 1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">10</float>
+								<int key="IBUITextAlignment">1</int>
 								<reference key="IBUIFontDescription" ref="344919542"/>
 								<reference key="IBUIFont" ref="200497149"/>
 							</object>
 							<object class="IBUILabel" id="935235469">
 								<reference key="NSNextResponder" ref="651012204"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{26, 160}, {227, 44}}</string>
+								<string key="NSFrame">{{7, 153}, {266, 65}}</string>
 								<reference key="NSSuperview" ref="651012204"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -269,7 +269,7 @@
 							<object class="IBUILabel" id="472934770">
 								<reference key="NSNextResponder" ref="651012204"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{31, 92}, {92, 22}}</string>
+								<string key="NSFrame">{{0, 92}, {123, 22}}</string>
 								<reference key="NSSuperview" ref="651012204"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="136094508"/>
@@ -377,6 +377,38 @@
 						<reference key="destination" ref="985378253"/>
 					</object>
 					<int key="connectionID">18</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">movesLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="640532777"/>
+					</object>
+					<int key="connectionID">22</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">timeLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="727269938"/>
+					</object>
+					<int key="connectionID">23</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">yourScoreLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="472934770"/>
+					</object>
+					<int key="connectionID">24</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">highScoreLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="110059993"/>
+					</object>
+					<int key="connectionID">25</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -497,7 +529,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">21</int>
+			<int key="maxID">25</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -507,9 +539,15 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="bestMovesLabel">UILabel</string>
 						<string key="bestTimeLabel">UILabel</string>
+						<string key="highScoreLabel">UILabel</string>
 						<string key="messageLabel">UILabel</string>
+						<string key="movesLabel">UILabel</string>
+						<string key="movesTitleLabel">UILabel</string>
+						<string key="timeLabel">UILabel</string>
+						<string key="timeTitleLabel">UILabel</string>
 						<string key="titleLabel">UILabel</string>
 						<string key="yourMovesLabel">UILabel</string>
+						<string key="yourScoreLabel">UILabel</string>
 						<string key="yourTimeLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -521,8 +559,28 @@
 							<string key="name">bestTimeLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="highScoreLabel">
+							<string key="name">highScoreLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="messageLabel">
 							<string key="name">messageLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="movesLabel">
+							<string key="name">movesLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="movesTitleLabel">
+							<string key="name">movesTitleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLabel">
+							<string key="name">timeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeTitleLabel">
+							<string key="name">timeTitleLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="titleLabel">
@@ -531,6 +589,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="yourMovesLabel">
 							<string key="name">yourMovesLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="yourScoreLabel">
+							<string key="name">yourScoreLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="yourTimeLabel">

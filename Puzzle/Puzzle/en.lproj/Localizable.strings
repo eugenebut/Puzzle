@@ -1,0 +1,16 @@
+/* 
+  localizable.strings
+  Puzzle
+
+  Created by Eugene But on 9/15/12.
+
+*/
+"Moves" = "Moves";
+"Time" = "Time";
+"Puzzle Solved!" = "Puzzle Solved!";
+"New best time!" = "New best time!";
+"New highscore!" = "New highscore!";
+"New highscore and best time!" = "New highscore and best time!";
+"Shake your device to shuffle" = "Shake your device to shuffle";
+"Your Score:" = "Your Score:";
+"High Score:" = "High Score:";

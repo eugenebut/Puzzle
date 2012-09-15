@@ -20,6 +20,10 @@
 @property (nonatomic, weak) IBOutlet UILabel *bestMovesLabel;
 @property (nonatomic, weak) IBOutlet UILabel *bestTimeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *messageLabel;
+@property (nonatomic, weak) IBOutlet UILabel *movesLabel;
+@property (nonatomic, weak) IBOutlet UILabel *timeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *yourScoreLabel;
+@property (nonatomic, weak) IBOutlet UILabel *highScoreLabel;
 
 @end
 

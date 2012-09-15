@@ -10,6 +10,7 @@
 		B728773F1604F23000FC253F /* PZWinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B728773D1604F23000FC253F /* PZWinViewController.m */; };
 		B72877401604F23000FC253F /* PZWinViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B728773E1604F23000FC253F /* PZWinViewController.xib */; };
 		B72877451604FE4A00FC253F /* PZMessageFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B72877441604FE4A00FC253F /* PZMessageFormatter.m */; };
+		B728774B1605225D00FC253F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B728774D1605225D00FC253F /* Localizable.strings */; };
 		B742379015A15E6B00719A6C /* puzzle_iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B742378E15A15E6B00719A6C /* puzzle_iPad.png */; };
 		B742379115A15E6B00719A6C /* puzzle_iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B742378F15A15E6B00719A6C /* puzzle_iPad@2x.png */; };
 		B75FC92315A0FEE6002D7185 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B75FC92115A0FEE6002D7185 /* Default-Portrait@2x~ipad.png */; };
@@ -71,6 +72,8 @@
 		B728773E1604F23000FC253F /* PZWinViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PZWinViewController.xib; sourceTree = "<group>"; };
 		B72877431604FE4A00FC253F /* PZMessageFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZMessageFormatter.h; sourceTree = "<group>"; };
 		B72877441604FE4A00FC253F /* PZMessageFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZMessageFormatter.m; sourceTree = "<group>"; };
+		B728774C1605225D00FC253F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B728774E1605227E00FC253F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B742378E15A15E6B00719A6C /* puzzle_iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puzzle_iPad.png; sourceTree = "<group>"; };
 		B742378F15A15E6B00719A6C /* puzzle_iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "puzzle_iPad@2x.png"; sourceTree = "<group>"; };
 		B75FC92115A0FEE6002D7185 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
@@ -215,6 +218,7 @@
 				B7AEF1C8159C15F8006EFEF0 /* InfoPlist.strings */,
 				B7AEF1CB159C15F8006EFEF0 /* main.m */,
 				B7AEF1CD159C15F8006EFEF0 /* Puzzle-Prefix.pch */,
+				B728774D1605225D00FC253F /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -372,6 +376,7 @@
 				B7BA97DA15FF1D79002E296D /* Tiles_iPhone@2x.png in Resources */,
 				B7BA97E01601B679002E296D /* Default@2x.png in Resources */,
 				B72877401604F23000FC253F /* PZWinViewController.xib in Resources */,
+				B728774B1605225D00FC253F /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +446,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		B728774D1605225D00FC253F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B728774C1605225D00FC253F /* en */,
+				B728774E1605227E00FC253F /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		B7AEF1C8159C15F8006EFEF0 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

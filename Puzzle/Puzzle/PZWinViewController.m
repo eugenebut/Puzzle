@@ -56,12 +56,20 @@ static NSTimeInterval kAnimationInterval = 2.0;
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.titleLabel.text = NSLocalizedString(@"Puzzle Solved!", @"Message title after solwing the puzzle");
+    self.movesLabel.text = NSLocalizedString(@"Moves", @"Number of moves made while solving the puzzle");
+    self.timeLabel.text = NSLocalizedString(@"Time", "Elapsed time while solving the puzzle");
+    self.yourScoreLabel.text = NSLocalizedString(@"Your Score:", "");
+    self.highScoreLabel.text = NSLocalizedString(@"High Score:", "");
+
+}
 - (void)viewDidAppear:(BOOL)anAnimated
 {
     [super viewDidAppear:anAnimated];
-    
-    self.titleLabel.text = NSLocalizedString(@"Puzzle Solved!", "Puzzle Solved!");
-    
+        
     NSUInteger maxValue = MAX(MAX(self.time, self.movesCount),
                               MAX(self.effectiveBestTime, self.effectiveBestMovesCount));
 

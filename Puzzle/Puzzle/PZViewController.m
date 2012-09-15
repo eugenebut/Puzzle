@@ -60,6 +60,7 @@ static const NSUInteger kShufflesCount = 30;
     {
         [self shuffleWithCompletionBlock:^{
             [self.stopWatch start];
+            [self updateMoveLabel];
         }];
         self.gameStarted = YES;
     }
