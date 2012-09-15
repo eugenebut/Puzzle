@@ -14,6 +14,8 @@
 static NSString *const kBestTimeDefaultsKey = @"PZBestTimeDefaults";
 static NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
 
+static NSTimeInterval kAnimationInterval = 2.0;
+
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZWinViewController ()
 
@@ -21,6 +23,13 @@ static NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
 @property (nonatomic, assign) NSUInteger movesCount;
 @property (nonatomic, assign) NSUInteger bestTime;
 @property (nonatomic, assign) NSUInteger bestMovesCount;
+@property (nonatomic, assign) NSUInteger effectiveBestTime;
+@property (nonatomic, assign) NSUInteger effectiveBestMovesCount;
+
+@property (nonatomic, assign) NSUInteger animatedTime;
+@property (nonatomic, assign) NSUInteger animatedMovesCount;
+@property (nonatomic, assign) NSUInteger animatedBestTime;
+@property (nonatomic, assign) NSUInteger animatedBestMovesCount;
 
 @end
 
@@ -38,25 +47,59 @@ static NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
         self.bestTime = [self defaultsValueForKey:kBestTimeDefaultsKey];
         self.bestMovesCount = [self defaultsValueForKey:kBestMovesDefaultsKey];
         
+        self.effectiveBestTime = MIN(self.bestTime, self.time);
+        self.effectiveBestMovesCount = MIN(self.bestMovesCount, self.movesCount);
+
         [self updateDefaultsValue:self.time forKey:kBestTimeDefaultsKey];
         [self updateDefaultsValue:self.movesCount forKey:kBestMovesDefaultsKey];
     }
     return self;
 }
 
-- (void)viewDidLoad
+- (void)viewDidAppear:(BOOL)anAnimated
 {
-    [super viewDidLoad];
+    [super viewDidAppear:anAnimated];
     
     self.titleLabel.text = NSLocalizedString(@"Puzzle Solved!", "Puzzle Solved!");
     
-    self.yourTimeLabel.text = [PZMessageFormatter timeMessage:self.time];
-    self.yourMovesLabel.text = [PZMessageFormatter movesCountMessage:self.movesCount];
-    
-    self.bestTimeLabel.text = [PZMessageFormatter timeMessage:MIN(self.bestTime, self.time)];
-    self.bestMovesLabel.text = [PZMessageFormatter movesCountMessage:MIN(self.bestMovesCount, self.movesCount)];
-    
-    // update message
+    NSUInteger maxValue = MAX(MAX(self.time, self.movesCount),
+                              MAX(self.effectiveBestTime, self.effectiveBestMovesCount));
+
+    [NSTimer scheduledTimerWithTimeInterval:kAnimationInterval / maxValue target:self
+            selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
+}
+
+- (void)timerDidFire:(NSTimer *)aTimer
+{
+    // update numbers
+    if (self.animatedTime <= self.time ||
+        self.animatedMovesCount <= self.movesCount ||
+        self.animatedBestTime <= self.effectiveBestTime ||
+        self.animatedBestMovesCount <= self.effectiveBestMovesCount)
+    {
+        if (self.animatedTime <= self.time)
+        {
+            self.yourTimeLabel.text = [PZMessageFormatter timeMessage:self.animatedTime++];
+        }
+        
+        if (self.animatedMovesCount <= self.movesCount)
+        {
+            self.yourMovesLabel.text = [PZMessageFormatter movesCountMessage:self.animatedMovesCount++];
+        }
+        
+        if (self.animatedBestTime <= self.effectiveBestTime)
+        {
+            self.bestTimeLabel.text = [PZMessageFormatter timeMessage:self.animatedBestTime++];
+        }
+        
+        if (self.animatedBestMovesCount <= self.effectiveBestMovesCount)
+        {
+            self.bestMovesLabel.text = [PZMessageFormatter movesCountMessage:self.animatedBestMovesCount++];
+        }
+        return;
+    }
+
+    // we are done update message
     NSString *titleMessage = nil;
     if (self.time < self.bestTime && self.movesCount < self.bestMovesCount)
     {
@@ -65,7 +108,7 @@ static NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
     else if (self.time < self.bestTime)
     {
         titleMessage = NSLocalizedString(@"New best time!", "");
-
+        
     }
     else if (self.movesCount < self.bestMovesCount)
     {
@@ -77,6 +120,14 @@ static NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
     }
     self.messageLabel.text = [titleMessage stringByAppendingFormat:@"\n%@",
                               NSLocalizedString(@"Shake your device to shuffle", "")];
+    
+    // show the message
+    [UIView animateWithDuration:0.5 animations:^
+     {
+         self.messageLabel.alpha = 1.0;
+     }];
+    
+    [aTimer invalidate];
 }
 
 - (NSUInteger)defaultsValueForKey:(NSString *)aKey
