@@ -22,7 +22,13 @@
 
 + (NSString *)movesCountMessage:(NSUInteger)aCount
 {
-    return [NSString stringWithFormat:@"%04d", aCount];
+    NSNumberFormatter *formatter = [NSNumberFormatter new];
+    [formatter setNumberStyle:kCFNumberFormatterNoStyle];
+    [formatter setPaddingCharacter:[formatter stringFromNumber:
+                                    [NSNumber numberWithUnsignedInteger:0]]];
+    [formatter setFormatWidth:4];
+    [formatter setLocale:[NSLocale autoupdatingCurrentLocale]];
+    return [formatter stringFromNumber:[NSNumber numberWithUnsignedInteger:aCount]];
 }
 
 @end
