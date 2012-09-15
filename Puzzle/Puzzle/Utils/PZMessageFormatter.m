@@ -10,7 +10,17 @@
 #import "PZMessageFormatter.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
+static NSNumberFormatter *sFormatter = nil;
+
+//////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZMessageFormatter
+
++ (void)load
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+            selector:@selector(localeDidChangeNotification:)
+            name:NSCurrentLocaleDidChangeNotification object:nil];
+}
 
 + (NSString *)timeMessage:(NSUInteger)aSeconds
 {
@@ -22,13 +32,25 @@
 
 + (NSString *)movesCountMessage:(NSUInteger)aCount
 {
-    NSNumberFormatter *formatter = [NSNumberFormatter new];
-    [formatter setNumberStyle:kCFNumberFormatterNoStyle];
-    [formatter setPaddingCharacter:[formatter stringFromNumber:
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+    {
+        sFormatter = [NSNumberFormatter new];
+        [sFormatter setLocale:[NSLocale autoupdatingCurrentLocale]];
+        [sFormatter setNumberStyle:kCFNumberFormatterNoStyle];
+        [sFormatter setPaddingCharacter:[sFormatter stringFromNumber:
+                                         [NSNumber numberWithUnsignedInteger:0]]];
+        [sFormatter setFormatWidth:4];
+    });
+    
+    return [sFormatter stringFromNumber:[NSNumber numberWithUnsignedInteger:aCount]];
+}
+
++ (void)localeDidChangeNotification:(NSNotification *)aNotification
+{
+    [sFormatter setLocale:[NSLocale autoupdatingCurrentLocale]];
+    [sFormatter setPaddingCharacter:[sFormatter stringFromNumber:
                                     [NSNumber numberWithUnsignedInteger:0]]];
-    [formatter setFormatWidth:4];
-    [formatter setLocale:[NSLocale autoupdatingCurrentLocale]];
-    return [formatter stringFromNumber:[NSNumber numberWithUnsignedInteger:aCount]];
 }
 
 @end
