@@ -18,7 +18,6 @@
 }
 
 @property (nonatomic, weak) IBOutlet UIView *layersView;
-@property (nonatomic, weak) IBOutlet UILabel *winInfoLabel;
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *movesLabel;
 @property (nonatomic, strong) NSString *tilesImageFile;

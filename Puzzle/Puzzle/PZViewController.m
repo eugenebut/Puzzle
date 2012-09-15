@@ -8,13 +8,14 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 #import "PZViewController.h"
+#import "PZWinViewController.h"
 #import "PZPuzzle.h"
 #import "PZTile.h"
 #import <QuartzCore/QuartzCore.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////
 static const NSUInteger kPuzzleSize = 4;
-static const NSUInteger kShufflesCount = 30;
+static const NSUInteger kShufflesCount = 2;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZViewController ()
@@ -22,6 +23,8 @@ static const NSUInteger kShufflesCount = 30;
 @property (nonatomic, strong) PZPuzzle *puzzle;
 @property (nonatomic, strong) PZStopWatch *stopWatch;
 @property (nonatomic, assign, getter=isGameStarted) BOOL gameStarted; // shuffle at launch only
+
+@property (nonatomic, strong) UIViewController *winViewController;
 
 // properties below are helpers for pan gesture
 @property (nonatomic, assign) PZTileLocation panTileLocation;
@@ -32,7 +35,7 @@ static const NSUInteger kShufflesCount = 30;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZViewController
-@synthesize winInfoLabel, puzzle, tilesImageFile, panTileLocation, pannedTiles,
+@synthesize winViewController, puzzle, tilesImageFile, panTileLocation, pannedTiles,
             panConstraints, gameStarted;
 
 #pragma mark -
@@ -335,6 +338,8 @@ static const NSUInteger kShufflesCount = 30;
         [self.stopWatch stop];
         [self.stopWatch reset];
 
+        [self hideWinMessageIfNecessary];
+
         [self shuffleWithCompletionBlock:^{
             [self.stopWatch start];
         }];
@@ -352,7 +357,6 @@ static const NSUInteger kShufflesCount = 30;
 
 - (void)shuffleWithCompletionBlock:(void (^)(void))aBlock
 {
-    [self hideWinMessageIfNecessary];
     self.view.userInteractionEnabled = NO;
     [self shufflePuzzleWithNumberOfMoves:kShufflesCount completionBlock:aBlock];
 }
@@ -470,31 +474,27 @@ static const NSUInteger kShufflesCount = 30;
 {
     self.view.userInteractionEnabled = NO;
     
-    self.winInfoLabel.text = [[NSString alloc] initWithFormat:
-                              @"Puzzle solved using %d moves\nShake your device to shuffle",
-                              self.puzzle.movesCount];
+    self.winViewController = [PZWinViewController new];
+    [self.view addSubview:self.winViewController.view];
 
-    [self.view bringSubviewToFront:self.winInfoLabel];
-    self.winInfoLabel.hidden = NO;
-    self.winInfoLabel.alpha = 0.0;
-
+    self.winViewController.view.alpha = 0.0;
     [UIView animateWithDuration:0.5 animations:^
     {
-        self.winInfoLabel.alpha = 1.0;
+        self.winViewController.view.alpha = 1.0;
     }];
 }
 
 - (void)hideWinMessageIfNecessary
 {
-    if (self.winInfoLabel.hidden)
+    if (nil == self.winViewController)
     {
         return;
     }
 
     [UIView animateWithDuration:0.5 animations:^ {
-         self.winInfoLabel.alpha = 0.0;
+         self.winViewController.view.alpha = 0.0;
     } completion:^(BOOL finished) {
-        self.winInfoLabel.hidden = YES;
+        self.winViewController = nil;
     }];
 }
 
