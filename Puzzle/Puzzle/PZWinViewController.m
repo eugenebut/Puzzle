@@ -14,7 +14,7 @@
 static NSString *const kBestTimeDefaultsKey = @"PZBestTimeDefaults";
 static NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
 
-static NSTimeInterval kAnimationInterval = 2.0;
+static NSTimeInterval kAnimationInterval = 1.0;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZWinViewController ()
@@ -130,7 +130,7 @@ static NSTimeInterval kAnimationInterval = 2.0;
                               NSLocalizedString(@"Shake your device to shuffle", "")];
     
     // show the message
-    [UIView animateWithDuration:0.5 animations:^
+    [UIView animateWithDuration:0.25 animations:^
      {
          self.messageLabel.alpha = 1.0;
      }];
