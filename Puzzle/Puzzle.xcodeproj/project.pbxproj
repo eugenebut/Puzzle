@@ -69,7 +69,7 @@
 /* Begin PBXFileReference section */
 		B728773C1604F23000FC253F /* PZWinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZWinViewController.h; sourceTree = "<group>"; };
 		B728773D1604F23000FC253F /* PZWinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZWinViewController.m; sourceTree = "<group>"; };
-		B728773E1604F23000FC253F /* PZWinViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PZWinViewController.xib; sourceTree = "<group>"; };
+		B728773E1604F23000FC253F /* PZWinViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PZWinViewController.xib; path = en.lproj/PZWinViewController.xib; sourceTree = "<group>"; };
 		B72877431604FE4A00FC253F /* PZMessageFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZMessageFormatter.h; sourceTree = "<group>"; };
 		B72877441604FE4A00FC253F /* PZMessageFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZMessageFormatter.m; sourceTree = "<group>"; };
 		B728774C1605225D00FC253F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
