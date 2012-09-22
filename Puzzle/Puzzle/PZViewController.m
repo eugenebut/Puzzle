@@ -15,6 +15,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////
+static const BOOL kSupportsShadows = YES;
 static const NSUInteger kPuzzleSize = 4;
 static const NSUInteger kShufflesCount = 30;
 
@@ -116,6 +117,7 @@ static const NSUInteger kShufflesCount = 30;
     NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:location];
     [self moveLayersOfTiles:tiles direction:[self.puzzle allowedMoveDirectionForTileAtLocation:location]];
     [self moveTileAtLocation:location];
+    [self updateZIndices];
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)aRecognizer
@@ -160,6 +162,7 @@ static const NSUInteger kShufflesCount = 30;
             if (halfwayPassed)
             {
                 [self moveTileAtLocation:self.panTileLocation];
+                [self updateZIndices];
             }
         }
         
@@ -370,6 +373,7 @@ static const NSUInteger kShufflesCount = 30;
             [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1 completionBlock:aBlock];
         }];
         [self moveLayersOfTiles:aTiles direction:aDirection];
+        [self updateZIndices];
     }];
 }
 
@@ -436,10 +440,14 @@ static const NSUInteger kShufflesCount = 30;
             tileLayer.opaque = YES;
             tileLayer.contents = (id)[tile.image CGImage];
             tileLayer.frame = [self rectForTileAtLocation:tileLocation];
-            tileLayer.shadowOpacity = 0.7;
-            tileLayer.shadowOffset = CGSizeMake(3.0, 3.0);
-            tileLayer.shouldRasterize = YES;
-            tileLayer.rasterizationScale = [UIScreen mainScreen].scale;
+            
+            if (kSupportsShadows)
+            {
+                tileLayer.shadowOpacity = 0.7;
+                tileLayer.shadowOffset = CGSizeMake(3.0, 3.0);
+                tileLayer.shouldRasterize = YES;
+                tileLayer.rasterizationScale = [UIScreen mainScreen].scale;
+            }
             [self.layersView.layer addSublayer:tileLayer];
         }
     }
@@ -489,4 +497,21 @@ static const NSUInteger kShufflesCount = 30;
     }];
 }
 
+- (void)updateZIndices
+{
+    if (!kSupportsShadows) {
+        return;
+    }
+
+    for (NSUInteger x = 0; x < kPuzzleSize; x++)
+    {
+        for (NSUInteger y = 0; y < kPuzzleSize; y++)
+        {
+            id<IPZTile> tile = [self.puzzle tileAtLocation:PZTileLocationMake(x, y)];
+            CALayer *layer = [tile representedObject];
+            [layer removeFromSuperlayer];
+            [self.layersView.layer addSublayer:layer];
+        }
+    }
+}
 @end
