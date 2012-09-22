@@ -503,9 +503,9 @@ static const NSUInteger kShufflesCount = 30;
         return;
     }
 
-    for (NSUInteger x = 0; x < kPuzzleSize; x++)
+    for (NSUInteger y = 0; y < kPuzzleSize; y++)
     {
-        for (NSUInteger y = 0; y < kPuzzleSize; y++)
+        for (NSUInteger x = 0; x < kPuzzleSize; x++)
         {
             id<IPZTile> tile = [self.puzzle tileAtLocation:PZTileLocationMake(x, y)];
             CALayer *layer = [tile representedObject];
