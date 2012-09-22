@@ -13,8 +13,8 @@
 @interface PZViewController : UIViewController<UIGestureRecognizerDelegate, PZStopWatchDelegate>
 {
 @private
-    PZStopWatch *stopWatch;
-    PZPuzzle *puzzle;
+    PZStopWatch *_stopWatch;
+    PZPuzzle *_puzzle;
 }
 
 @property (nonatomic, weak) IBOutlet UIView *layersView;

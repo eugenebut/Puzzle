@@ -258,7 +258,7 @@ static const NSUInteger kShufflesCount = 30;
 - (PZTileLocation)tileLocationAtPoint:(CGPoint)aPoint
 {
     return PZTileLocationMake((NSUInteger)(aPoint.x  - CGRectGetMinX([self tilesArea])) / [self tileWidth],
-                              (NSUInteger)(aPoint.y  - [self topBorder]) / [self tileHeight]);
+                              (NSUInteger)(aPoint.y  - CGRectGetMinY([self tilesArea])) / [self tileHeight]);
 }
 
 - (CGRect)tilesArea
@@ -294,17 +294,6 @@ static const NSUInteger kShufflesCount = 30;
     return result;
 }
 
-- (CGFloat)topBorder
-{
-    static CGFloat result = 0.0;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-    {
-        result = CGRectGetHeight([[UIScreen mainScreen] applicationFrame]) - CGRectGetMaxY([self tilesArea]);
-    });
-    return result;
-}
-
 - (CGRect)rectForTilesAtLocations:(NSArray *)aTilesLocations
 {
     CGRect result = CGRectZero;
@@ -321,7 +310,7 @@ static const NSUInteger kShufflesCount = 30;
 {
     // we allow 1.0 inset for border
     return CGRectInset(CGRectMake([self tileWidth] * aLocation.x + CGRectGetMinX([self tilesArea]),
-                                  [self tileHeight] * aLocation.y + [self topBorder],
+                                  CGRectGetMinY([self tilesArea]) + [self tileHeight] * aLocation.y,
                                   [self tileWidth], [self tileHeight]), 1.0, 1.0);
 }
 
@@ -389,12 +378,12 @@ static const NSUInteger kShufflesCount = 30;
 
 - (PZStopWatch *)stopWatch
 {
-    if (nil == stopWatch)
+    if (nil == _stopWatch)
     {
-        stopWatch = [PZStopWatch new];
-        stopWatch.delegate = self;
+        _stopWatch = [PZStopWatch new];
+        _stopWatch.delegate = self;
     }
-    return stopWatch;
+    return _stopWatch;
 }
 
 - (void)PZStopWatchDidChangeTime:(PZStopWatch *)aStopWatch
@@ -422,7 +411,7 @@ static const NSUInteger kShufflesCount = 30;
         UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
         CGFloat scale = [UIScreen mainScreen].scale;
         CGRect rect = CGRectMake(CGRectGetMinX([self tilesArea]) * scale,
-                                 CGRectGetMinY([self tilesArea]) * scale,
+                                 (CGRectGetMinY([self tilesArea]) + 70.0) * scale,
                                  CGRectGetWidth([self tilesArea]) * scale,
                                  CGRectGetHeight([self tilesArea]) * scale);
         UIImage *tilesImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([wholeImage CGImage],
