@@ -23,6 +23,13 @@ static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
 static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
 
 //////////////////////////////////////////////////////////////////////////////////////////
+@interface CALayer(PZExtentions)
+
+- (void)setupPuzzleShadow;
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////////
 @interface PZViewController ()
 
 @property (nonatomic, strong) PZPuzzle *puzzle;
@@ -502,10 +509,7 @@ static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
             
             if (kSupportsShadows)
             {
-                tileLayer.shadowOpacity = 0.7;
-                tileLayer.shadowOffset = CGSizeMake(3.0, 3.0);
-                tileLayer.shouldRasterize = YES;
-                tileLayer.rasterizationScale = [UIScreen mainScreen].scale;
+                [tileLayer setupPuzzleShadow];
             }
             [self.layersView.layer addSublayer:tileLayer];
         }
@@ -573,4 +577,18 @@ static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
         }
     }
 }
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////////
+@implementation CALayer(PZExtentions)
+
+- (void)setupPuzzleShadow
+{
+    self.shadowOpacity = 0.7;
+    self.shadowOffset = CGSizeMake(3.0, 3.0);
+    self.shouldRasterize = YES;
+    self.rasterizationScale = [UIScreen mainScreen].scale;
+}
+
 @end
