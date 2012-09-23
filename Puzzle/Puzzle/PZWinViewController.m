@@ -9,10 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 #import "PZWinViewController.h"
 #import "PZMessageFormatter.h"
-
-//////////////////////////////////////////////////////////////////////////////////////////
-static NSString *const kBestTimeDefaultsKey = @"PZBestTimeDefaults";
-static NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
+#import "PZHightscoresAccessor.h"
 
 static NSTimeInterval kAnimationInterval = 1.0;
 
@@ -44,14 +41,14 @@ static NSTimeInterval kAnimationInterval = 1.0;
         self.time = aTime;
         self.movesCount = aMovesCount;
 
-        self.bestTime = [self defaultsValueForKey:kBestTimeDefaultsKey];
-        self.bestMovesCount = [self defaultsValueForKey:kBestMovesDefaultsKey];
+        self.bestTime = [PZHightscoresAccessor defaultsValueForKey:kBestTimeDefaultsKey];
+        self.bestMovesCount = [PZHightscoresAccessor defaultsValueForKey:kBestMovesDefaultsKey];
         
         self.effectiveBestTime = MIN(self.bestTime, self.time);
         self.effectiveBestMovesCount = MIN(self.bestMovesCount, self.movesCount);
 
-        [self updateDefaultsValue:self.time forKey:kBestTimeDefaultsKey];
-        [self updateDefaultsValue:self.movesCount forKey:kBestMovesDefaultsKey];
+        [PZHightscoresAccessor updateDefaultsValue:self.time forKey:kBestTimeDefaultsKey];
+        [PZHightscoresAccessor updateDefaultsValue:self.movesCount forKey:kBestMovesDefaultsKey];
     }
     return self;
 }
@@ -142,24 +139,5 @@ static NSTimeInterval kAnimationInterval = 1.0;
                               NSLocalizedString(@"Shake your device to shuffle", "")];
 }
 
-- (NSUInteger)defaultsValueForKey:(NSString *)aKey
-{
-    NSNumber *result = [[NSUserDefaults standardUserDefaults] objectForKey:aKey];
-    if (nil != result)
-    {
-        return [result unsignedIntegerValue];
-    }
-    return ULONG_MAX;
-}
-
-- (void)updateDefaultsValue:(NSUInteger)aValue forKey:(NSString *)aKey
-{
-    NSNumber *bestValue = [[NSUserDefaults standardUserDefaults] objectForKey:aKey];
-    if (nil == bestValue || aValue < [bestValue unsignedIntegerValue])
-    {
-        [[NSUserDefaults standardUserDefaults]
-            setObject:[NSNumber numberWithUnsignedInteger:aValue] forKey:aKey];
-    }
-}
 
 @end

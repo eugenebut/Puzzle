@@ -10,6 +10,7 @@
 		B70858E2160EFEC7007B1204 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B70858E1160EFEC7007B1204 /* Default@2x.png */; };
 		B70858E6160F96BA007B1204 /* PZHighscoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B70858E4160F96B9007B1204 /* PZHighscoresViewController.m */; };
 		B70858E7160F96BA007B1204 /* PZHighscoresViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */; };
+		B70858EA160FA882007B1204 /* PZHightscoresAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */; };
 		B728773F1604F23000FC253F /* PZWinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B728773D1604F23000FC253F /* PZWinViewController.m */; };
 		B72877401604F23000FC253F /* PZWinViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B728773E1604F23000FC253F /* PZWinViewController.xib */; };
 		B72877451604FE4A00FC253F /* PZMessageFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B72877441604FE4A00FC253F /* PZMessageFormatter.m */; };
@@ -73,6 +74,8 @@
 		B70858E3160F96B8007B1204 /* PZHighscoresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZHighscoresViewController.h; sourceTree = "<group>"; };
 		B70858E4160F96B9007B1204 /* PZHighscoresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZHighscoresViewController.m; sourceTree = "<group>"; };
 		B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PZHighscoresViewController.xib; path = en.lproj/PZHighscoresViewController.xib; sourceTree = "<group>"; };
+		B70858E8160FA882007B1204 /* PZHightscoresAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZHightscoresAccessor.h; sourceTree = "<group>"; };
+		B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZHightscoresAccessor.m; sourceTree = "<group>"; };
 		B728773C1604F23000FC253F /* PZWinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZWinViewController.h; sourceTree = "<group>"; };
 		B728773D1604F23000FC253F /* PZWinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZWinViewController.m; sourceTree = "<group>"; };
 		B728773E1604F23000FC253F /* PZWinViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PZWinViewController.xib; path = en.lproj/PZWinViewController.xib; sourceTree = "<group>"; };
@@ -215,6 +218,8 @@
 				B7AEF1D7159C15F8006EFEF0 /* PZViewController_iPad.xib */,
 				B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */,
 				B7AEF1C6159C15F8006EFEF0 /* Supporting Files */,
+				B70858E8160FA882007B1204 /* PZHightscoresAccessor.h */,
+				B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */,
 			);
 			path = Puzzle;
 			sourceTree = "<group>";
@@ -431,6 +436,7 @@
 				B728773F1604F23000FC253F /* PZWinViewController.m in Sources */,
 				B72877451604FE4A00FC253F /* PZMessageFormatter.m in Sources */,
 				B70858E6160F96BA007B1204 /* PZHighscoresViewController.m in Sources */,
+				B70858EA160FA882007B1204 /* PZHightscoresAccessor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

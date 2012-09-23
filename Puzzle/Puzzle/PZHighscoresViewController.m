@@ -15,6 +15,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSNumber *result = [[NSUserDefaults standardUserDefaults] objectForKey:aKey];
+
+    
     // Do any additional setup after loading the view from its nib.
 }
 
