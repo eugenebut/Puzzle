@@ -59,13 +59,9 @@ static NSTimeInterval kAnimationInterval = 1.0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.titleLabel.text = NSLocalizedString(@"Puzzle Solved!", @"Message title after solwing the puzzle");
-    self.movesLabel.text = NSLocalizedString(@"Moves", @"Number of moves made while solving the puzzle");
-    self.timeLabel.text = NSLocalizedString(@"Time", "Elapsed time while solving the puzzle");
-    self.yourScoreLabel.text = NSLocalizedString(@"Your Score:", "");
-    self.highScoreLabel.text = NSLocalizedString(@"High Score:", "");
-
+    [self updateMessages];
 }
+
 - (void)viewDidAppear:(BOOL)anAnimated
 {
     [super viewDidAppear:anAnimated];
@@ -106,7 +102,23 @@ static NSTimeInterval kAnimationInterval = 1.0;
         }
         return;
     }
+    
+    // show the message
+    [UIView animateWithDuration:0.25 animations:^
+     {
+         self.messageLabel.alpha = 1.0;
+     }];
+    
+    [aTimer invalidate];
+}
 
+- (void)updateMessages
+{
+    self.titleLabel.text = NSLocalizedString(@"Puzzle Solved!", @"Message title after solwing the puzzle");
+    self.movesLabel.text = NSLocalizedString(@"Moves", @"Number of moves made while solving the puzzle");
+    self.timeLabel.text = NSLocalizedString(@"Time", "Elapsed time while solving the puzzle");
+    self.yourScoreLabel.text = NSLocalizedString(@"Your Score:", "");
+    self.highScoreLabel.text = NSLocalizedString(@"High Score:", "");
     // we are done update message
     NSString *titleMessage = nil;
     if (self.time < self.bestTime && self.movesCount < self.bestMovesCount)
@@ -128,14 +140,6 @@ static NSTimeInterval kAnimationInterval = 1.0;
     }
     self.messageLabel.text = [titleMessage stringByAppendingFormat:@"\n%@",
                               NSLocalizedString(@"Shake your device to shuffle", "")];
-    
-    // show the message
-    [UIView animateWithDuration:0.25 animations:^
-     {
-         self.messageLabel.alpha = 1.0;
-     }];
-    
-    [aTimer invalidate];
 }
 
 - (NSUInteger)defaultsValueForKey:(NSString *)aKey

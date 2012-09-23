@@ -25,5 +25,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *yourScoreLabel;
 @property (nonatomic, weak) IBOutlet UILabel *highScoreLabel;
 
+- (void)updateMessages;
+
 @end
 

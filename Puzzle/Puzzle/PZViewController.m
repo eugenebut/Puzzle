@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 static const BOOL kSupportsShadows = YES;
 static const NSUInteger kPuzzleSize = 4;
-static const NSUInteger kShufflesCount = 30;
+static const NSUInteger kShufflesCount = 1;
 
 static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
 static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
@@ -37,7 +37,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 @property (nonatomic, strong) PZStopWatch *stopWatch;
 @property (nonatomic, assign, getter=isGameStarted) BOOL gameStarted; // shuffle at launch only
 
-@property (nonatomic, strong) UIViewController *winViewController;
+@property (nonatomic, strong) PZWinViewController *winViewController;
 
 // properties below are helpers for pan gesture
 @property (nonatomic, assign) PZTileLocation panTileLocation;
@@ -157,6 +157,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         {
             self.winViewController = [NSKeyedUnarchiver unarchiveObjectWithData:
                     [[NSUserDefaults standardUserDefaults] objectForKey:kWinController]];
+            [self.winViewController updateMessages];
             [self.view addSubview:self.winViewController.view];
         }
     }
