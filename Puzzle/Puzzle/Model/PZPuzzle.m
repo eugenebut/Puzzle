@@ -276,9 +276,9 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
         [tiles addObject:[[NSData alloc] initWithBytes:&location length:sizeof(location)]];
     }
     PZTileLocation emptyLocation = self.emptyTileLocation;
-    return [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithArray:tiles], kTilesState,
-            [[NSData alloc] initWithBytes:&emptyLocation length:sizeof(emptyLocation)], kEmptyTileLocationState,
-            [NSNumber numberWithUnsignedInteger:self.movesCount], kMovesCountState, nil];
+    return @{kTilesState: [NSArray arrayWithArray:tiles], 
+             kEmptyTileLocationState: [[NSData alloc] initWithBytes:&emptyLocation length:sizeof(emptyLocation)],
+             kMovesCountState: [NSNumber numberWithUnsignedInteger:self.movesCount]};
 }
 
 - (void)setStatePrivate:(NSDictionary *)aState
