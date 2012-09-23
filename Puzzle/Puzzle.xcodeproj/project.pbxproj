@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B70858DA160D9E69007B1204 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B70858D9160D9E69007B1204 /* Default@2x.png */; };
+		B70858E2160EFEC7007B1204 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B70858E1160EFEC7007B1204 /* Default@2x.png */; };
 		B728773F1604F23000FC253F /* PZWinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B728773D1604F23000FC253F /* PZWinViewController.m */; };
 		B72877401604F23000FC253F /* PZWinViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B728773E1604F23000FC253F /* PZWinViewController.xib */; };
 		B72877451604FE4A00FC253F /* PZMessageFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B72877441604FE4A00FC253F /* PZMessageFormatter.m */; };
@@ -67,7 +67,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B70858D9160D9E69007B1204 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Puzzle/Resources/Default@2x.png"; sourceTree = SOURCE_ROOT; };
+		B70858E1160EFEC7007B1204 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Puzzle/Resources/Default@2x.png"; sourceTree = SOURCE_ROOT; };
 		B728773C1604F23000FC253F /* PZWinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZWinViewController.h; sourceTree = "<group>"; };
 		B728773D1604F23000FC253F /* PZWinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZWinViewController.m; sourceTree = "<group>"; };
 		B728773E1604F23000FC253F /* PZWinViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PZWinViewController.xib; path = en.lproj/PZWinViewController.xib; sourceTree = "<group>"; };
@@ -214,10 +214,10 @@
 		B7AEF1C6159C15F8006EFEF0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B7AEF1C7159C15F8006EFEF0 /* Puzzle-Info.plist */,
-				B7AEF1C8159C15F8006EFEF0 /* InfoPlist.strings */,
 				B7AEF1CB159C15F8006EFEF0 /* main.m */,
 				B7AEF1CD159C15F8006EFEF0 /* Puzzle-Prefix.pch */,
+				B7AEF1C7159C15F8006EFEF0 /* Puzzle-Info.plist */,
+				B7AEF1C8159C15F8006EFEF0 /* InfoPlist.strings */,
 				B728774D1605225D00FC253F /* Localizable.strings */,
 			);
 			name = "Supporting Files";
@@ -261,7 +261,7 @@
 		B7AEF209159D735B006EFEF0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B70858D9160D9E69007B1204 /* Default@2x.png */,
+				B70858E1160EFEC7007B1204 /* Default@2x.png */,
 				B7B00A5C15FF0C830085434D /* Background_iPhone.png */,
 				B7BA97D415FF1D5B002E296D /* Background_iPhone@2x.png */,
 				B7B00A6515FF170C0085434D /* Frame_iPhone.png */,
@@ -376,7 +376,7 @@
 				B7BA97DA15FF1D79002E296D /* Tiles_iPhone@2x.png in Resources */,
 				B72877401604F23000FC253F /* PZWinViewController.xib in Resources */,
 				B728774B1605225D00FC253F /* Localizable.strings in Resources */,
-				B70858DA160D9E69007B1204 /* Default@2x.png in Resources */,
+				B70858E2160EFEC7007B1204 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
