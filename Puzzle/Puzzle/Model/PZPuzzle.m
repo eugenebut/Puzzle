@@ -18,12 +18,15 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZPuzzle
-@synthesize size, movesCount, mutableTiles, emptyTileLocation, previousRandomMoveWasHorizontal;
+
+static NSString *const kTilesState = @"PZTilesState";
+static NSString *const kEmptyTileLocationState = @"PZEmptyTileLocationState";
+static NSString *const kMovesCountState = @"PZMovesCountState";
 
 #pragma mark -
 #pragma mark Interface
 
-- (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize
+- (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize state:(NSDictionary *)aState
 {
     if (nil != (self = [super init]))
     {
@@ -31,6 +34,8 @@
         self.emptyTileLocation = PZTileLocationMake(aSize - 1, aSize - 1);
         self.size = aSize;
         self.movesCount = 0;
+        
+        [self setStatePrivate:aState];
     }
     return self;
 }
@@ -260,6 +265,43 @@
 - (NSUInteger)indexOfTileAtLocation:(PZTileLocation)aLocation
 {
     return aLocation.y * self.size + aLocation.x;
+}
+
+- (NSDictionary *)state
+{
+    NSMutableArray *tiles = [[NSMutableArray alloc] initWithCapacity:self.mutableTiles.count];
+    for (PZTileImpl *tile in self.mutableTiles)
+    {
+        PZTileLocation location = tile.winLocation;        
+        [tiles addObject:[[NSData alloc] initWithBytes:&location length:sizeof(location)]];
+    }
+    PZTileLocation emptyLocation = self.emptyTileLocation;
+    return [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithArray:tiles], kTilesState,
+            [[NSData alloc] initWithBytes:&emptyLocation length:sizeof(emptyLocation)], kEmptyTileLocationState,
+            [NSNumber numberWithUnsignedInteger:self.movesCount], kMovesCountState, nil];
+}
+
+- (void)setStatePrivate:(NSDictionary *)aState
+{
+    if (nil == aState)
+    {
+        return;
+    }
+    
+    NSArray *tiles = [aState objectForKey:kTilesState];
+    NSMutableArray *newTiles = [[NSMutableArray alloc] initWithCapacity:tiles.count];
+    for (NSData *tile in tiles)
+    {
+        PZTileLocation location;
+        [tile getBytes:&location length:sizeof(location)];
+        [newTiles addObject:[self.mutableTiles objectAtIndex:[self indexOfTileAtLocation:location]]];
+    }
+    self.mutableTiles = newTiles;
+    
+    PZTileLocation emptyLocation;
+    [[aState objectForKey:kEmptyTileLocationState] getBytes:&emptyLocation length:sizeof(emptyLocation)];
+    self.emptyTileLocation = emptyLocation;
+    self.movesCount = [[aState objectForKey:kMovesCountState] unsignedIntegerValue];
 }
 
 @end

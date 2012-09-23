@@ -23,12 +23,14 @@ typedef enum
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZPuzzle : NSObject
 
-- (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize;
+- (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize state:(NSDictionary *)aState;
 
 @property (nonatomic, assign) NSUInteger size;
 @property (nonatomic, readonly) PZTileLocation emptyTileLocation;
 @property (nonatomic, assign) NSUInteger movesCount;
 @property (nonatomic, readonly, getter = isWin) BOOL win;
+
+@property (nonatomic, readonly) NSDictionary *state;
 
 - (id<IPZTile>)tileAtLocation:(PZTileLocation)aLocation;
 

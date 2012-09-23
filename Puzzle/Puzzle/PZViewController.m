@@ -19,6 +19,9 @@ static const BOOL kSupportsShadows = YES;
 static const NSUInteger kPuzzleSize = 4;
 static const NSUInteger kShufflesCount = 30;
 
+static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
+static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
+
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZViewController ()
 
@@ -37,8 +40,6 @@ static const NSUInteger kShufflesCount = 30;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZViewController
-@synthesize winViewController, puzzle, tilesImageFile, panTileLocation, pannedTiles,
-            panConstraints, gameStarted;
 
 #pragma mark -
 #pragma mark View Lifecycle
@@ -49,6 +50,25 @@ static const NSUInteger kShufflesCount = 30;
 
     [self addTilesLayers];
     [self addGestureRecognizers];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+            selector:@selector(applicationDidEnterBackgroundNotification:)
+            name:UIApplicationDidEnterBackgroundNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+            selector:@selector(applicationWillEnterForegroundNotification:)
+            name:UIApplicationWillEnterForegroundNotification object:nil];
+
+    [self restoreState];
+}
+
+- (void)viewDidUnload
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+            name:UIApplicationDidEnterBackgroundNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+            name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)anAnimated
@@ -57,7 +77,12 @@ static const NSUInteger kShufflesCount = 30;
     [self becomeFirstResponder];
     
     // shuffle if necessary
-    if (!self.isGameStarted)
+    if ([self hasSavedState])
+    {
+       [self.stopWatch start];
+       [self updateMoveLabel];
+    }
+    else if (!self.isGameStarted)
     {
         [self shuffleWithCompletionBlock:^{
             [self.stopWatch start];
@@ -75,6 +100,39 @@ static const NSUInteger kShufflesCount = 30;
 - (BOOL)canBecomeFirstResponder
 {
     return YES;
+}
+
+- (void)applicationDidEnterBackgroundNotification:(NSNotification *)aNotification
+{
+    [self saveGameState];
+    [self.stopWatch stop];
+}
+
+- (void)applicationWillEnterForegroundNotification:(NSNotification *)aNotification
+{
+    [self.stopWatch start];
+}
+
+#pragma mark -
+#pragma mark State
+
+- (BOOL)hasSavedState
+{
+    return nil != [[NSUserDefaults standardUserDefaults] objectForKey:kPuzzleState];
+}
+
+- (void)saveGameState
+{
+    [[NSUserDefaults standardUserDefaults] setObject:self.puzzle.state forKey:kPuzzleState];
+    [[NSUserDefaults standardUserDefaults] setObject:
+            [NSNumber numberWithUnsignedInteger:self.stopWatch.totalSeconds]
+            forKey:kElapsedTime];
+}
+
+- (void)restoreState
+{
+    self.stopWatch.totalSeconds = [[[NSUserDefaults standardUserDefaults]
+                                    objectForKey:kElapsedTime] unsignedIntegerValue];
 }
 
 #pragma mark -
@@ -410,7 +468,7 @@ static const NSUInteger kShufflesCount = 30;
 
 - (PZPuzzle *)puzzle
 {
-    if (nil == puzzle)
+    if (nil == _puzzle)
     {
         UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
         CGFloat scale = [UIScreen mainScreen].scale;
@@ -421,9 +479,10 @@ static const NSUInteger kShufflesCount = 30;
         UIImage *tilesImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([wholeImage CGImage],
                                                           rect)];
 
-        puzzle = [[PZPuzzle alloc] initWithImage:tilesImage size:kPuzzleSize];
+        NSDictionary *state = [[NSUserDefaults standardUserDefaults] objectForKey:kPuzzleState];
+        _puzzle = [[PZPuzzle alloc] initWithImage:tilesImage size:kPuzzleSize state:state];
     }
-    return puzzle;
+    return _puzzle;
 }
 
 - (void)addTilesLayers

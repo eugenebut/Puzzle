@@ -10,8 +10,6 @@
 @implementation PZAppDelegate
 
 //////////////////////////////////////////////////////////////////////////////////////////
-@synthesize window = _window;
-@synthesize viewController = _viewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -29,6 +27,7 @@
         self.viewController = [[PZViewController alloc] initWithNibName:@"PZViewController_iPad" bundle:nil];
         imageFileName = @"Tiles_iPad";
     }
+    // TODO: use ~iphone, ~ipad extenstions for images
     self.viewController.tilesImageFile = [[NSBundle mainBundle] pathForResource:imageFileName ofType:@"png"];
     
     self.window.rootViewController = self.viewController;

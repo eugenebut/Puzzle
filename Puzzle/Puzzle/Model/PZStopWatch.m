@@ -11,7 +11,6 @@
 @interface PZStopWatch ()
 
 @property (nonatomic, weak) NSTimer *timer;
-@property (nonatomic, assign) NSUInteger time;
 
 @end
 
@@ -31,22 +30,17 @@
 
 - (void)reset
 {
-    if (0 != self.time)
+    if (0 != self.totalSeconds)
     {
-        self.time = 0;
+        self.totalSeconds = 0;
         [self.delegate PZStopWatchDidChangeTime:self];
     }
 }
 
 - (void)timeDidFire
 {
-    self.time++;
+    self.totalSeconds++;
     [self.delegate PZStopWatchDidChangeTime:self];
-}
-
-- (NSUInteger)totalSeconds
-{
-    return self.time;
 }
 
 @end
