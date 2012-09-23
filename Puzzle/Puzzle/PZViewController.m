@@ -21,6 +21,7 @@ static const NSUInteger kShufflesCount = 30;
 
 static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
 static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
+static NSString *const kWinController = @"PZWinControllerDefaults";
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface CALayer(PZExtentions)
@@ -86,8 +87,12 @@ static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
     // shuffle if necessary
     if ([self hasSavedState])
     {
-       [self.stopWatch start];
-       [self updateMoveLabel];
+        [self updateMoveLabel];
+        [self updateTimeLabel];
+        if (!self.puzzle.isWin)
+        {
+            [self.stopWatch start];
+        }
     }
     else if (!self.isGameStarted)
     {
@@ -134,12 +139,27 @@ static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
     [[NSUserDefaults standardUserDefaults] setObject:
             [NSNumber numberWithUnsignedInteger:self.stopWatch.totalSeconds]
             forKey:kElapsedTime];
+
+    [[NSUserDefaults standardUserDefaults]
+            setObject:[NSKeyedArchiver archivedDataWithRootObject:self.winViewController]
+            forKey:kWinController];
 }
 
 - (void)restoreState
 {
     self.stopWatch.totalSeconds = [[[NSUserDefaults standardUserDefaults]
                                     objectForKey:kElapsedTime] unsignedIntegerValue];
+    if (self.puzzle.isWin)
+    {
+        self.view.userInteractionEnabled = NO;
+        NSData *controllerData = [[NSUserDefaults standardUserDefaults] objectForKey:kWinController];
+        if (nil != controllerData)
+        {
+            self.winViewController = [NSKeyedUnarchiver unarchiveObjectWithData:
+                    [[NSUserDefaults standardUserDefaults] objectForKey:kWinController]];
+            [self.view addSubview:self.winViewController.view];
+        }
+    }
 }
 
 #pragma mark -
