@@ -22,4 +22,6 @@
 @property (nonatomic, weak) IBOutlet UILabel *movesLabel;
 @property (nonatomic, strong) NSString *tilesImageFile;
 
+- (IBAction)showHighscores:(id)aSender;
+
 @end

@@ -1,0 +1,21 @@
+//
+//  PZHighscoresViewController.m
+//  Puzzle
+//
+//  Created by Eugene But on 9/23/12.
+//
+//
+
+//////////////////////////////////////////////////////////////////////////////////////////
+#import "PZHighscoresViewController.h"
+
+//////////////////////////////////////////////////////////////////////////////////////////
+@implementation PZHighscoresViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+}
+
+@end

@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 #import "PZViewController.h"
 #import "PZWinViewController.h"
+#import "PZHighscoresViewController.h"
 #import "PZPuzzle.h"
 #import "PZTile.h"
 #import "PZMessageFormatter.h"
@@ -38,6 +39,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 @property (nonatomic, assign, getter=isGameStarted) BOOL gameStarted; // shuffle at launch only
 
 @property (nonatomic, strong) PZWinViewController *winViewController;
+@property (nonatomic, strong) PZHighscoresViewController *highscoresViewController;
 
 // properties below are helpers for pan gesture
 @property (nonatomic, assign) PZTileLocation panTileLocation;
@@ -183,6 +185,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)aRecognizer
 {
+    [self hideHighscoresMessageIfNecessary];
+    
     if (CGRectContainsPoint([self tilesArea], [aRecognizer locationInView:self.view]))
     {
         PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
@@ -419,7 +423,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         [self.stopWatch reset];
 
         [self hideWinMessageIfNecessary];
-
+        [self hideHighscoresMessageIfNecessary];
+        
         [self shuffleWithCompletionBlock:^{
             [self.stopWatch start];
         }];
@@ -489,6 +494,47 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 - (void)updateTimeLabel
 {
     self.timeLabel.text = [PZMessageFormatter timeMessage:self.stopWatch.totalSeconds];
+}
+
+#pragma mark -
+#pragma mark Hightscores
+
+- (IBAction)showHighscores:(id)aSender
+{
+    if (nil != self.highscoresViewController)
+    {
+        return;
+    }
+    
+    self.highscoresViewController = [PZHighscoresViewController new];
+    
+    [self.view addSubview:self.highscoresViewController.view];
+    
+    // set position
+    CGRect frame = self.highscoresViewController.view.frame;
+    frame.origin.x = CGRectGetMaxX([aSender frame]);
+    frame.origin.y = CGRectGetMaxY([aSender frame]) - CGRectGetHeight(frame);
+    self.highscoresViewController.view.frame = frame;
+
+    // make it appear with animation
+    self.highscoresViewController.view.alpha = 0.0;
+    [UIView animateWithDuration:0.5 animations:^{
+         self.highscoresViewController.view.alpha = 1.0;
+    }];
+}
+
+- (void)hideHighscoresMessageIfNecessary
+{
+    if (nil == self.highscoresViewController)
+    {
+        return;
+    }
+    
+    [UIView animateWithDuration:0.5 animations:^ {
+        self.highscoresViewController.view.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        self.highscoresViewController = nil;
+    }];
 }
 
 #pragma mark -
