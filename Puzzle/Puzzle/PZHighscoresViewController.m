@@ -8,6 +8,8 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 #import "PZHighscoresViewController.h"
+#import "PZHightscoresAccessor.h"
+#import "PZMessageFormatter.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZHighscoresViewController
@@ -16,10 +18,10 @@
 {
     [super viewDidLoad];
     
-    NSNumber *result = [[NSUserDefaults standardUserDefaults] objectForKey:aKey];
-
-    
-    // Do any additional setup after loading the view from its nib.
+    self.movesValueLabel.text = [PZMessageFormatter movesCountMessage:
+            [PZHightscoresAccessor defaultsValueForKey:kBestMovesDefaultsKey]];
+    self.timeValueLabel.text = [PZMessageFormatter timeMessage:
+            [PZHightscoresAccessor defaultsValueForKey:kBestTimeDefaultsKey]];
 }
 
 @end

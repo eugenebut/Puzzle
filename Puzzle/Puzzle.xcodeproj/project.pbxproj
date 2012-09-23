@@ -217,9 +217,9 @@
 				B7AEF1D4159C15F8006EFEF0 /* PZViewController_iPhone.xib */,
 				B7AEF1D7159C15F8006EFEF0 /* PZViewController_iPad.xib */,
 				B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */,
-				B7AEF1C6159C15F8006EFEF0 /* Supporting Files */,
 				B70858E8160FA882007B1204 /* PZHightscoresAccessor.h */,
 				B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */,
+				B7AEF1C6159C15F8006EFEF0 /* Supporting Files */,
 			);
 			path = Puzzle;
 			sourceTree = "<group>";

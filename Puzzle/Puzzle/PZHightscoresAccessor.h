@@ -18,6 +18,7 @@ extern NSString *const kBestMovesDefaultsKey;
 
 + (BOOL)hasHighscores;
 
+// TODO: rename to defaultsIntegerForKey
 + (NSUInteger)defaultsValueForKey:(NSString *)aKey;
 + (void)updateDefaultsValue:(NSUInteger)aValue forKey:(NSString *)aKey;
 
