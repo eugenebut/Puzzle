@@ -22,6 +22,9 @@
             [PZHightscoresAccessor defaultsIntegerForKey:kBestMovesDefaultsKey]];
     self.timeValueLabel.text = [PZMessageFormatter timeMessage:
             [PZHightscoresAccessor defaultsIntegerForKey:kBestTimeDefaultsKey]];
+    
+    self.movesLabel.text = NSLocalizedString(@"Min Moves:", @"Highscores Best Time");
+    self.timeLabel.text = NSLocalizedString(@"Best Time:", @"Highscores Best Time");
 }
 
 @end
