@@ -22,7 +22,7 @@ NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
            nil != [[NSUserDefaults standardUserDefaults] objectForKey:kBestMovesDefaultsKey];
 }
 
-+ (NSUInteger)defaultsValueForKey:(NSString *)aKey
++ (NSUInteger)defaultsIntegerForKey:(NSString *)aKey
 {
     NSNumber *result = [[NSUserDefaults standardUserDefaults] objectForKey:aKey];
     if (nil != result)
@@ -32,7 +32,7 @@ NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
     return ULONG_MAX;
 }
 
-+ (void)updateDefaultsValue:(NSUInteger)aValue forKey:(NSString *)aKey
++ (void)updateDefaultsInteger:(NSUInteger)aValue forKey:(NSString *)aKey
 {
     NSNumber *bestValue = [[NSUserDefaults standardUserDefaults] objectForKey:aKey];
     if (nil == bestValue || aValue < [bestValue unsignedIntegerValue])

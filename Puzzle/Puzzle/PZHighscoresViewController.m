@@ -19,9 +19,9 @@
     [super viewDidLoad];
     
     self.movesValueLabel.text = [PZMessageFormatter movesCountMessage:
-            [PZHightscoresAccessor defaultsValueForKey:kBestMovesDefaultsKey]];
+            [PZHightscoresAccessor defaultsIntegerForKey:kBestMovesDefaultsKey]];
     self.timeValueLabel.text = [PZMessageFormatter timeMessage:
-            [PZHightscoresAccessor defaultsValueForKey:kBestTimeDefaultsKey]];
+            [PZHightscoresAccessor defaultsIntegerForKey:kBestTimeDefaultsKey]];
 }
 
 @end
