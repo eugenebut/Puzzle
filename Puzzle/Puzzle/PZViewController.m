@@ -20,6 +20,8 @@ static const BOOL kSupportsShadows = YES;
 static const NSUInteger kPuzzleSize = 4;
 static const NSUInteger kShufflesCount = 1;
 
+static const CGFloat kTransparencyAnimationDuration = 0.5;
+
 static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
 static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
 static NSString *const kWinController = @"PZWinControllerDefaults";
@@ -70,6 +72,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
             name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self restoreState];
+    
+    self.highScoresButton.hidden = ![PZHighscoresViewController canShowHighscores];
 }
 
 - (void)viewDidUnload
@@ -427,6 +431,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         
         [self shuffleWithCompletionBlock:^{
             [self.stopWatch start];
+            [self showHighscoresButtonIfNecessary];
         }];
         [self updateMoveLabel];
     }
@@ -518,7 +523,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 
     // make it appear with animation
     self.highscoresViewController.view.alpha = 0.0;
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:kTransparencyAnimationDuration animations:^{
          self.highscoresViewController.view.alpha = 1.0;
     }];
 }
@@ -530,13 +535,23 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         return;
     }
     
-    [UIView animateWithDuration:0.5 animations:^ {
+    [UIView animateWithDuration:kTransparencyAnimationDuration animations:^ {
         self.highscoresViewController.view.alpha = 0.0;
     } completion:^(BOOL finished) {
         self.highscoresViewController = nil;
     }];
 }
 
+- (void)showHighscoresButtonIfNecessary
+{
+    if (self.highScoresButton.hidden) {
+        self.highScoresButton.hidden = NO;
+        self.highScoresButton.alpha = 0.0;
+        [UIView animateWithDuration:kTransparencyAnimationDuration animations:^{
+            self.highScoresButton.alpha = 1.0;
+        }];
+    }
+}
 #pragma mark -
 #pragma mark Misc
 
@@ -607,7 +622,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     [self.view addSubview:self.winViewController.view];
 
     self.winViewController.view.alpha = 0.0;
-    [UIView animateWithDuration:0.5 animations:^
+    [UIView animateWithDuration:kTransparencyAnimationDuration animations:^
     {
         self.winViewController.view.alpha = 1.0;
     }];
@@ -620,7 +635,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         return;
     }
 
-    [UIView animateWithDuration:0.5 animations:^ {
+    [UIView animateWithDuration:kTransparencyAnimationDuration animations:^ {
          self.winViewController.view.alpha = 0.0;
     } completion:^(BOOL finished) {
         self.winViewController = nil;

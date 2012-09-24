@@ -66,7 +66,7 @@
 						<string key="NSFrameSize">{320, 460}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="408236071"/>
+						<reference key="NSNextKeyView" ref="455721004"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -136,6 +136,7 @@
 						<string key="NSFrame">{{107, 386}, {107, 29}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -159,7 +160,7 @@
 						<reference key="IBUIFontDescription" ref="59246328"/>
 						<reference key="IBUIFont" ref="980359050"/>
 					</object>
-					<object class="IBUIButton" id="408236071">
+					<object class="IBUIButton" id="455721004">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{11, 31}, {73, 44}}</string>
@@ -4635,9 +4636,17 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<int key="connectionID">28</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">highScoresButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="455721004"/>
+					</object>
+					<int key="connectionID">34</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showHighscores:</string>
-						<reference key="source" ref="408236071"/>
+						<reference key="source" ref="455721004"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -4672,7 +4681,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<reference ref="655824589"/>
 							<reference ref="18235747"/>
 							<reference ref="1065839120"/>
-							<reference ref="408236071"/>
+							<reference ref="455721004"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -4711,7 +4720,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">31</int>
-						<reference key="object" ref="408236071"/>
+						<reference key="object" ref="455721004"/>
 						<reference key="parent" ref="774585933"/>
 					</object>
 				</array>
@@ -4734,7 +4743,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">33</int>
+			<int key="maxID">34</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4753,11 +4762,16 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						</object>
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="highScoresButton">UIButton</string>
 						<string key="layersView">UIView</string>
 						<string key="movesLabel">UILabel</string>
 						<string key="timeLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="highScoresButton">
+							<string key="name">highScoresButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="layersView">
 							<string key="name">layersView</string>
 							<string key="candidateClassName">UIView</string>

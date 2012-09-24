@@ -12,6 +12,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZHighscoresViewController : UIViewController
 
++ (BOOL)canShowHighscores;
+
 @property (weak, nonatomic) IBOutlet UILabel *movesValueLabel;
 @property (weak, nonatomic) IBOutlet UILabel *movesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeValueLabel;

@@ -14,6 +14,11 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZHighscoresViewController
 
++ (BOOL)canShowHighscores
+{
+    return [PZHightscoresAccessor hasHighscores];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
