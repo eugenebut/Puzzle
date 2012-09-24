@@ -504,10 +504,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 #pragma mark -
 #pragma mark Hightscores
 
-- (IBAction)showHighscores:(id)aSender
-{
-    if (nil != self.highscoresViewController)
-    {
+- (IBAction)showHighscores:(id)aSender {
+    if (nil != self.highscoresViewController) {
         return;
     }
     
@@ -528,10 +526,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }];
 }
 
-- (void)hideHighscoresMessageIfNecessary
-{
-    if (nil == self.highscoresViewController)
-    {
+- (void)hideHighscoresMessageIfNecessary {
+    if (nil == self.highscoresViewController) {
         return;
     }
     
@@ -542,8 +538,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }];
 }
 
-- (void)showHighscoresButtonIfNecessary
-{
+- (void)showHighscoresButtonIfNecessary {
     if (self.highScoresButton.hidden) {
         self.highScoresButton.hidden = NO;
         self.highScoresButton.alpha = 0.0;
@@ -555,10 +550,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 #pragma mark -
 #pragma mark Misc
 
-- (PZPuzzle *)puzzle
-{
-    if (nil == _puzzle)
-    {
+- (PZPuzzle *)puzzle {
+    if (nil == _puzzle) {
         UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
         CGFloat scale = [UIScreen mainScreen].scale;
         CGRect rect = CGRectMake(CGRectGetMinX([self tilesArea]) * scale,
@@ -574,12 +567,9 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     return _puzzle;
 }
 
-- (void)addTilesLayers
-{
-    for (NSUInteger x = 0; x < kPuzzleSize; x++)
-    {
-        for (NSUInteger y = 0; y < kPuzzleSize; y++)
-        {
+- (void)addTilesLayers {
+    for (NSUInteger x = 0; x < kPuzzleSize; x++) {
+        for (NSUInteger y = 0; y < kPuzzleSize; y++) {
             PZTileLocation tileLocation = PZTileLocationMake(x, y);
             id<IPZTile> tile = [self.puzzle tileAtLocation:tileLocation];
             CALayer *tileLayer = [CALayer new];
@@ -589,8 +579,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
             tileLayer.contents = (id)[tile.image CGImage];
             tileLayer.frame = [self rectForTileAtLocation:tileLocation];
             
-            if (kSupportsShadows)
-            {
+            if (kSupportsShadows) {
                 [tileLayer setupPuzzleShadow];
             }
             [self.layersView.layer addSublayer:tileLayer];
@@ -598,21 +587,18 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }
 }
 
-- (void)moveTileAtLocation:(PZTileLocation)aLocation
-{
+- (void)moveTileAtLocation:(PZTileLocation)aLocation {
     [self.puzzle moveTileAtLocation:aLocation];
     
     [self updateMoveLabel];
     
-    if (self.puzzle.isWin)
-    {
+    if (self.puzzle.isWin) {
         [self.stopWatch stop];
         [self showWinMessage];
     }
 }
 
-- (void)showWinMessage
-{
+- (void)showWinMessage {
     self.view.userInteractionEnabled = NO;
     
     self.winViewController = [[PZWinViewController alloc]
@@ -622,20 +608,17 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     [self.view addSubview:self.winViewController.view];
 
     self.winViewController.view.alpha = 0.0;
-    [UIView animateWithDuration:kTransparencyAnimationDuration animations:^
-    {
+    [UIView animateWithDuration:kTransparencyAnimationDuration animations:^{
         self.winViewController.view.alpha = 1.0;
     }];
 }
 
-- (void)hideWinMessageIfNecessary
-{
-    if (nil == self.winViewController)
-    {
+- (void)hideWinMessageIfNecessary {
+    if (nil == self.winViewController) {
         return;
     }
 
-    [UIView animateWithDuration:kTransparencyAnimationDuration animations:^ {
+    [UIView animateWithDuration:kTransparencyAnimationDuration animations:^{
          self.winViewController.view.alpha = 0.0;
     } completion:^(BOOL finished) {
         self.winViewController = nil;
@@ -648,10 +631,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         return;
     }
 
-    for (NSUInteger y = 0; y < kPuzzleSize; y++)
-    {
-        for (NSUInteger x = 0; x < kPuzzleSize; x++)
-        {
+    for (NSUInteger y = 0; y < kPuzzleSize; y++) {
+        for (NSUInteger x = 0; x < kPuzzleSize; x++) {
             id<IPZTile> tile = [self.puzzle tileAtLocation:PZTileLocationMake(x, y)];
             CALayer *layer = [tile representedObject];
             [layer removeFromSuperlayer];
@@ -665,8 +646,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation CALayer(PZExtentions)
 
-- (void)setupPuzzleShadow
-{
+- (void)setupPuzzleShadow {
     self.shadowOpacity = 0.7;
     self.shadowOffset = CGSizeMake(3.0, 3.0);
     self.shouldRasterize = YES;

@@ -33,11 +33,9 @@ static NSTimeInterval kAnimationInterval = 1.0;
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZWinViewController
 
-- (id)initWithTime:(NSUInteger)aTime movesCount:(NSUInteger)aMovesCount
-{
+- (id)initWithTime:(NSUInteger)aTime movesCount:(NSUInteger)aMovesCount {
     self = [super init];
-    if (nil != self)
-    {
+    if (nil != self) {
         self.time = aTime;
         self.movesCount = aMovesCount;
 
@@ -53,14 +51,12 @@ static NSTimeInterval kAnimationInterval = 1.0;
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     [self updateMessages];
 }
 
-- (void)viewDidAppear:(BOOL)anAnimated
-{
+- (void)viewDidAppear:(BOOL)anAnimated {
     [super viewDidAppear:anAnimated];
         
     NSUInteger maxValue = MAX(MAX(self.time, self.movesCount),
@@ -70,41 +66,34 @@ static NSTimeInterval kAnimationInterval = 1.0;
             selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
 }
 
-- (void)timerDidFire:(NSTimer *)aTimer
-{
+- (void)timerDidFire:(NSTimer *)aTimer {
     // update numbers
     if (self.animatedTime <= self.time ||
         self.animatedMovesCount <= self.movesCount ||
         self.animatedBestTime <= self.effectiveBestTime ||
-        self.animatedBestMovesCount <= self.effectiveBestMovesCount)
-    {
-        if (self.animatedTime <= self.time)
-        {
+        self.animatedBestMovesCount <= self.effectiveBestMovesCount) {
+        if (self.animatedTime <= self.time) {
             self.yourTimeLabel.text = [PZMessageFormatter timeMessage:self.animatedTime++];
         }
         
-        if (self.animatedMovesCount <= self.movesCount)
-        {
+        if (self.animatedMovesCount <= self.movesCount) {
             self.yourMovesLabel.text = [PZMessageFormatter movesCountMessage:self.animatedMovesCount++];
         }
         
-        if (self.animatedBestTime <= self.effectiveBestTime)
-        {
+        if (self.animatedBestTime <= self.effectiveBestTime) {
             self.bestTimeLabel.text = [PZMessageFormatter timeMessage:self.animatedBestTime++];
         }
         
-        if (self.animatedBestMovesCount <= self.effectiveBestMovesCount)
-        {
+        if (self.animatedBestMovesCount <= self.effectiveBestMovesCount) {
             self.bestMovesLabel.text = [PZMessageFormatter movesCountMessage:self.animatedBestMovesCount++];
         }
         return;
     }
     
     // show the message
-    [UIView animateWithDuration:0.25 animations:^
-     {
+    [UIView animateWithDuration:0.25 animations:^{
          self.messageLabel.alpha = 1.0;
-     }];
+    }];
     
     [aTimer invalidate];
 }
@@ -118,26 +107,21 @@ static NSTimeInterval kAnimationInterval = 1.0;
     self.highScoreLabel.text = NSLocalizedString(@"High Score:", "");
     // we are done update message
     NSString *titleMessage = nil;
-    if (self.time < self.bestTime && self.movesCount < self.bestMovesCount)
-    {
+    if (self.time < self.bestTime && self.movesCount < self.bestMovesCount) {
         titleMessage = NSLocalizedString(@"New highscore and best time!", "");
     }
-    else if (self.time < self.bestTime)
-    {
+    else if (self.time < self.bestTime) {
         titleMessage = NSLocalizedString(@"New best time!", "");
         
     }
-    else if (self.movesCount < self.bestMovesCount)
-    {
+    else if (self.movesCount < self.bestMovesCount) {
         titleMessage = NSLocalizedString(@"New highscore!", "");
     }
-    else
-    {
+    else {
         titleMessage = @"";
     }
     self.messageLabel.text = [titleMessage stringByAppendingFormat:@"\n%@",
                               NSLocalizedString(@"Shake your device to shuffle", "")];
 }
-
 
 @end

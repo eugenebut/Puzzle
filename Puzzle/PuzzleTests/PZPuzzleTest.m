@@ -21,20 +21,17 @@ static const NSUInteger kPuzzleSize = 4;
 @implementation PuzzleTests
 @synthesize testable;
 
-- (void)setUp
-{
+- (void)setUp {
     [super setUp];
-    self.testable = [[PZPuzzle alloc] initWithImage:[UIImage imageNamed:@"puzzle_iPhone"] size:kPuzzleSize];
+    self.testable = [[PZPuzzle alloc] initWithImage:[UIImage imageNamed:@"puzzle_iPhone"] size:kPuzzleSize state:nil];
 }
 
-- (void)tearDown
-{
+- (void)tearDown {
     self.testable = nil;
     [super tearDown];
 }
 
-- (void)testInitialState
-{    
+- (void)testInitialState {    
     STAssertEquals(kPuzzleSize, self.testable.size, @"");
     STAssertTrue(PZTileLocationEqualToLocation(PZTileLocationMake(3, 3),
                                                self.testable.emptyTileLocation),
@@ -51,16 +48,14 @@ static const NSUInteger kPuzzleSize = 4;
     STAssertEquals(kRightDirection, [self.testable allowedMoveDirectionForTileAtLocation:PZTileLocationMake(1, 3)], @"");
 }
 
-- (void)testBulkTilesAccess
-{
+- (void)testBulkTilesAccess {
     NSValue *emptyLocation = [[NSValue alloc] initWithTileLocation:self.testable.emptyTileLocation];
     NSArray *tiles = [self.testable tilesAtLocations:[NSArray arrayWithObject:emptyLocation]];
     STAssertTrue(1 == tiles.count, @"");
     STAssertTrue([[tiles lastObject] isKindOfClass:[NSNull class]], @"");
 }
 
-- (void)testMoving
-{
+- (void)testMoving {
     // remember our vertical line
     NSArray *verticalTiles = [self.testable tilesAtLocations:[NSArray arrayWithObjects:
             [[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 0)],
@@ -85,8 +80,7 @@ static const NSUInteger kPuzzleSize = 4;
     STAssertEqualObjects(verticalTiles, newVerticalTiles, @"");
 }
 
-- (void)testRandomizing
-{
+- (void)testRandomizing {
     // at least we should not be in win state
     [self.testable moveTileToRandomLocationWithCompletionBlock:^(NSArray *aTiles, PZMoveDirection aDirection) {}];
     STAssertFalse(self.testable.isWin, @"");

@@ -14,13 +14,11 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZHighscoresViewController
 
-+ (BOOL)canShowHighscores
-{
++ (BOOL)canShowHighscores {
     return [PZHightscoresAccessor hasHighscores];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.movesValueLabel.text = [PZMessageFormatter movesCountMessage:
