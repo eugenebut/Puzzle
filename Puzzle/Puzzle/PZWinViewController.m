@@ -11,7 +11,7 @@
 #import "PZMessageFormatter.h"
 #import "PZHightscoresAccessor.h"
 
-static NSTimeInterval kAnimationInterval = 1.0;
+static NSTimeInterval kAnimationInterval = 0.01;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZWinViewController ()
@@ -59,10 +59,7 @@ static NSTimeInterval kAnimationInterval = 1.0;
 - (void)viewDidAppear:(BOOL)anAnimated {
     [super viewDidAppear:anAnimated];
         
-    NSUInteger maxValue = MAX(MAX(self.time, self.movesCount),
-                              MAX(self.effectiveBestTime, self.effectiveBestMovesCount));
-
-    [NSTimer scheduledTimerWithTimeInterval:kAnimationInterval / maxValue target:self
+    [NSTimer scheduledTimerWithTimeInterval:kAnimationInterval target:self
             selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
 }
 
@@ -73,20 +70,25 @@ static NSTimeInterval kAnimationInterval = 1.0;
         self.animatedBestTime <= self.effectiveBestTime ||
         self.animatedBestMovesCount <= self.effectiveBestMovesCount) {
         if (self.animatedTime <= self.time) {
-            self.yourTimeLabel.text = [PZMessageFormatter timeMessage:self.animatedTime++];
+            self.yourTimeLabel.text = [PZMessageFormatter timeMessage:self.animatedTime];
+            self.animatedTime += MAX(1, (self.time * kAnimationInterval));
         }
         
         if (self.animatedMovesCount <= self.movesCount) {
-            self.yourMovesLabel.text = [PZMessageFormatter movesCountMessage:self.animatedMovesCount++];
+            self.yourMovesLabel.text = [PZMessageFormatter movesCountMessage:self.animatedMovesCount];
+            self.animatedMovesCount += MAX(1, (self.movesCount * kAnimationInterval));
         }
         
         if (self.animatedBestTime <= self.effectiveBestTime) {
-            self.bestTimeLabel.text = [PZMessageFormatter timeMessage:self.animatedBestTime++];
+            self.bestTimeLabel.text = [PZMessageFormatter timeMessage:self.animatedBestTime];
+            self.animatedBestTime += MAX(1, (self.effectiveBestTime * kAnimationInterval));
         }
         
         if (self.animatedBestMovesCount <= self.effectiveBestMovesCount) {
-            self.bestMovesLabel.text = [PZMessageFormatter movesCountMessage:self.animatedBestMovesCount++];
+            self.bestMovesLabel.text = [PZMessageFormatter movesCountMessage:self.animatedBestMovesCount];
+            self.animatedBestMovesCount += MAX(1, (self.effectiveBestMovesCount * kAnimationInterval));
         }
+        
         return;
     }
     
