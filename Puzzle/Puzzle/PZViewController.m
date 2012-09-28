@@ -516,7 +516,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     // set position
     CGRect frame = self.highscoresViewController.view.frame;
     frame.origin.x = CGRectGetMaxX([aSender frame]);
-    frame.origin.y = CGRectGetMaxY([aSender frame]) - CGRectGetHeight(frame);
+    frame.origin.y = CGRectGetMidY([aSender frame]) - CGRectGetMidY(frame);
     self.highscoresViewController.view.frame = frame;
 
     // make it appear with animation
