@@ -24,4 +24,10 @@
                  winLocation:PZTileLocationMake(0, 0)];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Current location: %d-%d\nWin location: %d-%d",
+                                      self.currentLocation.x, self.currentLocation.y,
+                                      self.winLocation.x, self.winLocation.y];
+}
+
 @end
