@@ -252,11 +252,13 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     
     NSArray *tiles = [aState objectForKey:kTilesState];
     NSMutableArray *newTiles = [[NSMutableArray alloc] initWithCapacity:tiles.count];
-    for (NSData *tile in tiles) {
+    [tiles enumerateObjectsUsingBlock:^(NSData *tileData, NSUInteger index, BOOL *stop) {
         PZTileLocation location;
-        [tile getBytes:&location length:sizeof(location)];
-        [newTiles addObject:[self.mutableTiles objectAtIndex:[self indexOfTileAtLocation:location]]];
-    }
+        [tileData getBytes:&location length:sizeof(location)];
+        PZTileImpl *tile = [self.mutableTiles objectAtIndex:[self indexOfTileAtLocation:location]];
+        tile.currentLocation = [self locationForTileAtIndex:index];
+        [newTiles addObject:tile];
+    }];
     self.mutableTiles = newTiles;
     
     PZTileLocation emptyLocation;
