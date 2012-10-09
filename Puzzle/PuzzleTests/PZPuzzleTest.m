@@ -52,7 +52,8 @@ static const NSUInteger kPuzzleSize = 4;
     STAssertEqualObjects([self.testable description], @"01 02 03 04\n"
                                                        "05 06 07 08\n"
                                                        "09 10 11 12\n"
-                                                       "13 14 15 --\n", @"");
+                                                       "13 14 15 --\n"
+                                                       "\nempty tile: 3-3\n", @"");
 }
 
 - (void)testBulkTilesAccess {
