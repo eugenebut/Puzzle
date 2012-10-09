@@ -48,6 +48,13 @@ static const NSUInteger kPuzzleSize = 4;
     STAssertEquals(kRightDirection, [self.testable allowedMoveDirectionForTileAtLocation:PZTileLocationMake(1, 3)], @"");
 }
 
+- (void)testDescription {
+    STAssertEqualObjects([self.testable description], @"01 02 03 04\n"
+                                                       "05 06 07 08\n"
+                                                       "09 10 11 12\n"
+                                                       "13 14 15 --\n", @"");
+}
+
 - (void)testBulkTilesAccess {
     NSValue *emptyLocation = [[NSValue alloc] initWithTileLocation:self.testable.emptyTileLocation];
     NSArray *tiles = [self.testable tilesAtLocations:[NSArray arrayWithObject:emptyLocation]];

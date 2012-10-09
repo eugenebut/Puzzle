@@ -265,4 +265,21 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     self.movesCount = [[aState objectForKey:kMovesCountState] unsignedIntegerValue];
 }
 
+- (NSString *)description
+{
+    NSMutableString *result = [NSMutableString new];
+    for (PZTileImpl *tile in self.mutableTiles) {
+        NSUInteger index = [self indexOfTileAtLocation:tile.winLocation];
+        if (index == self.size * self.size - 1) {
+            // empty tile
+            [result appendString:@"--"];
+        }
+        else {
+            [result appendFormat:@"%02d", index + 1];
+        }
+        [result appendString:(0 == ((index + 1) % self.size)) ? @"\n" : @" "];
+    }
+    return [NSString stringWithString:result];
+}
+
 @end
