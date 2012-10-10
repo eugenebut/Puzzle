@@ -99,6 +99,10 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="18235747"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<object class="NSColor" key="IBUIBackgroundColor" id="347382661">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MCAwAA</bytes>
+						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -107,14 +111,14 @@
 						<string key="IBUIText">00:00:00</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC41OTk0NDk5MzYyIDAuMzAxMDI4NjU3OSAwLjAwMTIzOTgxNTA1MwA</bytes>
+							<bytes key="NSRGB">MC40MTA1OTQ3MDY2IDAuMjI5MDA0MDM0OCAwLjEwOTc2NTAyMzUAA</bytes>
 						</object>
 						<nil key="IBUIHighlightedColor"/>
 						<object class="NSColor" key="IBUIShadowColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4yNjk5Njk3MDY2IDAuMTM1NTcxOTg2MiAwLjAwMDU1ODM2NjA3MTYAA</bytes>
+							<bytes key="NSRGB">MC43ODAzOTIxNTY5IDAuNDgyMzUyOTQxMiAwLjI3NDUwOTgwMzkAA</bytes>
 						</object>
-						<string key="IBUIShadowOffset">{-1, -1}</string>
+						<string key="IBUIShadowOffset">{1, 1}</string>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
@@ -133,11 +137,12 @@
 					<object class="IBUILabel" id="18235747">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{107, 407}, {107, 29}}</string>
+						<string key="NSFrame">{{107, 401}, {107, 29}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<reference key="IBUIBackgroundColor" ref="347382661"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -146,14 +151,14 @@
 						<string key="IBUIText">0000</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC41OTk0NDk5MzYyIDAuMzAxMDI4NjU3OSAwLjAwMTIzOTgxNTA1MwA</bytes>
+							<bytes key="NSRGB">MC40MTE3NjQ3MDU5IDAuMjI3NDUwOTgwNCAwLjEwOTgwMzkyMTYAA</bytes>
 						</object>
 						<nil key="IBUIHighlightedColor"/>
 						<object class="NSColor" key="IBUIShadowColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4yNjk5Njk3MDY2IDAuMTM1NTcxOTg2MiAwLjAwMDU1ODM2NjA3MTYAA</bytes>
+							<bytes key="NSRGB">MC43ODAzOTIxNTY5IDAuNDgyMzUyOTQxMiAwLjI3NDUwOTgwMzkAA</bytes>
 						</object>
-						<string key="IBUIShadowOffset">{-1, -1}</string>
+						<string key="IBUIShadowOffset">{1, 1}</string>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
@@ -4594,10 +4599,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								</object>
 							</array>
 						</array>
-						<object class="NSColor" key="NSColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MCAwAA</bytes>
-						</object>
+						<reference key="NSColor" ref="347382661"/>
 					</object>
 					<string key="IBUIColorCocoaTouchKeyPath">scrollViewTexturedBackgroundColor</string>
 				</object>
