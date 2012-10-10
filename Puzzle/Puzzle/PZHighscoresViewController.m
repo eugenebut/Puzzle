@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.movesValueLabel.text = [PZMessageFormatter movesCountMessage:
+    self.movesValueLabel.text = [PZMessageFormatter movesCountLongMessage:
             [PZHightscoresAccessor defaultsIntegerForKey:kBestMovesDefaultsKey]];
     self.timeValueLabel.text = [PZMessageFormatter timeMessage:
             [PZHightscoresAccessor defaultsIntegerForKey:kBestTimeDefaultsKey]];

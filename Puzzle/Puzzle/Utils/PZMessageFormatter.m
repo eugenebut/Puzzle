@@ -24,15 +24,32 @@
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sFormatter = [NSNumberFormatter new];
-        [sFormatter setLocale:[NSLocale autoupdatingCurrentLocale]];
-        [sFormatter setNumberStyle:kCFNumberFormatterNoStyle];
-        [sFormatter setPaddingCharacter:[sFormatter stringFromNumber:
-                                         [NSNumber numberWithUnsignedInteger:0]]];
+        sFormatter = [self newFormatter];
         [sFormatter setFormatWidth:4];
     });
     
     return [sFormatter stringFromNumber:[NSNumber numberWithUnsignedInteger:aCount]];
+}
+
++ (NSString *)movesCountLongMessage:(NSUInteger)aCount {
+    static NSNumberFormatter *sFormatter = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sFormatter = [self newFormatter];
+        [sFormatter setFormatWidth:7];
+    });
+
+    return [sFormatter stringFromNumber:[NSNumber numberWithUnsignedInteger:aCount]];
+}
+
++ (NSNumberFormatter *)newFormatter {
+    NSNumberFormatter *result = [NSNumberFormatter new];
+    [result setLocale:[NSLocale autoupdatingCurrentLocale]];
+    [result setNumberStyle:kCFNumberFormatterNoStyle];
+    [result setPaddingCharacter:[result stringFromNumber:
+                                 [NSNumber numberWithUnsignedInteger:0]]];
+    return result;
 }
 
 @end

@@ -14,5 +14,6 @@
 
 + (NSString *)timeMessage:(NSUInteger)aSeconds;
 + (NSString *)movesCountMessage:(NSUInteger)aCount;
++ (NSString *)movesCountLongMessage:(NSUInteger)aCount;
 
 @end
