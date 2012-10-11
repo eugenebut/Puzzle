@@ -494,15 +494,17 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 
 - (void)helpViewControllerWantsHide:(PZHelpViewController *)aController
 {
-    [UIView animateWithDuration:kShowHelpAnimationDuration animations:^{
+    [UIView animateWithDuration:kShowHelpAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+
+        [self.helpViewController.view setOffscreenLocation];
+
         for (UIView *view in self.view.subviews) {
             if (view != self.helpViewController.view) {
                 view.center = CGPointMake(view.center.x, view.center.y - kHelpShift);
             }
         }
         
-        [self.helpViewController.view setOffscreenLocation];
-                
+     
     } completion:^(BOOL finished) {
         [self.helpViewController.view removeFromSuperview];
         self.helpViewController = nil;
@@ -543,6 +545,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     [UIView animateWithDuration:kTransparencyAnimationDuration animations:^ {
         self.highscoresViewController.view.alpha = 0.0;
     } completion:^(BOOL finished) {
+        [self.highscoresViewController.view removeFromSuperview];
         self.highscoresViewController = nil;
     }];
 }
@@ -632,6 +635,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     [UIView animateWithDuration:kTransparencyAnimationDuration animations:^{
          self.winViewController.view.alpha = 0.0;
     } completion:^(BOOL finished) {
+        [self.winViewController.view removeFromSuperview];
         self.winViewController = nil;
     }];
 }
