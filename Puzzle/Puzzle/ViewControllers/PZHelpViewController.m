@@ -17,6 +17,10 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZHelpViewController
 
+- (void)viewDidLoad {
+    self.textView.text = NSLocalizedString(@"Puzzle_Help", @"Puzzle Help Description");
+}
+
 - (IBAction)hide {
     [self.delegate helpViewControllerWantsHide:self];
 }

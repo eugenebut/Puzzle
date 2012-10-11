@@ -17,6 +17,8 @@
 
 @property (nonatomic, assign) id<PZHelpViewControllerDelegate> delegate;
 
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+
 - (IBAction)hide;
 
 @end
