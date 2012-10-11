@@ -22,7 +22,7 @@ static const NSUInteger kPuzzleSize = 4;
 static const NSUInteger kShufflesCount = 1;
 
 static const CGFloat kTransparencyAnimationDuration = 0.5;
-static const CGFloat kShowHelpAnimationDuration = 0.7;
+static const CGFloat kShowHelpAnimationDuration = 0.5;
 
 static const CGFloat kHelpShift = 70.0;
 static const CGFloat kHelpViewShift = 10.0;
@@ -662,8 +662,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 @implementation UIView(PZExtentions)
 
 - (void)setOffscreenLocation {
-    self.center = CGPointMake(-100.0, -100.0);
-    self.transform = CGAffineTransformMakeRotation(M_PI_4);
+    self.center = CGPointMake(-120.0, -100.0);
+    self.transform = CGAffineTransformMakeRotation(M_PI_4 / 2);
 }
 
 @end
