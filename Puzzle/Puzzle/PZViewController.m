@@ -50,6 +50,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 @property (nonatomic, strong) NSArray *pannedTiles;
 @property (nonatomic, assign) CGRect panConstraints;
 
+@property (nonatomic, assign, getter=isHelpMode) BOOL helpMode;
+
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -58,8 +60,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 #pragma mark -
 #pragma mark View Lifecycle
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 
     [self addTilesLayers];
@@ -78,8 +79,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     self.highScoresButton.hidden = ![PZHighscoresViewController canShowHighscores];
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [[NSNotificationCenter defaultCenter] removeObserver:self
             name:UIApplicationDidEnterBackgroundNotification object:nil];
 
@@ -87,23 +87,19 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
             name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)anAnimated
-{
+- (void)viewDidAppear:(BOOL)anAnimated {
     // support shakes handling
     [self becomeFirstResponder];
     
     // shuffle if necessary
-    if ([self hasSavedState])
-    {
+    if ([self hasSavedState]) {
         [self updateMoveLabel];
         [self updateTimeLabel];
-        if (!self.puzzle.isWin)
-        {
+        if (!self.puzzle.isWin) {
             [self.stopWatch start];
         }
     }
-    else if (!self.isGameStarted)
-    {
+    else if (!self.isGameStarted) {
         [self shuffleWithCompletionBlock:^{
             [self.stopWatch start];
             [self updateMoveLabel];
@@ -112,37 +108,31 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.stopWatch stop];
 }
 
-- (BOOL)canBecomeFirstResponder
-{
+- (BOOL)canBecomeFirstResponder {
     return YES;
 }
 
-- (void)applicationDidEnterBackgroundNotification:(NSNotification *)aNotification
-{
+- (void)applicationDidEnterBackgroundNotification:(NSNotification *)aNotification {
     [self saveGameState];
     [self.stopWatch stop];
 }
 
-- (void)applicationWillEnterForegroundNotification:(NSNotification *)aNotification
-{
+- (void)applicationWillEnterForegroundNotification:(NSNotification *)aNotification {
     [self.stopWatch start];
 }
 
 #pragma mark -
 #pragma mark State
 
-- (BOOL)hasSavedState
-{
+- (BOOL)hasSavedState {
     return nil != [[NSUserDefaults standardUserDefaults] objectForKey:kPuzzleState];
 }
 
-- (void)saveGameState
-{
+- (void)saveGameState {
     [[NSUserDefaults standardUserDefaults] setObject:self.puzzle.state forKey:kPuzzleState];
     [[NSUserDefaults standardUserDefaults] setObject:
             [NSNumber numberWithUnsignedInteger:self.stopWatch.totalSeconds]
@@ -153,16 +143,13 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
             forKey:kWinController];
 }
 
-- (void)restoreState
-{
+- (void)restoreState {
     self.stopWatch.totalSeconds = [[[NSUserDefaults standardUserDefaults]
                                     objectForKey:kElapsedTime] unsignedIntegerValue];
-    if (self.puzzle.isWin)
-    {
+    if (self.puzzle.isWin) {
         self.view.userInteractionEnabled = NO;
         NSData *controllerData = [[NSUserDefaults standardUserDefaults] objectForKey:kWinController];
-        if (nil != controllerData)
-        {
+        if (nil != controllerData) {
             self.winViewController = [NSKeyedUnarchiver unarchiveObjectWithData:
                     [[NSUserDefaults standardUserDefaults] objectForKey:kWinController]];
             [self.winViewController updateMessages];
@@ -174,8 +161,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 #pragma mark -
 #pragma mark Gestures Recognition
 
-- (void)addGestureRecognizers
-{
+- (void)addGestureRecognizers {
     // tap gesture recognizer
     UIGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]
         initWithTarget:self action:@selector(handleTap:)];
@@ -189,12 +175,10 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     [self.view addGestureRecognizer:panRecognizer];
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)aRecognizer
-{
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)aRecognizer {
     [self hideHighscoresMessageIfNecessary];
     
-    if (CGRectContainsPoint([self tilesArea], [aRecognizer locationInView:self.view]))
-    {
+    if (CGRectContainsPoint([self tilesAreaOnScreen], [aRecognizer locationInView:self.view])) {
         PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
         return kNoneDirection != [self.puzzle allowedMoveDirectionForTileAtLocation:location];
     }
@@ -202,13 +186,11 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)aGestureRecognizer
-    shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)anOtherGestureRecognizer
-{
+    shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)anOtherGestureRecognizer {
     return YES;
 }
 
-- (void)handleTap:(UIGestureRecognizer *)aRecognizer
-{
+- (void)handleTap:(UIGestureRecognizer *)aRecognizer {
     PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
     NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:location];
     [self moveLayersOfTiles:tiles direction:[self.puzzle allowedMoveDirectionForTileAtLocation:location]];
@@ -216,13 +198,10 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     [self updateZIndices];
 }
 
-- (void)handlePan:(UIPanGestureRecognizer *)aRecognizer
-{
+- (void)handlePan:(UIPanGestureRecognizer *)aRecognizer {
     if (UIGestureRecognizerStateBegan == aRecognizer.state ||
-        UIGestureRecognizerStateChanged == aRecognizer.state)
-    {
-        if (UIGestureRecognizerStateBegan == aRecognizer.state)
-        {
+        UIGestureRecognizerStateChanged == aRecognizer.state) {
+        if (UIGestureRecognizerStateBegan == aRecognizer.state) {
             // remember location we started pan from
             self.panTileLocation = [self tileLocationAtPoint:[aRecognizer locationOfTouch:0 inView:self.view]];
             
@@ -242,10 +221,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         [aRecognizer setTranslation:CGPointZero inView:self.view];
     }
     else if (UIGestureRecognizerStateEnded == aRecognizer.state ||
-             UIGestureRecognizerStateCancelled == aRecognizer.state)
-    {
-        if (UIGestureRecognizerStateEnded == aRecognizer.state)
-        {
+             UIGestureRecognizerStateCancelled == aRecognizer.state) {
+        if (UIGestureRecognizerStateEnded == aRecognizer.state) {
             // finish move if necessary
             CGRect originalTileRect = [self rectForTileAtLocation:self.panTileLocation];
             CGRect currentTileRect = ((CALayer *)[self.puzzle tileAtLocation:self.panTileLocation].representedObject).frame;
@@ -255,8 +232,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
             BOOL halfwayPassed = (distancePassed.width < CGRectGetWidth(originalTileRect) / 2) ||
                                  (distancePassed.height < CGRectGetHeight(originalTileRect) / 2);
             
-            if (halfwayPassed)
-            {
+            if (halfwayPassed) {
                 [self moveTileAtLocation:self.panTileLocation];
                 [self updateZIndices];
             }
@@ -344,11 +320,16 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 #pragma mark Tiles Info
 
 - (PZTileLocation)tileLocationAtPoint:(CGPoint)aPoint {
-    return PZTileLocationMake((NSUInteger)(aPoint.x  - CGRectGetMinX([self tilesArea])) / [self tileWidth],
-                              (NSUInteger)(aPoint.y  - CGRectGetMinY([self tilesArea])) / [self tileHeight]);
+    return PZTileLocationMake((NSUInteger)(aPoint.x  - CGRectGetMinX([self tilesAreaOnScreen])) / [self tileWidth],
+                              (NSUInteger)(aPoint.y  - CGRectGetMinY([self tilesAreaOnScreen])) / [self tileHeight]);
 }
 
-- (CGRect)tilesArea {
+- (CGRect)tilesAreaOnScreen {
+    CGRect result = [self tilesAreaInView];
+    return self.isHelpMode ? CGRectOffset(result, 0.0, kHelpShift) : result;
+}
+
+- (CGRect)tilesAreaInView {
     static CGRect result = {};
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -362,7 +343,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
     {
-        result = CGRectGetWidth([self tilesArea]) / kPuzzleSize;
+        result = CGRectGetWidth([self tilesAreaInView]) / kPuzzleSize;
     });
     return result;
 }
@@ -372,7 +353,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
     {
-        result = CGRectGetHeight([self tilesArea]) / kPuzzleSize;
+        result = CGRectGetHeight([self tilesAreaInView]) / kPuzzleSize;
     });
     return result;
 }
@@ -389,8 +370,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 
 - (CGRect)rectForTileAtLocation:(PZTileLocation)aLocation {
     // we allow 1.0 inset for border
-    return CGRectInset(CGRectMake([self tileWidth] * aLocation.x + CGRectGetMinX([self tilesArea]),
-                                  CGRectGetMinY([self tilesArea]) + [self tileHeight] * aLocation.y,
+    return CGRectInset(CGRectMake([self tileWidth] * aLocation.x + CGRectGetMinX([self tilesAreaInView]),
+                                  CGRectGetMinY([self tilesAreaInView]) + [self tileHeight] * aLocation.y,
                                   [self tileWidth], [self tileHeight]), 1.0, 1.0);
 }
 
@@ -484,7 +465,11 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         self.timeLabel.alpha = 0.0;
         self.movesLabel.alpha = 0.0;
         self.highScoresButton.alpha = 0.0;
-        aSender.alpha = 0.0;        
+        aSender.alpha = 0.0;
+    }
+    completion:^(BOOL finished) {
+
+        self.helpMode = YES;
     }];
 }
 
@@ -541,10 +526,10 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     if (nil == _puzzle) {
         UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
         CGFloat scale = [UIScreen mainScreen].scale;
-        CGRect rect = CGRectMake(CGRectGetMinX([self tilesArea]) * scale,
-                                 (CGRectGetMinY([self tilesArea]) + kHelpShift) * scale,
-                                 CGRectGetWidth([self tilesArea]) * scale,
-                                 CGRectGetHeight([self tilesArea]) * scale);
+        CGRect rect = CGRectMake(CGRectGetMinX([self tilesAreaInView]) * scale,
+                                 (CGRectGetMinY([self tilesAreaInView]) + kHelpShift) * scale,
+                                 CGRectGetWidth([self tilesAreaInView]) * scale,
+                                 CGRectGetHeight([self tilesAreaInView]) * scale);
         UIImage *tilesImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([wholeImage CGImage],
                                                           rect)];
 
