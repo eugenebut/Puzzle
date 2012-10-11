@@ -56,9 +56,15 @@ static NSTimeInterval kAnimationInterval = 0.01;
     [self updateMessages];
 }
 
-- (void)viewDidAppear:(BOOL)anAnimated {
-    [super viewDidAppear:anAnimated];
-        
+- (void)startAnimation {
+    self.messageLabel.alpha = 1.0;
+    self.animatedBestMovesCount = 0;
+    self.animatedBestTime = 0;
+    self.animatedMovesCount = 0;
+    self.animatedTime = 0;
+
+    self.messageLabel.alpha = 0.0;
+    
     [NSTimer scheduledTimerWithTimeInterval:kAnimationInterval target:self
             selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
 }

@@ -14,6 +14,8 @@
 
 - (id)initWithTime:(NSUInteger)aTime movesCount:(NSUInteger)aMovesCount;
 
+- (void)startAnimation;
+
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *yourMovesLabel;
 @property (nonatomic, weak) IBOutlet UILabel *yourTimeLabel;

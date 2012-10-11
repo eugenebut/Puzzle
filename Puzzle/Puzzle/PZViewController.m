@@ -610,6 +610,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     self.winViewController.view.alpha = 0.0;
     [UIView animateWithDuration:kTransparencyAnimationDuration animations:^{
         self.winViewController.view.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        [self.winViewController startAnimation];
     }];
 }
 
