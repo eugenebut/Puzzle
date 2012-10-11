@@ -31,6 +31,13 @@ static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
 static NSString *const kWinController = @"PZWinControllerDefaults";
 
 //////////////////////////////////////////////////////////////////////////////////////////
+@interface UIView(PZExtentions)
+
+- (void)setOffscreenLocation;
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////////
 @interface CALayer(PZExtentions)
 
 - (void)setupPuzzleShadow;
@@ -459,26 +466,32 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 - (IBAction)showHelp:(UIButton *)aSender {
     
     [self hideHighscoresMessageIfNecessary];
+
+    // prepare help view
+    self.helpViewController = [PZHelpViewController new];
+    UIView *helpView = self.helpViewController.view;
+    [self.view addSubview:helpView];
+    CGPoint destination = CGPointMake(CGRectGetMidX([UIScreen mainScreen].bounds),
+                                      CGRectGetMidY(helpView.frame) + kHelpViewShift);
+    [helpView setOffscreenLocation];
     
-    [UIView animateWithDuration:1.0 animations:^{
+    // animate UI
+    [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         for (UIView *view in self.view.subviews) {
             view.center = CGPointMake(view.center.x, view.center.y + kHelpShift);
         }
         
+        // hide controls
         self.timeLabel.alpha = 0.0;
         self.movesLabel.alpha = 0.0;
         self.highScoresButton.alpha = 0.0;
         aSender.alpha = 0.0;
+
+        // put help view in place
+        helpView.center = destination;
+        helpView.transform = CGAffineTransformIdentity;
     }
     completion:^(BOOL finished) {
-
-        self.helpViewController = [PZHelpViewController new];
-        UIView *view = self.helpViewController.view;
-
-        view.center = CGPointMake(CGRectGetMidX([UIScreen mainScreen].bounds),
-                                  CGRectGetMidY(view.frame) + kHelpViewShift);
-
-        [self.view addSubview:view];
         self.helpMode = YES;
     }];
 }
@@ -627,6 +640,16 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 
 @end
 
+//////////////////////////////////////////////////////////////////////////////////////////
+@implementation UIView(PZExtentions)
+
+- (void)setOffscreenLocation {
+    self.center = CGPointMake(-100.0, -100.0);
+    self.transform = CGAffineTransformMakeRotation(M_PI_4);
+}
+
+@end
+     
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation CALayer(PZExtentions)
 
