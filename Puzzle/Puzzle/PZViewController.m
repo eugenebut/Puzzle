@@ -22,6 +22,7 @@ static const NSUInteger kPuzzleSize = 4;
 static const NSUInteger kShufflesCount = 1;
 
 static const CGFloat kTransparencyAnimationDuration = 0.5;
+static const CGFloat kShowHelpAnimationDuration = 0.7;
 
 static const CGFloat kHelpShift = 70.0;
 static const CGFloat kHelpViewShift = 10.0;
@@ -469,6 +470,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 
     // prepare help view
     self.helpViewController = [PZHelpViewController new];
+    self.helpViewController.delegate = self;
     UIView *helpView = self.helpViewController.view;
     [self.view addSubview:helpView];
     CGPoint destination = CGPointMake(CGRectGetMidX([UIScreen mainScreen].bounds),
@@ -476,23 +478,35 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     [helpView setOffscreenLocation];
     
     // animate UI
-    [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:kShowHelpAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         for (UIView *view in self.view.subviews) {
             view.center = CGPointMake(view.center.x, view.center.y + kHelpShift);
         }
         
-        // hide controls
-        self.timeLabel.alpha = 0.0;
-        self.movesLabel.alpha = 0.0;
-        self.highScoresButton.alpha = 0.0;
-        aSender.alpha = 0.0;
-
         // put help view in place
         helpView.center = destination;
         helpView.transform = CGAffineTransformIdentity;
     }
     completion:^(BOOL finished) {
         self.helpMode = YES;
+    }];
+}
+
+- (void)helpViewControllerWantsHide:(PZHelpViewController *)aController
+{
+    [UIView animateWithDuration:kShowHelpAnimationDuration animations:^{
+        for (UIView *view in self.view.subviews) {
+            if (view != self.helpViewController.view) {
+                view.center = CGPointMake(view.center.x, view.center.y - kHelpShift);
+            }
+        }
+        
+        [self.helpViewController.view setOffscreenLocation];
+                
+    } completion:^(BOOL finished) {
+        [self.helpViewController.view removeFromSuperview];
+        self.helpViewController = nil;
+        self.helpMode = NO;
     }];
 }
 
