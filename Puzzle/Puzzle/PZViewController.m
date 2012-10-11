@@ -10,6 +10,7 @@
 #import "PZViewController.h"
 #import "PZWinViewController.h"
 #import "PZHighscoresViewController.h"
+#import "PZHelpViewController.h"
 #import "PZPuzzle.h"
 #import "PZTile.h"
 #import "PZMessageFormatter.h"
@@ -23,6 +24,7 @@ static const NSUInteger kShufflesCount = 1;
 static const CGFloat kTransparencyAnimationDuration = 0.5;
 
 static const CGFloat kHelpShift = 70.0;
+static const CGFloat kHelpViewShift = 10.0;
 
 static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
 static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
@@ -44,6 +46,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 
 @property (nonatomic, strong) PZWinViewController *winViewController;
 @property (nonatomic, strong) PZHighscoresViewController *highscoresViewController;
+@property (nonatomic, strong) PZHelpViewController *helpViewController;
 
 // properties below are helpers for pan gesture
 @property (nonatomic, assign) PZTileLocation panTileLocation;
@@ -469,6 +472,13 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }
     completion:^(BOOL finished) {
 
+        self.helpViewController = [PZHelpViewController new];
+        UIView *view = self.helpViewController.view;
+
+        view.center = CGPointMake(CGRectGetMidX([UIScreen mainScreen].bounds),
+                                  CGRectGetMidY(view.frame) + kHelpViewShift);
+
+        [self.view addSubview:view];
         self.helpMode = YES;
     }];
 }

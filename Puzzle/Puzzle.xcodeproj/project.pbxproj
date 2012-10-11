@@ -23,6 +23,8 @@
 		B75FC92415A0FEE6002D7185 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B75FC92215A0FEE6002D7185 /* Default-Portrait~ipad.png */; };
 		B75FC92915A10112002D7185 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF207159D6AE4006EFEF0 /* QuartzCore.framework */; };
 		B75FC92A15A1011D002D7185 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C3159C15F8006EFEF0 /* CoreGraphics.framework */; };
+		B79C7CB516269631002B4357 /* PZHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79C7CB316269631002B4357 /* PZHelpViewController.m */; };
+		B79C7CBA1626966E002B4357 /* PZHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B79C7CB81626966E002B4357 /* PZHelpViewController.xib */; };
 		B7AEF1C0159C15F8006EFEF0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1BF159C15F8006EFEF0 /* UIKit.framework */; };
 		B7AEF1C2159C15F8006EFEF0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C1159C15F8006EFEF0 /* Foundation.framework */; };
 		B7AEF1C4159C15F8006EFEF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C3159C15F8006EFEF0 /* CoreGraphics.framework */; };
@@ -91,6 +93,9 @@
 		B742378F15A15E6B00719A6C /* puzzle_iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "puzzle_iPad@2x.png"; sourceTree = "<group>"; };
 		B75FC92115A0FEE6002D7185 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		B75FC92215A0FEE6002D7185 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		B79C7CB216269631002B4357 /* PZHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZHelpViewController.h; sourceTree = "<group>"; };
+		B79C7CB316269631002B4357 /* PZHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZHelpViewController.m; sourceTree = "<group>"; };
+		B79C7CB91626966E002B4357 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PZHelpViewController.xib; sourceTree = "<group>"; };
 		B7AEF1BB159C15F8006EFEF0 /* Puzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puzzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7AEF1BF159C15F8006EFEF0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B7AEF1C1159C15F8006EFEF0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -217,12 +222,15 @@
 				B728773D1604F23000FC253F /* PZWinViewController.m */,
 				B70858E3160F96B8007B1204 /* PZHighscoresViewController.h */,
 				B70858E4160F96B9007B1204 /* PZHighscoresViewController.m */,
+				B70858E8160FA882007B1204 /* PZHightscoresAccessor.h */,
+				B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */,
+				B79C7CB216269631002B4357 /* PZHelpViewController.h */,
+				B79C7CB316269631002B4357 /* PZHelpViewController.m */,
 				B728773E1604F23000FC253F /* PZWinViewController.xib */,
 				B7AEF1D4159C15F8006EFEF0 /* PZViewController_iPhone.xib */,
 				B7AEF1D7159C15F8006EFEF0 /* PZViewController_iPad.xib */,
 				B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */,
-				B70858E8160FA882007B1204 /* PZHightscoresAccessor.h */,
-				B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */,
+				B79C7CB81626966E002B4357 /* PZHelpViewController.xib */,
 				B7AEF1C6159C15F8006EFEF0 /* Supporting Files */,
 			);
 			path = Puzzle;
@@ -399,6 +407,7 @@
 				B70858E7160F96BA007B1204 /* PZHighscoresViewController.xib in Resources */,
 				B70858F916118C1B007B1204 /* HighscoresButton@2x.png in Resources */,
 				B70858FA16118C1B007B1204 /* HighscoresButtonPressed@2x.png in Resources */,
+				B79C7CBA1626966E002B4357 /* PZHelpViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +454,7 @@
 				B72877451604FE4A00FC253F /* PZMessageFormatter.m in Sources */,
 				B70858E6160F96BA007B1204 /* PZHighscoresViewController.m in Sources */,
 				B70858EA160FA882007B1204 /* PZHightscoresAccessor.m in Sources */,
+				B79C7CB516269631002B4357 /* PZHelpViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +487,14 @@
 				B728774E1605227E00FC253F /* ru */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		B79C7CB81626966E002B4357 /* PZHelpViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B79C7CB91626966E002B4357 /* en */,
+			);
+			name = PZHelpViewController.xib;
 			sourceTree = "<group>";
 		};
 		B7AEF1C8159C15F8006EFEF0 /* InfoPlist.strings */ = {
