@@ -24,5 +24,6 @@
 @property (nonatomic, strong) NSString *tilesImageFile;
 
 - (IBAction)showHighscores:(id)aSender;
+- (IBAction)showHelp:(id)aSender;
 
 @end

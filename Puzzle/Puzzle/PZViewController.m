@@ -502,6 +502,13 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 }
 
 #pragma mark -
+#pragma mark Help
+
+- (IBAction)showHelp:(id)aSender {
+    NSLog(@"Help requested");
+}
+
+#pragma mark -
 #pragma mark Hightscores
 
 - (IBAction)showHighscores:(id)aSender {
