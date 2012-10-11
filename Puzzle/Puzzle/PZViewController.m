@@ -22,6 +22,8 @@ static const NSUInteger kShufflesCount = 1;
 
 static const CGFloat kTransparencyAnimationDuration = 0.5;
 
+static const CGFloat kHelpShift = 70.0;
+
 static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
 static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
 static NSString *const kWinController = @"PZWinControllerDefaults";
@@ -266,18 +268,15 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }
 }
 
-- (PZTileLocation)tileLocationFromGestureRecognizer:(UIGestureRecognizer *)aRecognizer
-{
+- (PZTileLocation)tileLocationFromGestureRecognizer:(UIGestureRecognizer *)aRecognizer {
     return [self tileLocationAtPoint:[aRecognizer locationInView:self.view]];
 }
 
 #pragma mark -
 #pragma mark Tiles moving
 
-- (void)moveLayersOfTiles:(NSArray *)aTiles direction:(PZMoveDirection)aDirection
-{
-    switch (aDirection)
-    {
+- (void)moveLayersOfTiles:(NSArray *)aTiles direction:(PZMoveDirection)aDirection {
+    switch (aDirection) {
         case kLeftDirection:
             [self moveLayersOfTiles:aTiles offset:CGPointMake(-[self tileWidth], 0.0)];
             break;
@@ -296,32 +295,26 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }
 }
 
-- (void)moveLayersOfTiles:(NSArray *)aTiles offset:(CGPoint)anOffset
-{
-    for (id<IPZTile> tile in aTiles)
-    {
+- (void)moveLayersOfTiles:(NSArray *)aTiles offset:(CGPoint)anOffset {
+    for (id<IPZTile> tile in aTiles) {
         CALayer *layer = tile.representedObject;
         layer.position = CGPointMake(layer.position.x + anOffset.x,
                                      layer.position.y + anOffset.y);
     }
 }
 
-- (void)moveLayersOfTiles:(NSArray *)aTiles offset:(CGPoint)anOffset constraints:(CGRect)aConstraints
-{
+- (void)moveLayersOfTiles:(NSArray *)aTiles offset:(CGPoint)anOffset constraints:(CGRect)aConstraints {
     // first apply constraints
     CGPoint constrainedOffset = anOffset;
-    for (id<IPZTile> tile in aTiles)
-    {
+    for (id<IPZTile> tile in aTiles) {
         CALayer *layer = tile.representedObject;
         CGRect newLayerFrame = CGRectOffset(layer.frame, constrainedOffset.x, constrainedOffset.y);
         
         // lets check if the new layer frame is out of constraints rect. If so we alter
         // the offset to keep constraints
-        if (!CGRectContainsRect(aConstraints, newLayerFrame))
-        {
+        if (!CGRectContainsRect(aConstraints, newLayerFrame)) {
             CGRect intersection = CGRectIntersection(newLayerFrame, aConstraints);
-            if (CGRectIsEmpty(intersection))
-            {
+            if (CGRectIsEmpty(intersection)) {
                 return;
             }
             
@@ -340,10 +333,8 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     [self moveLayersOfTiles:aTiles offset:constrainedOffset];
 }
 
-- (void)updateTilesLocations:(NSArray *)aTiles
-{
-    for (id<IPZTile>tile in aTiles)
-    {
+- (void)updateTilesLocations:(NSArray *)aTiles {
+    for (id<IPZTile>tile in aTiles) {
         CGRect frame = [self rectForTileAtLocation:tile.currentLocation];
         ((CALayer *)tile.representedObject).frame = frame;
     }
@@ -352,25 +343,21 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 #pragma mark -
 #pragma mark Tiles Info
 
-- (PZTileLocation)tileLocationAtPoint:(CGPoint)aPoint
-{
+- (PZTileLocation)tileLocationAtPoint:(CGPoint)aPoint {
     return PZTileLocationMake((NSUInteger)(aPoint.x  - CGRectGetMinX([self tilesArea])) / [self tileWidth],
                               (NSUInteger)(aPoint.y  - CGRectGetMinY([self tilesArea])) / [self tileHeight]);
 }
 
-- (CGRect)tilesArea
-{
+- (CGRect)tilesArea {
     static CGRect result = {};
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-    {
+    dispatch_once(&onceToken, ^{
         result = CGRectMake(12.0, 82.0, 296.0, 296.0);
     });
     return result;
 }
 
-- (CGFloat)tileWidth
-{
+- (CGFloat)tileWidth {
     static CGFloat result = 0.0;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
@@ -380,8 +367,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     return result;
 }
 
-- (CGFloat)tileHeight
-{
+- (CGFloat)tileHeight {
     static CGFloat result = 0.0;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
@@ -391,11 +377,9 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     return result;
 }
 
-- (CGRect)rectForTilesAtLocations:(NSArray *)aTilesLocations
-{
+- (CGRect)rectForTilesAtLocations:(NSArray *)aTilesLocations {
     CGRect result = CGRectZero;
-    for (NSValue *location in aTilesLocations)
-    {
+    for (NSValue *location in aTilesLocations) {
         PZTileLocation tileLocation = [location tileLocation];
         CGRect rect = [self rectForTileAtLocation:tileLocation];
         result = CGRectEqualToRect(result, CGRectZero) ? rect : CGRectUnion(result, rect);
@@ -403,8 +387,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     return result;
 }
 
-- (CGRect)rectForTileAtLocation:(PZTileLocation)aLocation
-{
+- (CGRect)rectForTileAtLocation:(PZTileLocation)aLocation {
     // we allow 1.0 inset for border
     return CGRectInset(CGRectMake([self tileWidth] * aLocation.x + CGRectGetMinX([self tilesArea]),
                                   CGRectGetMinY([self tilesArea]) + [self tileHeight] * aLocation.y,
@@ -414,15 +397,12 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 #pragma mark -
 #pragma mark Shuffle
 
-- (void)motionBegan:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent
-{
+- (void)motionBegan:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent {
     
 }
 
-- (void)motionEnded:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent
-{
-    if (UIEventSubtypeMotionShake == aMotion)
-    {
+- (void)motionEnded:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent {
+    if (UIEventSubtypeMotionShake == aMotion) {
         [self.stopWatch stop];
         [self.stopWatch reset];
 
@@ -437,35 +417,28 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }
 }
 
-- (void)motionCancelled:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent
-{    
-    if (UIEventSubtypeMotionShake == aMotion)
-    {
+- (void)motionCancelled:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent {
+    if (UIEventSubtypeMotionShake == aMotion) {
         self.view.userInteractionEnabled = YES;
     }
 }
 
-- (void)shuffleWithCompletionBlock:(void (^)(void))aBlock
-{
+- (void)shuffleWithCompletionBlock:(void (^)(void))aBlock {
     self.view.userInteractionEnabled = NO;
     [self shufflePuzzleWithNumberOfMoves:kShufflesCount completionBlock:aBlock];
 }
 
-- (void)shufflePuzzleWithNumberOfMoves:(NSUInteger)aNumberOfMoves completionBlock:(void (^)(void))aBlock
-{
-    if (0 == aNumberOfMoves)
-    {
+- (void)shufflePuzzleWithNumberOfMoves:(NSUInteger)aNumberOfMoves completionBlock:(void (^)(void))aBlock {
+    if (0 == aNumberOfMoves) {
         // we done shuffling
         self.view.userInteractionEnabled = YES;
         aBlock();
         return;
     }
 
-    [self.puzzle moveTileToRandomLocationWithCompletionBlock:^(NSArray *aTiles, PZMoveDirection aDirection)
-    {
+    [self.puzzle moveTileToRandomLocationWithCompletionBlock:^(NSArray *aTiles, PZMoveDirection aDirection) {
         [CATransaction setAnimationDuration:0.05];
-        [CATransaction setCompletionBlock:^
-        {
+        [CATransaction setCompletionBlock:^{
             [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1 completionBlock:aBlock];
         }];
         [self moveLayersOfTiles:aTiles direction:aDirection];
@@ -476,42 +449,49 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 #pragma mark -
 #pragma mark Time And Moves
 
-- (PZStopWatch *)stopWatch
-{
-    if (nil == _stopWatch)
-    {
+- (PZStopWatch *)stopWatch {
+    if (nil == _stopWatch) {
         _stopWatch = [PZStopWatch new];
         _stopWatch.delegate = self;
     }
     return _stopWatch;
 }
 
-- (void)PZStopWatchDidChangeTime:(PZStopWatch *)aStopWatch
-{
+- (void)PZStopWatchDidChangeTime:(PZStopWatch *)aStopWatch {
     [self updateTimeLabel];
 }
 
-- (void)updateMoveLabel
-{
+- (void)updateMoveLabel {
     self.movesLabel.text = [PZMessageFormatter movesCountMessage:self.puzzle.movesCount];
 }
 
-- (void)updateTimeLabel
-{
+- (void)updateTimeLabel {
     self.timeLabel.text = [PZMessageFormatter timeMessage:self.stopWatch.totalSeconds];
 }
 
 #pragma mark -
 #pragma mark Help
 
-- (IBAction)showHelp:(id)aSender {
-    NSLog(@"Help requested");
+- (IBAction)showHelp:(UIButton *)aSender {
+    
+    [self hideHighscoresMessageIfNecessary];
+    
+    [UIView animateWithDuration:1.0 animations:^{
+        for (UIView *view in self.view.subviews) {
+            view.center = CGPointMake(view.center.x, view.center.y + kHelpShift);
+        }
+        
+        self.timeLabel.alpha = 0.0;
+        self.movesLabel.alpha = 0.0;
+        self.highScoresButton.alpha = 0.0;
+        aSender.alpha = 0.0;        
+    }];
 }
 
 #pragma mark -
 #pragma mark Hightscores
 
-- (IBAction)showHighscores:(id)aSender {
+- (IBAction)showHighscores:(UIButton *)aSender {
     if (nil != self.highscoresViewController) {
         return;
     }
@@ -562,7 +542,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
         CGFloat scale = [UIScreen mainScreen].scale;
         CGRect rect = CGRectMake(CGRectGetMinX([self tilesArea]) * scale,
-                                 (CGRectGetMinY([self tilesArea]) + 70.0) * scale,
+                                 (CGRectGetMinY([self tilesArea]) + kHelpShift) * scale,
                                  CGRectGetWidth([self tilesArea]) * scale,
                                  CGRectGetHeight([self tilesArea]) * scale);
         UIImage *tilesImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([wholeImage CGImage],

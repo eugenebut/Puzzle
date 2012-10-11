@@ -23,7 +23,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *highScoresButton;
 @property (nonatomic, strong) NSString *tilesImageFile;
 
-- (IBAction)showHighscores:(id)aSender;
-- (IBAction)showHelp:(id)aSender;
+- (IBAction)showHighscores:(UIButton *)aSender;
+- (IBAction)showHelp:(UIButton *)aSender;
 
 @end
