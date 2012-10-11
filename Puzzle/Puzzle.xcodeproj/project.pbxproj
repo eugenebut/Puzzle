@@ -214,18 +214,9 @@
 				B72877421604FE0800FC253F /* Utils */,
 				B7AEF1F7159C174E006EFEF0 /* Model */,
 				B7AEF209159D735B006EFEF0 /* Resources */,
+				B7BB51111627311700E4F762 /* ViewControllers */,
 				B7AEF1CE159C15F8006EFEF0 /* PZAppDelegate.h */,
 				B7AEF1CF159C15F8006EFEF0 /* PZAppDelegate.m */,
-				B7AEF1D1159C15F8006EFEF0 /* PZViewController.h */,
-				B7AEF1D2159C15F8006EFEF0 /* PZViewController.m */,
-				B728773C1604F23000FC253F /* PZWinViewController.h */,
-				B728773D1604F23000FC253F /* PZWinViewController.m */,
-				B70858E3160F96B8007B1204 /* PZHighscoresViewController.h */,
-				B70858E4160F96B9007B1204 /* PZHighscoresViewController.m */,
-				B70858E8160FA882007B1204 /* PZHightscoresAccessor.h */,
-				B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */,
-				B79C7CB216269631002B4357 /* PZHelpViewController.h */,
-				B79C7CB316269631002B4357 /* PZHelpViewController.m */,
 				B728773E1604F23000FC253F /* PZWinViewController.xib */,
 				B7AEF1D4159C15F8006EFEF0 /* PZViewController_iPhone.xib */,
 				B7AEF1D7159C15F8006EFEF0 /* PZViewController_iPad.xib */,
@@ -279,6 +270,8 @@
 				B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */,
 				B7BA97E1160442C0002E296D /* PZStopWatch.h */,
 				B7BA97E2160442C0002E296D /* PZStopWatch.m */,
+				B70858E8160FA882007B1204 /* PZHightscoresAccessor.h */,
+				B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -308,6 +301,21 @@
 				B70858F816118C1B007B1204 /* HighscoresButtonPressed@2x.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		B7BB51111627311700E4F762 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B7AEF1D1159C15F8006EFEF0 /* PZViewController.h */,
+				B7AEF1D2159C15F8006EFEF0 /* PZViewController.m */,
+				B728773C1604F23000FC253F /* PZWinViewController.h */,
+				B728773D1604F23000FC253F /* PZWinViewController.m */,
+				B70858E3160F96B8007B1204 /* PZHighscoresViewController.h */,
+				B70858E4160F96B9007B1204 /* PZHighscoresViewController.m */,
+				B79C7CB216269631002B4357 /* PZHelpViewController.h */,
+				B79C7CB316269631002B4357 /* PZHelpViewController.m */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
