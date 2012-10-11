@@ -211,13 +211,13 @@
 		B7AEF1C5159C15F8006EFEF0 /* Puzzle */ = {
 			isa = PBXGroup;
 			children = (
-				B72877421604FE0800FC253F /* Utils */,
 				B7AEF1F7159C174E006EFEF0 /* Model */,
 				B7AEF209159D735B006EFEF0 /* Resources */,
+				B7AEF1C6159C15F8006EFEF0 /* Supporting Files */,
 				B7BB51111627311700E4F762 /* ViewControllers */,
+				B72877421604FE0800FC253F /* Utils */,
 				B7AEF1CE159C15F8006EFEF0 /* PZAppDelegate.h */,
 				B7AEF1CF159C15F8006EFEF0 /* PZAppDelegate.m */,
-				B7AEF1C6159C15F8006EFEF0 /* Supporting Files */,
 			);
 			path = Puzzle;
 			sourceTree = "<group>";
@@ -225,11 +225,11 @@
 		B7AEF1C6159C15F8006EFEF0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B7AEF1CB159C15F8006EFEF0 /* main.m */,
-				B7AEF1CD159C15F8006EFEF0 /* Puzzle-Prefix.pch */,
-				B7AEF1C7159C15F8006EFEF0 /* Puzzle-Info.plist */,
 				B7AEF1C8159C15F8006EFEF0 /* InfoPlist.strings */,
 				B728774D1605225D00FC253F /* Localizable.strings */,
+				B7AEF1CD159C15F8006EFEF0 /* Puzzle-Prefix.pch */,
+				B7AEF1C7159C15F8006EFEF0 /* Puzzle-Info.plist */,
+				B7AEF1CB159C15F8006EFEF0 /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -256,17 +256,17 @@
 		B7AEF1F7159C174E006EFEF0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B7EEBE1C15A0C28D00EC5BBB /* PZTile.h */,
-				B7AEF200159D3704006EFEF0 /* PZTileLocation.h */,
-				B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */,
-				B7AEF1F8159C177C006EFEF0 /* PZTileImpl.h */,
-				B7AEF1F9159C177C006EFEF0 /* PZTileImpl.m */,
+				B70858E8160FA882007B1204 /* PZHightscoresAccessor.h */,
+				B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */,
 				B7AEF1FC159C18D0006EFEF0 /* PZPuzzle.h */,
 				B7AEF1FD159C18D0006EFEF0 /* PZPuzzle.m */,
 				B7BA97E1160442C0002E296D /* PZStopWatch.h */,
 				B7BA97E2160442C0002E296D /* PZStopWatch.m */,
-				B70858E8160FA882007B1204 /* PZHightscoresAccessor.h */,
-				B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */,
+				B7EEBE1C15A0C28D00EC5BBB /* PZTile.h */,
+				B7AEF1F8159C177C006EFEF0 /* PZTileImpl.h */,
+				B7AEF1F9159C177C006EFEF0 /* PZTileImpl.m */,
+				B7AEF200159D3704006EFEF0 /* PZTileLocation.h */,
+				B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -274,11 +274,30 @@
 		B7AEF209159D735B006EFEF0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B728773E1604F23000FC253F /* PZWinViewController.xib */,
-				B7AEF1D4159C15F8006EFEF0 /* PZViewController_iPhone.xib */,
-				B7AEF1D7159C15F8006EFEF0 /* PZViewController_iPad.xib */,
-				B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */,
-				B79C7CB81626966E002B4357 /* PZHelpViewController.xib */,
+				B7F5E80F16276B8D00AA2C24 /* Images */,
+				B7F5E81016276B9E00AA2C24 /* NIBs */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B7BB51111627311700E4F762 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B79C7CB216269631002B4357 /* PZHelpViewController.h */,
+				B79C7CB316269631002B4357 /* PZHelpViewController.m */,
+				B70858E3160F96B8007B1204 /* PZHighscoresViewController.h */,
+				B70858E4160F96B9007B1204 /* PZHighscoresViewController.m */,
+				B7AEF1D1159C15F8006EFEF0 /* PZViewController.h */,
+				B7AEF1D2159C15F8006EFEF0 /* PZViewController.m */,
+				B728773C1604F23000FC253F /* PZWinViewController.h */,
+				B728773D1604F23000FC253F /* PZWinViewController.m */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B7F5E80F16276B8D00AA2C24 /* Images */ = {
+			isa = PBXGroup;
+			children = (
 				B70858E1160EFEC7007B1204 /* Default@2x.png */,
 				B7B00A5C15FF0C830085434D /* Background_iPhone.png */,
 				B7BA97D415FF1D5B002E296D /* Background_iPhone@2x.png */,
@@ -300,22 +319,19 @@
 				B70858F716118C1B007B1204 /* HighscoresButton@2x.png */,
 				B70858F816118C1B007B1204 /* HighscoresButtonPressed@2x.png */,
 			);
-			path = Resources;
+			name = Images;
 			sourceTree = "<group>";
 		};
-		B7BB51111627311700E4F762 /* ViewControllers */ = {
+		B7F5E81016276B9E00AA2C24 /* NIBs */ = {
 			isa = PBXGroup;
 			children = (
-				B7AEF1D1159C15F8006EFEF0 /* PZViewController.h */,
-				B7AEF1D2159C15F8006EFEF0 /* PZViewController.m */,
-				B728773C1604F23000FC253F /* PZWinViewController.h */,
-				B728773D1604F23000FC253F /* PZWinViewController.m */,
-				B70858E3160F96B8007B1204 /* PZHighscoresViewController.h */,
-				B70858E4160F96B9007B1204 /* PZHighscoresViewController.m */,
-				B79C7CB216269631002B4357 /* PZHelpViewController.h */,
-				B79C7CB316269631002B4357 /* PZHelpViewController.m */,
+				B728773E1604F23000FC253F /* PZWinViewController.xib */,
+				B7AEF1D4159C15F8006EFEF0 /* PZViewController_iPhone.xib */,
+				B7AEF1D7159C15F8006EFEF0 /* PZViewController_iPad.xib */,
+				B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */,
+				B79C7CB81626966E002B4357 /* PZHelpViewController.xib */,
 			);
-			path = ViewControllers;
+			name = NIBs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
