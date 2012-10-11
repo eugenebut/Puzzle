@@ -77,14 +77,14 @@
 		B70858E1160EFEC7007B1204 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Puzzle/Resources/Default@2x.png"; sourceTree = SOURCE_ROOT; };
 		B70858E3160F96B8007B1204 /* PZHighscoresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZHighscoresViewController.h; sourceTree = "<group>"; };
 		B70858E4160F96B9007B1204 /* PZHighscoresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZHighscoresViewController.m; sourceTree = "<group>"; };
-		B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PZHighscoresViewController.xib; path = en.lproj/PZHighscoresViewController.xib; sourceTree = "<group>"; };
+		B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PZHighscoresViewController.xib; path = ../en.lproj/PZHighscoresViewController.xib; sourceTree = "<group>"; };
 		B70858E8160FA882007B1204 /* PZHightscoresAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZHightscoresAccessor.h; sourceTree = "<group>"; };
 		B70858E9160FA882007B1204 /* PZHightscoresAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZHightscoresAccessor.m; sourceTree = "<group>"; };
 		B70858F716118C1B007B1204 /* HighscoresButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HighscoresButton@2x.png"; sourceTree = "<group>"; };
 		B70858F816118C1B007B1204 /* HighscoresButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HighscoresButtonPressed@2x.png"; sourceTree = "<group>"; };
 		B728773C1604F23000FC253F /* PZWinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZWinViewController.h; sourceTree = "<group>"; };
 		B728773D1604F23000FC253F /* PZWinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZWinViewController.m; sourceTree = "<group>"; };
-		B728773E1604F23000FC253F /* PZWinViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PZWinViewController.xib; path = en.lproj/PZWinViewController.xib; sourceTree = "<group>"; };
+		B728773E1604F23000FC253F /* PZWinViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PZWinViewController.xib; path = ../en.lproj/PZWinViewController.xib; sourceTree = "<group>"; };
 		B72877431604FE4A00FC253F /* PZMessageFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZMessageFormatter.h; sourceTree = "<group>"; };
 		B72877441604FE4A00FC253F /* PZMessageFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZMessageFormatter.m; sourceTree = "<group>"; };
 		B728774C1605225D00FC253F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -217,11 +217,6 @@
 				B7BB51111627311700E4F762 /* ViewControllers */,
 				B7AEF1CE159C15F8006EFEF0 /* PZAppDelegate.h */,
 				B7AEF1CF159C15F8006EFEF0 /* PZAppDelegate.m */,
-				B728773E1604F23000FC253F /* PZWinViewController.xib */,
-				B7AEF1D4159C15F8006EFEF0 /* PZViewController_iPhone.xib */,
-				B7AEF1D7159C15F8006EFEF0 /* PZViewController_iPad.xib */,
-				B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */,
-				B79C7CB81626966E002B4357 /* PZHelpViewController.xib */,
 				B7AEF1C6159C15F8006EFEF0 /* Supporting Files */,
 			);
 			path = Puzzle;
@@ -279,6 +274,11 @@
 		B7AEF209159D735B006EFEF0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B728773E1604F23000FC253F /* PZWinViewController.xib */,
+				B7AEF1D4159C15F8006EFEF0 /* PZViewController_iPhone.xib */,
+				B7AEF1D7159C15F8006EFEF0 /* PZViewController_iPad.xib */,
+				B70858E5160F96BA007B1204 /* PZHighscoresViewController.xib */,
+				B79C7CB81626966E002B4357 /* PZHelpViewController.xib */,
 				B70858E1160EFEC7007B1204 /* Default@2x.png */,
 				B7B00A5C15FF0C830085434D /* Background_iPhone.png */,
 				B7BA97D415FF1D5B002E296D /* Background_iPhone@2x.png */,
@@ -503,6 +503,7 @@
 				B79C7CB91626966E002B4357 /* en */,
 			);
 			name = PZHelpViewController.xib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		B7AEF1C8159C15F8006EFEF0 /* InfoPlist.strings */ = {
@@ -519,6 +520,7 @@
 				B7AEF1D5159C15F8006EFEF0 /* en */,
 			);
 			name = PZViewController_iPhone.xib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		B7AEF1D7159C15F8006EFEF0 /* PZViewController_iPad.xib */ = {
@@ -527,6 +529,7 @@
 				B7AEF1D8159C15F8006EFEF0 /* en */,
 			);
 			name = PZViewController_iPad.xib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		B7AEF1E9159C15F9006EFEF0 /* InfoPlist.strings */ = {
