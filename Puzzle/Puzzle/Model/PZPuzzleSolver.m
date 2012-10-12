@@ -95,7 +95,7 @@
         self.emptyTile = [self indexOfTileAtLocation:aPuzzle.emptyTileLocation];
         
         [[aPuzzle allTiles] enumerateObjectsUsingBlock:^(id<IPZTile> aTile, NSUInteger anIndex, BOOL *aStop) {
-            self->blocks[anIndex] = [self indexOfTileAtLocation:aTile.winLocation];
+            self->tiles[anIndex] = [self indexOfTileAtLocation:aTile.winLocation];
         }];
         
         self.move = 0;
