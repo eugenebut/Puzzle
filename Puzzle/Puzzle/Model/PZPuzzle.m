@@ -67,6 +67,10 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     return [[NSArray alloc] initWithArray:result];
 }
 
+- (NSArray *)allTiles {
+    return [[NSArray alloc] initWithArray:self.mutableTiles];
+}
+
 - (PZMoveDirection)allowedMoveDirectionForTileAtLocation:(PZTileLocation)aLocation {
     if (PZTileLocationEqualToLocation(aLocation, self.emptyTileLocation)) {
         // no moves for empty location

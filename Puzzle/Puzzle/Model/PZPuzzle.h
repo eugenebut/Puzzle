@@ -36,6 +36,7 @@ typedef enum
 
 // aLocations - array of NSValues wrapping PZTileLocation structs
 - (NSArray *)tilesAtLocations:(NSArray *)aLocations;
+- (NSArray *)allTiles;
 
 // where our tiles can move from the given location?
 - (PZMoveDirection)allowedMoveDirectionForTileAtLocation:(PZTileLocation)aLocation;
