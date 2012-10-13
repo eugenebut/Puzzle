@@ -12,6 +12,7 @@
 #import "PZHighscoresViewController.h"
 #import "PZHelpViewController.h"
 #import "PZPuzzle.h"
+#import "PZPuzzleSolver.h"
 #import "PZTile.h"
 #import "PZMessageFormatter.h"
 #import <QuartzCore/QuartzCore.h>
@@ -19,8 +20,9 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 static const BOOL kSupportsShadows = YES;
 static const NSUInteger kPuzzleSize = 4;
-static const NSUInteger kShufflesCount = 1;
+static const NSUInteger kShufflesCount = 30;
 
+static const CGFloat kAutoMoveAnimationDuration = 0.05;
 static const CGFloat kTransparencyAnimationDuration = 0.5;
 static const CGFloat kShowHelpAnimationDuration = 0.5;
 
@@ -429,7 +431,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }
 
     [self.puzzle moveTileToRandomLocationWithCompletionBlock:^(NSArray *aTiles, PZMoveDirection aDirection) {
-        [CATransaction setAnimationDuration:0.05];
+        [CATransaction setAnimationDuration:kAutoMoveAnimationDuration];
         [CATransaction setCompletionBlock:^{
             [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1 completionBlock:aBlock];
         }];
@@ -509,6 +511,21 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         [self.helpViewController.view removeFromSuperview];
         self.helpViewController = nil;
         self.helpMode = NO;
+    }];
+}
+
+- (void)helpViewControllerSolvePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aSolveCompletionBlock {
+    NSArray *solution = [self.puzzle solution];
+    [self.puzzle applySolution:solution changeBlock:^(NSArray *aTiles, PZMoveDirection aDirection, ChangeCompletion aChangeCompletion) {
+        [CATransaction setAnimationDuration:kAutoMoveAnimationDuration];
+        [CATransaction setCompletionBlock:^{
+            aChangeCompletion();
+            if (self.puzzle.isWin) {
+                aSolveCompletionBlock();
+            }
+        }];
+        [self moveLayersOfTiles:aTiles direction:aDirection];
+        [self updateZIndices];
     }];
 }
 
