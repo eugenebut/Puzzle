@@ -12,6 +12,12 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZPuzzle (Solver)
 
-- (NSArray *)solveWithChangeBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock;
+- (NSArray *)solution;
+
+typedef void (^ChangeCompletion)(void);
+
+- (void)applySolution:(NSArray *)solution changeBlock:(void (^)(NSArray *aTiles,
+                                                                PZMoveDirection aDirection,
+                                                                ChangeCompletion aCompletion))aBlock;
 
 @end

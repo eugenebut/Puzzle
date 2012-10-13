@@ -44,7 +44,10 @@ static const NSUInteger kPuzzleSize = 4;
     STAssertFalse(self.testable.isWin, @"");
 
     // solve it
-    [self.testable solveWithChangeBlock:NULL];
+    NSArray *solution = [self.testable solution];
+    [self.testable applySolution:solution changeBlock:^(NSArray *aTiles, PZMoveDirection aDirection, ChangeCompletion aCompletion) {
+        aCompletion();
+    }];
     STAssertTrue(self.testable.isWin, @"");
 }
 

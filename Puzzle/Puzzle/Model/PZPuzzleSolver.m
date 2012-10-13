@@ -36,7 +36,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZPuzzle (Solver)
 
-- (NSArray *)solveWithChangeBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock {
+- (NSArray *)solution {
     
     NSComparisonResult (^Comparator)(id obj1, id obj2) = ^(id obj1, id obj2){
         return [obj1 compare:obj2];
@@ -57,7 +57,6 @@
                 node = node.previousNode;
             }
             
-            [self applySolution:solution withChangeBlock:aBlock];
             return [NSArray arrayWithArray:solution];
         }
 
@@ -71,21 +70,31 @@
     return nil;
 }
 
-- (void)applySolution:(NSArray *)aSolution withChangeBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock {
-    __block __weak PZPuzzleNode *previousNode = nil;
-    [aSolution enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(PZPuzzleNode *aNode, NSUInteger anIndex, BOOL *aStop) {
-        if (aSolution.count - 1 != anIndex) {
-        
-            PZTileLocation location = PZTileLocationMake(aNode.emptyTile % kPuzzleSize,
-                                                         aNode.emptyTile / kPuzzleSize);
-            [self moveTileAtLocation:location];
-            if (NULL != aBlock) {
-                aBlock([self affectedTilesByTileMoveAtLocation:location],
-                       [self allowedMoveDirectionForTileAtLocation:location]);
-            }
-        }
-        previousNode = aNode;
-    }];
+- (void)applySolution:(NSArray *)solution changeBlock:(void (^)(NSArray *aTiles,
+                                                                PZMoveDirection aDirection,
+                                                                ChangeCompletion aCompletion))aBlock
+{
+    [self applySolution:solution index:solution.count - 2 changeBlock:aBlock];
+
+}
+
+- (void)applySolution:(NSArray *)solution
+                index:(NSUInteger)anIndex
+          changeBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection, ChangeCompletion aCompletion))aBlock
+{
+    if (solution.count <= anIndex) {
+        return;
+    }
+    
+    PZPuzzleNode *node = [solution objectAtIndex:anIndex];
+    PZTileLocation location = PZTileLocationMake(node.emptyTile % kPuzzleSize,
+                                                 node.emptyTile / kPuzzleSize);
+    [self moveTileAtLocation:location];
+    
+    aBlock([self affectedTilesByTileMoveAtLocation:location],
+           [self allowedMoveDirectionForTileAtLocation:location], ^{
+               [self applySolution:solution index:anIndex - 1 changeBlock:aBlock];
+           });
 }
     
 @end
