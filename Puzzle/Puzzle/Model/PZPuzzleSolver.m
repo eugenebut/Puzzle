@@ -25,10 +25,10 @@
 @property (nonatomic, readonly, getter=isWin) BOOL win;
 @property (nonatomic, readwrite, strong) PZPuzzleNode *previousNode;
 @property (nonatomic, readwrite) unsigned char manhatten;
+@property (nonatomic, readwrite) NSUInteger weight;
 @property (nonatomic, readwrite) char emptyTile;
 @property (nonatomic, readwrite) NSUInteger move;
 
-- (NSComparisonResult)compare:(PZPuzzleNode *)aNode;
 - (BOOL)equalBoards:(PZPuzzleNode *)aNode;
 
 @end
@@ -39,7 +39,19 @@
 - (NSArray *)solution {
     
     NSComparisonResult (^Comparator)(id obj1, id obj2) = ^(id obj1, id obj2){
-        return [obj1 compare:obj2];
+        
+        NSUInteger weight1 = [obj1 weight];
+        NSUInteger weight2 = [obj2 weight];
+
+        if (weight1 < weight2) {
+            return NSOrderedDescending;
+        }
+        else if (weight2 < weight1) {
+            return NSOrderedAscending;
+        }
+        else {
+            return NSOrderedSame;
+        }
     };
 
     // enque initial board
@@ -119,6 +131,8 @@
         self.move = 0;
         
         [self calculateManhatten];
+        
+        self.weight = self.move + self.manhatten;
     }
     return self;
 }
@@ -136,6 +150,8 @@
         self.move = aNode.move + 1;
         
         [self calculateManhatten];
+
+        self.weight = self.move + self.manhatten;
     }
     return self;
 }
@@ -167,10 +183,6 @@
 
 - (BOOL)isWin {
     return 0 == self.manhatten;
-}
-
-- (NSComparisonResult)compare:(PZPuzzleNode *)aNode {
-    return [[NSNumber numberWithUnsignedInteger:aNode.manhatten + aNode.move] compare:[NSNumber numberWithUnsignedInteger:self.manhatten + self.move]];
 }
 
 - (BOOL)equalBoards:(PZPuzzleNode *)aNode {
