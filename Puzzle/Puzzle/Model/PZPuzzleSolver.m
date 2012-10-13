@@ -142,9 +142,7 @@
     if (nil != self) {
         self.previousNode = aNode;
         self.emptyTile = anEmptyTile;
-        for (size_t i = 0; i < kTilesCount; ++i) {
-            self->tiles[i] = aNode->tiles[i];
-        }
+        memmove(self->tiles, aNode->tiles, sizeof(aNode->tiles));
         self->tiles[aNode.emptyTile] = self->tiles[anEmptyTile];
         self->tiles[anEmptyTile] = kTilesCount - 1;
         self.move = aNode.move + 1;
