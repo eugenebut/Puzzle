@@ -22,7 +22,6 @@
 - (id)initWithPuzzle:(PZPuzzle *)aPuzzle;
 
 @property (nonatomic, readonly) NSArray *neighbours;
-@property (nonatomic, readonly, getter=isWin) BOOL win;
 @property (nonatomic, readwrite, strong) PZPuzzleNode *previousNode;
 @property (nonatomic, readwrite) unsigned char manhatten;
 @property (nonatomic, readwrite) NSUInteger weight;
@@ -56,25 +55,29 @@
 
     // enque initial board
     NSMutableArray *queue = [NSMutableArray new];
-    [queue binaryHeapPushObject:[[PZPuzzleNode alloc] initWithPuzzle:self] comparator:Comparator];
     
+    PZPuzzleNode *node = [[PZPuzzleNode alloc] initWithPuzzle:self];
+    [queue binaryHeapPushObject:node comparator:Comparator];
+    //NSLog(@"Initial manhatten: %d", node.manhatten);
+
     while (0 < queue.count) {
         PZPuzzleNode *node = [queue binaryHeapPopMaxObjectWithComparator:Comparator];
         
-        if (node.isWin) {
+        if (0 == node.manhatten) {
             // we have a solution, 
             NSMutableArray *solution = [NSMutableArray new];
             while (nil != node) {
                 [solution addObject:node];
                 node = node.previousNode;
             }
-            
+            //NSLog(@"Queue len: %d", queue.count);
+            [solution removeLastObject]; // remove sentinel
             return [NSArray arrayWithArray:solution];
         }
 
         // enqueue neighbours
         for (PZPuzzleNode *neighbour in node.neighbours) {
-            if (nil == node.previousNode || ![neighbour equalBoards:node.previousNode]) {
+            if (![neighbour equalBoards:node.previousNode]) {
                 [queue binaryHeapPushObject:neighbour comparator:Comparator];
             }
         }
@@ -121,7 +124,7 @@
 - (id)initWithPuzzle:(PZPuzzle *)aPuzzle {
     self = [super init];
     if (nil != self) {
-        self.previousNode = nil;
+        self.previousNode = [[[self class] alloc] initSentinel];
         self.emptyTile = [self indexOfTileAtLocation:aPuzzle.emptyTileLocation];
         
         [[aPuzzle allTiles] enumerateObjectsUsingBlock:^(id<IPZTile> aTile, NSUInteger anIndex, BOOL *aStop) {
@@ -132,7 +135,16 @@
         
         [self calculateManhatten];
         
-        self.weight = self.move + self.manhatten;
+        self.weight = self.manhatten << 7;
+    }
+    return self;
+}
+
+- (id)initSentinel {
+    self = [super init];
+    self.emptyTile = 100;
+    if (nil != self) {
+        memset(self->tiles, 0x00, sizeof(self->tiles));
     }
     return self;
 }
@@ -149,7 +161,7 @@
         
         [self calculateManhatten];
 
-        self.weight = self.move + self.manhatten;
+        self.weight = self.move + self.manhatten << 7;
     }
     return self;
 }
@@ -179,11 +191,11 @@
     return result;
 }
 
-- (BOOL)isWin {
-    return 0 == self.manhatten;
-}
-
 - (BOOL)equalBoards:(PZPuzzleNode *)aNode {
+    if (self.emptyTile != aNode.emptyTile) {
+        return NO;
+    }
+    
     for (size_t i = 0; i < kTilesCount; ++i) {
         if (self->tiles[i] != aNode->tiles[i]) {
             return NO;
@@ -230,6 +242,15 @@
     [result appendFormat:@"move: %d\n", self.move];
     
     return [NSString stringWithString:result];
+}
+
+- (NSUInteger)hash {
+    NSUInteger result = 0;
+    size_t shift = 0;
+    for (size_t i = 0; i < kTilesCount; i++, shift += 4) {
+        result |= self->tiles[i] << shift;
+    }
+    return result;
 }
 
 @end
