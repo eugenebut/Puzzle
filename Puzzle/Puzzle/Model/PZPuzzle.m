@@ -160,7 +160,9 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     self.previousRandomMoveWasHorizontal = kLeftDirection == direction ||
                                            kRightDirection == direction;    
     // notify about move completion
-    aBlock(tiles, direction);
+    if (NULL != aBlock) {
+        aBlock(tiles, direction);
+    }
 }
 
 #pragma mark -
@@ -274,6 +276,10 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
 - (NSString *)description
 {
     NSMutableString *result = [NSMutableString new];
+    
+    [result appendString:@"\n"];
+
+    
     [self.mutableTiles enumerateObjectsUsingBlock:^(PZTileImpl *tile, NSUInteger currentIndex, BOOL *stop) {
         NSUInteger winIndex = [self indexOfTileAtLocation:tile.winLocation];
         if (winIndex == self.size * self.size - 1) {

@@ -13,7 +13,10 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZPuzzleNode: NSObject {
-    enum { kTilesCount = 16 };
+    enum {
+        kPuzzleSize = 4,
+        kTilesCount = kPuzzleSize * kPuzzleSize
+    };
     char tiles[kTilesCount];
 }
 - (id)initWithPuzzle:(PZPuzzle *)aPuzzle;
@@ -33,7 +36,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZPuzzle (Solver)
 
-- (NSArray *)solvePuzzle:(PZPuzzle *)aPuzzle withChangeBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock {
+- (NSArray *)solveWithChangeBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock {
     
     NSComparisonResult (^Comparator)(id obj1, id obj2) = ^(id obj1, id obj2){
         return [obj1 compare:obj2];
@@ -41,7 +44,7 @@
 
     // enque initial board
     NSMutableArray *queue = [NSMutableArray new];
-    [queue binaryHeapPushObject:[[PZPuzzleNode alloc] initWithPuzzle:aPuzzle] comparator:Comparator];
+    [queue binaryHeapPushObject:[[PZPuzzleNode alloc] initWithPuzzle:self] comparator:Comparator];
     
     while (0 < queue.count) {
         PZPuzzleNode *node = [queue binaryHeapPopMaxObjectWithComparator:Comparator];
@@ -57,7 +60,7 @@
             [self applySolution:solution withChangeBlock:aBlock];
             return [NSArray arrayWithArray:solution];
         }
-        
+
         // enqueue neighbours
         for (PZPuzzleNode *neighbour in node.neighbours) {
             if (nil == node.previousNode || ![neighbour equalBoards:node.previousNode]) {
@@ -73,11 +76,13 @@
     [aSolution enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(PZPuzzleNode *aNode, NSUInteger anIndex, BOOL *aStop) {
         if (aSolution.count - 1 != anIndex) {
         
-            PZTileLocation location = PZTileLocationMake(aNode.emptyTile % kTilesCount,
-                                                         aNode.emptyTile / kTilesCount);
+            PZTileLocation location = PZTileLocationMake(aNode.emptyTile % kPuzzleSize,
+                                                         aNode.emptyTile / kPuzzleSize);
             [self moveTileAtLocation:location];
-            aBlock([self affectedTilesByTileMoveAtLocation:location],
-                   [self allowedMoveDirectionForTileAtLocation:location]);
+            if (NULL != aBlock) {
+                aBlock([self affectedTilesByTileMoveAtLocation:location],
+                       [self allowedMoveDirectionForTileAtLocation:location]);
+            }
         }
         previousNode = aNode;
     }];
@@ -110,8 +115,11 @@
     if (nil != self) {
         self.previousNode = aNode;
         self.emptyTile = anEmptyTile;
+        for (size_t i = 0; i < kTilesCount; ++i) {
+            self->tiles[i] = aNode->tiles[i];
+        }
         self->tiles[aNode.emptyTile] = self->tiles[anEmptyTile];
-        self->tiles[anEmptyTile] = 0;
+        self->tiles[anEmptyTile] = kTilesCount - 1;
         self.move = aNode.move + 1;
         
         [self calculateManhatten];
@@ -122,23 +130,23 @@
 - (NSArray *)neighbours {
     NSMutableArray *result = [NSMutableArray new];
 
-    char emptyX = self.emptyTile % kTilesCount;
-    char emptyY = self.emptyTile / kTilesCount;
+    char emptyX = self.emptyTile % kPuzzleSize;
+    char emptyY = self.emptyTile / kPuzzleSize;
 
     if (0 < emptyX) {
-        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:emptyX + emptyY * kTilesCount - 1]];
+        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:self.emptyTile - 1]];
     }
 
-    if (emptyX < kTilesCount - 1) {
-        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:emptyX + emptyY * kTilesCount + 1]];
+    if (emptyX < kPuzzleSize - 1) {
+        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:self.emptyTile + 1]];
     }
 
-    if (emptyY < kTilesCount - 1) {
-        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:emptyX + emptyY * kTilesCount + kTilesCount]];
+    if (emptyY < kPuzzleSize - 1) {
+        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:self.emptyTile + kPuzzleSize]];
     }
 
     if (0 < emptyY) {
-        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:emptyX + emptyY * kTilesCount - kTilesCount]];
+        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:self.emptyTile - kPuzzleSize]];
     }
 
     return result;
@@ -149,8 +157,7 @@
 }
 
 - (NSComparisonResult)compare:(PZPuzzleNode *)aNode {
-    return [[NSNumber numberWithUnsignedInteger:self.manhatten + self.move] compare:
-            [NSNumber numberWithUnsignedInteger:aNode.manhatten + aNode.move]];
+    return [[NSNumber numberWithUnsignedInteger:aNode.manhatten + aNode.move] compare:[NSNumber numberWithUnsignedInteger:self.manhatten + self.move]];
 }
 
 - (BOOL)equalBoards:(PZPuzzleNode *)aNode {
@@ -164,11 +171,11 @@
 
 - (void)calculateManhatten {
     self.manhatten = 0;
-    for (int x = 0; x < kTilesCount; x++) {
-        for (int y = 0; y < kTilesCount; y++) {
-            int number = tiles[x + y * kTilesCount];
-            if (0 != number) {
-                int value = abs(x - ((number - 1) % kTilesCount)) + abs(y - ((number - 1) / kTilesCount));
+    for (int x = 0; x < kPuzzleSize; x++) {
+        for (int y = 0; y < kPuzzleSize; y++) {
+            int number = tiles[x + y * kPuzzleSize];
+            if ((kTilesCount - 1) != number) {
+                int value = abs(x - (number % kPuzzleSize)) + abs(y - (number / kPuzzleSize));
                 self.manhatten += value;
             }
         }
@@ -176,7 +183,30 @@
 }
 
 - (char)indexOfTileAtLocation:(PZTileLocation)aLocation {
-    return aLocation.y * kTilesCount + aLocation.x;
+    return aLocation.y * kPuzzleSize + aLocation.x;
+}
+
+- (NSString *)description {
+    
+    NSMutableString *result = [NSMutableString new];
+
+    [result appendString:@"\n"];
+
+    for (size_t i = 0; i < kTilesCount; ++i) {
+        if ((kTilesCount - 1) == self->tiles[i]) {
+            [result appendString:@"--"];
+        }
+        else {
+            [result appendFormat:@"%02d", self->tiles[i] + 1];
+        }
+        [result appendString:(0 == ((i + 1) % kPuzzleSize)) ? @"\n" : @" "];
+    }
+    
+    [result appendFormat:@"\nempty tile: %d\n", self.emptyTile];
+    [result appendFormat:@"manhattan: %d\n", self.manhatten];
+    [result appendFormat:@"move: %d\n", self.move];
+    
+    return [NSString stringWithString:result];
 }
 
 @end

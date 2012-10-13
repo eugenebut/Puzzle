@@ -1,5 +1,5 @@
 //
-//  PZPuzzle+Solver.h
+//  PZPuzzleSolverTest.h
 //  Puzzle
 //
 //  Created by Eugene But on 10/12/12.
@@ -7,11 +7,9 @@
 //
 
 //////////////////////////////////////////////////////////////////////////////////////////
-#import "PZPuzzle.h"
+#import <SenTestingKit/SenTestingKit.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////
-@interface PZPuzzle (Solver)
-
-- (NSArray *)solveWithChangeBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock;
+@interface PZPuzzleSolverTest : SenTestCase
 
 @end
