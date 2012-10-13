@@ -30,7 +30,7 @@
 - (id)binaryHeapPopMaxObjectWithComparator:(NSComparator)aComparator {
     id result = [self binaryHeapPeakObject];
     if (nil != result) {
-        [self exchangeObjectAtIndex:0 withObjectAtIndex:self.count - 1];
+        [self replaceObjectAtIndex:0 withObject:[self lastObject]];
         [self removeLastObject];
         [self binaryHeapSink:1 comparator:aComparator];
     }
@@ -46,9 +46,11 @@
 
 - (void)binaryHeapSink:(NSUInteger)anIndex comparator:(NSComparator)aComparator {
 
-    while (2 * anIndex < self.count) {
-        NSUInteger childIndex = 2 * anIndex;
-        if (childIndex < self.count &&
+    NSUInteger count = self.count;
+    NSUInteger childIndex = 2 * anIndex;
+
+    while (childIndex < count) {
+        if (childIndex < count &&
             NSOrderedAscending == aComparator([self objectAtIndex:childIndex - 1], [self objectAtIndex:childIndex])) {
             ++childIndex;
         }
@@ -59,6 +61,7 @@
         
         [self exchangeObjectAtIndex:(anIndex - 1) withObjectAtIndex:(childIndex - 1)];
         anIndex = childIndex;
+        childIndex = 2 * anIndex;
     }
 }
 
