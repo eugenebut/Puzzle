@@ -89,12 +89,16 @@
     PZPuzzleNode *node = [solution objectAtIndex:anIndex];
     PZTileLocation location = PZTileLocationMake(node.emptyTile % kPuzzleSize,
                                                  node.emptyTile / kPuzzleSize);
+    
+    // remember tiles and direction to pass them to block
+    NSArray *tiles = [self affectedTilesByTileMoveAtLocation:location];
+    PZMoveDirection direction = [self allowedMoveDirectionForTileAtLocation:location];
+
     [self moveTileAtLocation:location];
     
-    aBlock([self affectedTilesByTileMoveAtLocation:location],
-           [self allowedMoveDirectionForTileAtLocation:location], ^{
-               [self applySolution:solution index:anIndex - 1 changeBlock:aBlock];
-           });
+    aBlock(tiles, direction, ^{
+        [self applySolution:solution index:anIndex - 1 changeBlock:aBlock];
+    });
 }
     
 @end
