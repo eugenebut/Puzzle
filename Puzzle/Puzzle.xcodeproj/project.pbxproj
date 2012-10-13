@@ -252,13 +252,13 @@
 		B7AEF1E6159C15F9006EFEF0 /* PuzzleTests */ = {
 			isa = PBXGroup;
 			children = (
-				B7AEF1EC159C15F9006EFEF0 /* PZPuzzleTest.h */,
-				B7AEF1ED159C15F9006EFEF0 /* PZPuzzleTest.m */,
 				B7F5E8141627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.h */,
 				B7F5E8151627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m */,
-				B7AEF1E7159C15F9006EFEF0 /* Supporting Files */,
+				B7AEF1EC159C15F9006EFEF0 /* PZPuzzleTest.h */,
+				B7AEF1ED159C15F9006EFEF0 /* PZPuzzleTest.m */,
 				B7AC83DE1628C93000910916 /* PZPuzzleSolverTest.h */,
 				B7AC83DF1628C93000910916 /* PZPuzzleSolverTest.m */,
+				B7AEF1E7159C15F9006EFEF0 /* Supporting Files */,
 			);
 			path = PuzzleTests;
 			sourceTree = "<group>";
