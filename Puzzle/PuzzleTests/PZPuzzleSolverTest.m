@@ -38,7 +38,7 @@ static const NSUInteger kPuzzleSize = 4;
     
     // randomize puzzle
     NSUInteger shufflesCount = 30;
-    while (--shufflesCount) {
+    while (shufflesCount--) {
         [self.testable moveTileToRandomLocationWithCompletionBlock:NULL];
     }
     STAssertFalse(self.testable.isWin, @"");
