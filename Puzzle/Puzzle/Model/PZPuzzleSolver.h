@@ -16,7 +16,7 @@
 
 typedef void (^ChangeCompletion)(void);
 
-- (void)applySolution:(NSArray *)solution changeBlock:(void (^)(NSArray *aTiles,
+- (void)applySolution:(NSArray *)solution animationBlock:(void (^)(NSArray *aTiles,
                                                                 PZMoveDirection aDirection,
                                                                 ChangeCompletion aCompletion))aBlock;
 

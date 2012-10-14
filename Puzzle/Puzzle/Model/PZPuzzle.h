@@ -52,4 +52,6 @@ typedef enum
 - (void)moveTileToRandomLocationWithCompletionBlock:
     (void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock;
 
+- (void)solveInstantly;
+
 @end

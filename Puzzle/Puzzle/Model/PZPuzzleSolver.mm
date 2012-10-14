@@ -217,17 +217,17 @@ uint8_t puzzle_node::calculate_manhatten() const {
     return nil;
 }
 
-- (void)applySolution:(NSArray *)solution changeBlock:(void (^)(NSArray *aTiles,
+- (void)applySolution:(NSArray *)solution animationBlock:(void (^)(NSArray *aTiles,
                                                                 PZMoveDirection aDirection,
                                                                 ChangeCompletion aCompletion))aBlock
 {
-    [self applySolution:solution index:solution.count - 2 changeBlock:aBlock];
+    [self applySolution:solution index:solution.count - 2 animationBlock:aBlock];
 
 }
 
 - (void)applySolution:(NSArray *)solution
                 index:(NSUInteger)anIndex
-          changeBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection, ChangeCompletion aCompletion))aBlock
+          animationBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection, ChangeCompletion aCompletion))aBlock
 {
     if (solution.count <= anIndex) {
         return;
@@ -244,8 +244,8 @@ uint8_t puzzle_node::calculate_manhatten() const {
     [self moveTileAtLocation:location];
     
     aBlock(tiles, direction, ^{
-        [self applySolution:solution index:anIndex - 1 changeBlock:aBlock];
+        [self applySolution:solution index:anIndex - 1 animationBlock:aBlock];
     });
 }
-    
+
 @end

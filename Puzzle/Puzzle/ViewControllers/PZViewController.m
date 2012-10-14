@@ -515,8 +515,22 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 }
 
 - (void)helpViewControllerSolvePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aSolveCompletionBlock {
+    // do we have a quick solution?
     NSArray *solution = [self.puzzle solution];
-    [self.puzzle applySolution:solution changeBlock:^(NSArray *aTiles, PZMoveDirection aDirection, ChangeCompletion aChangeCompletion) {
+
+    if (nil == solution) {
+        // no quick solution available, lets solve instantly
+        [self.puzzle solveInstantly];
+        [UIView animateWithDuration:kAutoMoveAnimationDuration animations:^{
+            [self updateTilesLocations:[self.puzzle allTiles]];
+        } completion:^(BOOL finished) {
+            aSolveCompletionBlock();
+        }];
+        return;
+    }
+    
+    // we have a quick solution
+    [self.puzzle applySolution:solution animationBlock:^(NSArray *aTiles, PZMoveDirection aDirection, ChangeCompletion aChangeCompletion) {
         [CATransaction setAnimationDuration:kAutoMoveAnimationDuration];
         [CATransaction setCompletionBlock:^{
             aChangeCompletion();
@@ -568,7 +582,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 }
 
 - (void)showHighscoresButtonIfNecessary {
-    if (self.highScoresButton.hidden) {
+    if (self.highScoresButton.hidden && [PZHighscoresViewController canShowHighscores]) {
         self.highScoresButton.hidden = NO;
         self.highScoresButton.alpha = 0.0;
         [UIView animateWithDuration:kTransparencyAnimationDuration animations:^{

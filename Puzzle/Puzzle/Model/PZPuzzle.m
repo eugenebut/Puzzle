@@ -273,6 +273,20 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     self.movesCount = [[aState objectForKey:kMovesCountState] unsignedIntegerValue];
 }
 
+- (void)solveInstantly {
+    
+    for (PZTileImpl *tile in self.mutableTiles) {
+        tile.currentLocation = tile.winLocation;
+    }
+    
+    self.emptyTileLocation = PZTileLocationMake(self.size - 1, self.size - 1);
+    self.movesCount = 0;
+    
+    [self.mutableTiles sortUsingComparator:^NSComparisonResult(id<IPZTile> obj1, id<IPZTile> obj2) {
+        return [[NSNumber numberWithUnsignedInteger:[self indexOfTileAtLocation:obj1.currentLocation]] compare:[NSNumber numberWithUnsignedInteger:[self indexOfTileAtLocation:obj1.currentLocation]]];
+    }];
+}
+
 - (NSString *)description
 {
     NSMutableString *result = [NSMutableString new];
