@@ -491,6 +491,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }
     completion:^(BOOL finished) {
         self.helpMode = YES;
+        aSender.userInteractionEnabled = NO;
     }];
 }
 
