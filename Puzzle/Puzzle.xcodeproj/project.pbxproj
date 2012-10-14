@@ -23,10 +23,14 @@
 		B75FC92415A0FEE6002D7185 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B75FC92215A0FEE6002D7185 /* Default-Portrait~ipad.png */; };
 		B75FC92915A10112002D7185 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF207159D6AE4006EFEF0 /* QuartzCore.framework */; };
 		B75FC92A15A1011D002D7185 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C3159C15F8006EFEF0 /* CoreGraphics.framework */; };
+		B78370F9162A8F6E00B06013 /* SmallObj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370F8162A8F6E00B06013 /* SmallObj.cpp */; };
+		B78370FA162A8F6E00B06013 /* SmallObj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370F8162A8F6E00B06013 /* SmallObj.cpp */; };
+		B78370FF162A935100B06013 /* Singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370FE162A935100B06013 /* Singleton.cpp */; };
+		B7837100162A935100B06013 /* Singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370FE162A935100B06013 /* Singleton.cpp */; };
 		B79C7CB516269631002B4357 /* PZHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79C7CB316269631002B4357 /* PZHelpViewController.m */; };
 		B79C7CBA1626966E002B4357 /* PZHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B79C7CB81626966E002B4357 /* PZHelpViewController.xib */; };
 		B7AC83E01628C93000910916 /* PZPuzzleSolverTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AC83DF1628C93000910916 /* PZPuzzleSolverTest.m */; };
-		B7AC83E21628CDE600910916 /* PZPuzzleSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.m */; };
+		B7AC83E21628CDE600910916 /* PZPuzzleSolver.mm in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.mm */; };
 		B7AEF1C0159C15F8006EFEF0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1BF159C15F8006EFEF0 /* UIKit.framework */; };
 		B7AEF1C2159C15F8006EFEF0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C1159C15F8006EFEF0 /* Foundation.framework */; };
 		B7AEF1C4159C15F8006EFEF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C3159C15F8006EFEF0 /* CoreGraphics.framework */; };
@@ -57,6 +61,8 @@
 		B7BA97D815FF1D6A002E296D /* Frame_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BA97D715FF1D6A002E296D /* Frame_iPhone@2x.png */; };
 		B7BA97DA15FF1D79002E296D /* Tiles_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BA97D915FF1D79002E296D /* Tiles_iPhone@2x.png */; };
 		B7BA97E3160442C0002E296D /* PZStopWatch.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BA97E2160442C0002E296D /* PZStopWatch.m */; };
+		B7D5506A162A7E9D00DC1047 /* HelpButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D55068162A7E9D00DC1047 /* HelpButton@2x.png */; };
+		B7D5506B162A7E9D00DC1047 /* HelpButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D55069162A7E9D00DC1047 /* HelpButtonPressed@2x.png */; };
 		B7EEBE2215A0E69600EC5BBB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE2115A0E69600EC5BBB /* Default.png */; };
 		B7EEBE2415A0E9E800EC5BBB /* puzzle_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE2315A0E9E800EC5BBB /* puzzle_iPhone@2x.png */; };
 		B7EEBE3315A0EE9200EC5BBB /* Icon_iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE2F15A0EE9100EC5BBB /* Icon_iPad.png */; };
@@ -65,7 +71,7 @@
 		B7EEBE3615A0EE9200EC5BBB /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3215A0EE9200EC5BBB /* Icon@2x.png */; };
 		B7F5E81316276C9800AA2C24 /* NSMutableArray+BinaryHeap.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E81216276C9800AA2C24 /* NSMutableArray+BinaryHeap.m */; };
 		B7F5E8161627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E8151627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m */; };
-		B7F5E819162887BA00AA2C24 /* PZPuzzleSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.m */; };
+		B7F5E819162887BA00AA2C24 /* PZPuzzleSolver.mm in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +104,12 @@
 		B742378F15A15E6B00719A6C /* puzzle_iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "puzzle_iPad@2x.png"; sourceTree = "<group>"; };
 		B75FC92115A0FEE6002D7185 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		B75FC92215A0FEE6002D7185 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		B78370F7162A8F5F00B06013 /* SmallObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallObj.h; sourceTree = "<group>"; };
+		B78370F8162A8F6E00B06013 /* SmallObj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallObj.cpp; sourceTree = "<group>"; };
+		B78370FB162A8F9E00B06013 /* LokiExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LokiExport.h; sourceTree = "<group>"; };
+		B78370FC162A8FB100B06013 /* Threads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Threads.h; sourceTree = "<group>"; };
+		B78370FD162A8FBF00B06013 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
+		B78370FE162A935100B06013 /* Singleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Singleton.cpp; sourceTree = "<group>"; };
 		B79C7CB216269631002B4357 /* PZHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZHelpViewController.h; sourceTree = "<group>"; };
 		B79C7CB316269631002B4357 /* PZHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZHelpViewController.m; sourceTree = "<group>"; };
 		B79C7CB91626966E002B4357 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PZHelpViewController.xib; sourceTree = "<group>"; };
@@ -139,6 +151,8 @@
 		B7BA97D915FF1D79002E296D /* Tiles_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tiles_iPhone@2x.png"; sourceTree = "<group>"; };
 		B7BA97E1160442C0002E296D /* PZStopWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZStopWatch.h; sourceTree = "<group>"; };
 		B7BA97E2160442C0002E296D /* PZStopWatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZStopWatch.m; sourceTree = "<group>"; };
+		B7D55068162A7E9D00DC1047 /* HelpButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HelpButton@2x.png"; sourceTree = "<group>"; };
+		B7D55069162A7E9D00DC1047 /* HelpButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HelpButtonPressed@2x.png"; sourceTree = "<group>"; };
 		B7EEBE1C15A0C28D00EC5BBB /* PZTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PZTile.h; sourceTree = "<group>"; };
 		B7EEBE2115A0E69600EC5BBB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B7EEBE2315A0E9E800EC5BBB /* puzzle_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "puzzle_iPhone@2x.png"; sourceTree = "<group>"; };
@@ -151,7 +165,7 @@
 		B7F5E8141627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+BinaryHeapTest.h"; sourceTree = "<group>"; };
 		B7F5E8151627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+BinaryHeapTest.m"; sourceTree = "<group>"; };
 		B7F5E817162887BA00AA2C24 /* PZPuzzleSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZPuzzleSolver.h; sourceTree = "<group>"; };
-		B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZPuzzleSolver.m; sourceTree = "<group>"; };
+		B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PZPuzzleSolver.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +206,27 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		B78370F1162A8EDB00B06013 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				B78370F2162A8EDB00B06013 /* Loki */,
+			);
+			path = ThirdParty;
+			sourceTree = "<group>";
+		};
+		B78370F2162A8EDB00B06013 /* Loki */ = {
+			isa = PBXGroup;
+			children = (
+				B78370FC162A8FB100B06013 /* Threads.h */,
+				B78370FB162A8F9E00B06013 /* LokiExport.h */,
+				B78370FD162A8FBF00B06013 /* Singleton.h */,
+				B78370FE162A935100B06013 /* Singleton.cpp */,
+				B78370F7162A8F5F00B06013 /* SmallObj.h */,
+				B78370F8162A8F6E00B06013 /* SmallObj.cpp */,
+			);
+			path = Loki;
+			sourceTree = "<group>";
+		};
 		B7AEF1B0159C15F8006EFEF0 = {
 			isa = PBXGroup;
 			children = (
@@ -229,6 +264,7 @@
 				B7AEF1F7159C174E006EFEF0 /* Model */,
 				B7AEF209159D735B006EFEF0 /* Resources */,
 				B7AEF1C6159C15F8006EFEF0 /* Supporting Files */,
+				B78370F1162A8EDB00B06013 /* ThirdParty */,
 				B7BB51111627311700E4F762 /* ViewControllers */,
 				B72877421604FE0800FC253F /* Utils */,
 				B7AEF1CE159C15F8006EFEF0 /* PZAppDelegate.h */,
@@ -287,7 +323,7 @@
 				B7AEF200159D3704006EFEF0 /* PZTileLocation.h */,
 				B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */,
 				B7F5E817162887BA00AA2C24 /* PZPuzzleSolver.h */,
-				B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.m */,
+				B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.mm */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -337,6 +373,8 @@
 				B7EEBE3215A0EE9200EC5BBB /* Icon@2x.png */,
 				B75FC92115A0FEE6002D7185 /* Default-Portrait@2x~ipad.png */,
 				B75FC92215A0FEE6002D7185 /* Default-Portrait~ipad.png */,
+				B7D55068162A7E9D00DC1047 /* HelpButton@2x.png */,
+				B7D55069162A7E9D00DC1047 /* HelpButtonPressed@2x.png */,
 				B70858F716118C1B007B1204 /* HighscoresButton@2x.png */,
 				B70858F816118C1B007B1204 /* HighscoresButtonPressed@2x.png */,
 			);
@@ -453,6 +491,8 @@
 				B70858F916118C1B007B1204 /* HighscoresButton@2x.png in Resources */,
 				B70858FA16118C1B007B1204 /* HighscoresButtonPressed@2x.png in Resources */,
 				B79C7CBA1626966E002B4357 /* PZHelpViewController.xib in Resources */,
+				B7D5506A162A7E9D00DC1047 /* HelpButton@2x.png in Resources */,
+				B7D5506B162A7E9D00DC1047 /* HelpButtonPressed@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,7 +541,9 @@
 				B70858EA160FA882007B1204 /* PZHightscoresAccessor.m in Sources */,
 				B79C7CB516269631002B4357 /* PZHelpViewController.m in Sources */,
 				B7F5E81316276C9800AA2C24 /* NSMutableArray+BinaryHeap.m in Sources */,
-				B7F5E819162887BA00AA2C24 /* PZPuzzleSolver.m in Sources */,
+				B7F5E819162887BA00AA2C24 /* PZPuzzleSolver.mm in Sources */,
+				B78370F9162A8F6E00B06013 /* SmallObj.cpp in Sources */,
+				B78370FF162A935100B06013 /* Singleton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,7 +557,9 @@
 				B7AEF206159D37D6006EFEF0 /* PZTileLocation.m in Sources */,
 				B7F5E8161627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m in Sources */,
 				B7AC83E01628C93000910916 /* PZPuzzleSolverTest.m in Sources */,
-				B7AC83E21628CDE600910916 /* PZPuzzleSolver.m in Sources */,
+				B7AC83E21628CDE600910916 /* PZPuzzleSolver.mm in Sources */,
+				B78370FA162A8F6E00B06013 /* SmallObj.cpp in Sources */,
+				B7837100162A935100B06013 /* Singleton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

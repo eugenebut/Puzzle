@@ -12,9 +12,10 @@
 #import "PZTile.h"
 #import <queue>
 #import <iostream>
+#import "SmallObj.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
-class puzzle_node {
+class puzzle_node: public Loki::SmallValueObject<> {
 
 public:
 
@@ -176,11 +177,18 @@ uint8_t puzzle_node::calculate_manhatten() const {
 @implementation PZPuzzle (Solver)
 
 - (NSArray *)solution {
+    puzzle_node *node = new puzzle_node(self);
+    
+    // we can't find solution for complex puzzles withing reasonable amount of time
+    if (20 < node->manhattan()) {
+        delete node;
+        return nil;
+    }
     
     std::priority_queue<puzzle_node *, std::vector<puzzle_node *>, puzzle_node::comparator > queue;
-    puzzle_node *node = new puzzle_node(self);
     //size_t size = sizeof(puzzle_node);
     queue.push(node);
+    //std::cout << "Initial manhattan: " << (int)node->manhattan() << std::endl;
     
     while (!queue.empty()) {
         puzzle_node *node = queue.top();
