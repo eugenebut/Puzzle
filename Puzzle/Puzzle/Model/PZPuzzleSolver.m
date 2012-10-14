@@ -54,7 +54,6 @@ NSComparisonResult Comparator(id obj1, id obj2) {
     
     PZPuzzleNode *node = [[PZPuzzleNode alloc] initWithPuzzle:self];
     [queue binaryHeapPushObject:node function:Comparator];
-    NSHashTable *set = [NSHashTable new];
     //NSLog(@"Initial manhatten: %d", node.manhatten);
 
     while (0 < queue.count) {
@@ -76,8 +75,7 @@ NSComparisonResult Comparator(id obj1, id obj2) {
 
         // enqueue neighbours
         for (PZPuzzleNode *neighbour in node.neighbours) {
-            if (![neighbour equalBoards:node.previousNode] && ![set containsObject:neighbour]) {
-                [set addObject:neighbour];
+            if (![neighbour equalBoards:node.previousNode]) {
                 [queue binaryHeapPushObject:neighbour function:Comparator];
             }
         }
