@@ -32,36 +32,34 @@
 
 @end
 
+NSComparisonResult Comparator(id obj1, id obj2) {
+    if ([obj1 weight] < [obj2 weight]) {
+        return NSOrderedDescending;
+    }
+    else if ([obj2 weight] < [obj1 weight]) {
+        return NSOrderedAscending;
+    }
+    else {
+        return NSOrderedSame;
+    }
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 @implementation PZPuzzle (Solver)
 
 - (NSArray *)solution {
     
-    NSComparisonResult (^Comparator)(id obj1, id obj2) = ^(id obj1, id obj2){
-        
-        NSUInteger weight1 = [obj1 weight];
-        NSUInteger weight2 = [obj2 weight];
-
-        if (weight1 < weight2) {
-            return NSOrderedDescending;
-        }
-        else if (weight2 < weight1) {
-            return NSOrderedAscending;
-        }
-        else {
-            return NSOrderedSame;
-        }
-    };
-
     // enque initial board
     NSMutableArray *queue = [NSMutableArray new];
     
     PZPuzzleNode *node = [[PZPuzzleNode alloc] initWithPuzzle:self];
-    [queue binaryHeapPushObject:node comparator:Comparator];
+    [queue binaryHeapPushObject:node function:Comparator];
+    NSHashTable *set = [NSHashTable new];
     //NSLog(@"Initial manhatten: %d", node.manhatten);
 
     while (0 < queue.count) {
-        PZPuzzleNode *node = [queue binaryHeapPopMaxObjectWithComparator:Comparator];
+        PZPuzzleNode *node = [queue binaryHeapPopMaxObjectWithFunction:Comparator];
+        //NSLog(@"Weight: %d", node.weight);
         
         if (0 == node.manhatten) {
             // we have a solution, 
@@ -72,13 +70,15 @@
             }
             //NSLog(@"Queue len: %d", queue.count);
             [solution removeLastObject]; // remove sentinel
+            //NSLog(@"Final set: %@", set);
             return [NSArray arrayWithArray:solution];
         }
 
         // enqueue neighbours
         for (PZPuzzleNode *neighbour in node.neighbours) {
-            if (![neighbour equalBoards:node.previousNode]) {
-                [queue binaryHeapPushObject:neighbour comparator:Comparator];
+            if (![neighbour equalBoards:node.previousNode] && ![set containsObject:neighbour]) {
+                [set addObject:neighbour];
+                [queue binaryHeapPushObject:neighbour function:Comparator];
             }
         }
     }
@@ -135,7 +135,7 @@
         
         [self calculateManhatten];
         
-        self.weight = self.manhatten << 7;
+        self.weight = self.manhatten;
     }
     return self;
 }
@@ -161,7 +161,7 @@
         
         [self calculateManhatten];
 
-        self.weight = self.move + self.manhatten << 7;
+        self.weight = self.move + self.manhatten;
     }
     return self;
 }
@@ -240,15 +240,20 @@
     [result appendFormat:@"\nempty tile: %d\n", self.emptyTile];
     [result appendFormat:@"manhattan: %d\n", self.manhatten];
     [result appendFormat:@"move: %d\n", self.move];
+    // [result appendFormat:@"hash: %d\n", self.hash];
     
     return [NSString stringWithString:result];
 }
 
+- (BOOL)isEqual:(id)anOther {
+    return anOther == self || [self equalBoards:anOther];
+}
+
 - (NSUInteger)hash {
-    NSUInteger result = 0;
-    size_t shift = 0;
-    for (size_t i = 0; i < kTilesCount; i++, shift += 4) {
-        result |= self->tiles[i] << shift;
+    uint64_t result = 0;
+    for (size_t i = 0; i < kTilesCount; i++) {
+        result *= 13;
+        result+= self->tiles[i];
     }
     return result;
 }

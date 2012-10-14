@@ -12,11 +12,11 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface NSMutableArray (BinaryHeap)
 
-- (void)binaryHeapHeapifyWithComparator:(NSComparator)aComparator;
+- (void)binaryHeapHeapifyWithFunction:(NSComparisonResult (*)(id, id))aComparator;
 
 - (id)binaryHeapPeakObject;
 
-- (void)binaryHeapPushObject:(id)anObject comparator:(NSComparator)aComparator;
-- (id)binaryHeapPopMaxObjectWithComparator:(NSComparator)aComparator;
+- (void)binaryHeapPushObject:(id)anObject function:(NSComparisonResult (*)(id, id))aComparator;
+- (id)binaryHeapPopMaxObjectWithFunction:(NSComparisonResult (*)(id, id))aComparator;
 
 @end
