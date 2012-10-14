@@ -21,7 +21,6 @@
 }
 - (id)initWithPuzzle:(PZPuzzle *)aPuzzle;
 
-@property (nonatomic, readonly) NSArray *neighbours;
 @property (nonatomic, readwrite, strong) PZPuzzleNode *previousNode;
 @property (nonatomic, readwrite) unsigned char manhatten;
 @property (nonatomic, readwrite) NSUInteger weight;
@@ -29,6 +28,8 @@
 @property (nonatomic, readwrite) NSUInteger move;
 
 - (BOOL)equalBoards:(PZPuzzleNode *)aNode;
+
+- (void)addNeighboursToQueue:(NSMutableArray *)aDestination;
 
 @end
 
@@ -74,11 +75,7 @@ NSComparisonResult Comparator(id obj1, id obj2) {
         }
 
         // enqueue neighbours
-        for (PZPuzzleNode *neighbour in node.neighbours) {
-            if (![neighbour equalBoards:node.previousNode]) {
-                [queue binaryHeapPushObject:neighbour function:Comparator];
-            }
-        }
+        [node addNeighboursToQueue:queue];
     }
     return nil;
 }
@@ -164,29 +161,36 @@ NSComparisonResult Comparator(id obj1, id obj2) {
     return self;
 }
 
-- (NSArray *)neighbours {
-    NSMutableArray *result = [NSMutableArray new];
+- (void)addNeighboursToQueue:(NSMutableArray *)aDestination {
 
-    char emptyX = self.emptyTile % kPuzzleSize;
-    char emptyY = self.emptyTile / kPuzzleSize;
+    char emptyTile = self.emptyTile;
+    char previousEmptyTile = self.previousNode.emptyTile;
+    char emptyX = emptyTile % kPuzzleSize;
+    char emptyY = emptyTile / kPuzzleSize;
 
-    if (0 < emptyX) {
-        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:self.emptyTile - 1]];
+    char nextEmptyTile = emptyTile - 1;
+    if (0 < emptyX && nextEmptyTile != previousEmptyTile) {
+        PZPuzzleNode *node = [[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:nextEmptyTile];
+        [aDestination binaryHeapPushObject:node function:Comparator];
     }
 
-    if (emptyX < kPuzzleSize - 1) {
-        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:self.emptyTile + 1]];
+    nextEmptyTile = emptyTile + 1;
+    if (emptyX < kPuzzleSize - 1 && nextEmptyTile != previousEmptyTile) {
+        PZPuzzleNode *node = [[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:nextEmptyTile];
+        [aDestination binaryHeapPushObject:node function:Comparator];
     }
 
-    if (emptyY < kPuzzleSize - 1) {
-        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:self.emptyTile + kPuzzleSize]];
+    nextEmptyTile = emptyTile + kPuzzleSize;
+    if (emptyY < kPuzzleSize - 1 && nextEmptyTile != previousEmptyTile) {
+        PZPuzzleNode *node = [[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:nextEmptyTile];
+        [aDestination binaryHeapPushObject:node function:Comparator];
     }
 
-    if (0 < emptyY) {
-        [result addObject:[[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:self.emptyTile - kPuzzleSize]];
+    nextEmptyTile = emptyTile - kPuzzleSize;
+    if (0 < emptyY && nextEmptyTile != previousEmptyTile) {
+        PZPuzzleNode *node = [[PZPuzzleNode alloc] initWithPreviousNode:self emptyTile:nextEmptyTile];
+        [aDestination addObject:node];
     }
-
-    return result;
 }
 
 - (BOOL)equalBoards:(PZPuzzleNode *)aNode {
