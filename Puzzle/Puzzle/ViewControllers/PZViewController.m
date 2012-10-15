@@ -189,6 +189,10 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)aRecognizer {
+    if (self.isHelpMode) {
+        return NO;
+    }
+    
     [self hideHighscoresMessageIfNecessary];
     
     if (CGRectContainsPoint([self tilesAreaOnScreen], [aRecognizer locationInView:self.view])) {
@@ -542,16 +546,16 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 }
 
 - (void)helpViewControllerShuflePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
-    [self moveLayersAndTilesAtLocation:PZTileLocationMake(3, 0)];
     [CATransaction setCompletionBlock:^{
-        [self moveLayersAndTilesAtLocation:PZTileLocationMake(2, 0)];
         [CATransaction setCompletionBlock:^{
-            [self moveLayersAndTilesAtLocation:PZTileLocationMake(2, 1)];
             [CATransaction setCompletionBlock:^{
                 aBlock();
             }];
+            [self moveLayersAndTilesAtLocation:PZTileLocationMake(2, 1)];
         }];
+        [self moveLayersAndTilesAtLocation:PZTileLocationMake(2, 0)];
     }];
+    [self moveLayersAndTilesAtLocation:PZTileLocationMake(3, 0)];
 }
 
 #pragma mark -
