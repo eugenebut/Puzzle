@@ -646,17 +646,27 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 - (void)showWinMessage {
     self.view.userInteractionEnabled = NO;
     
+    // create view and add it to hierarchy offscreen
     self.winViewController = [[PZWinViewController alloc]
                               initWithTime:self.stopWatch.totalSeconds
                               movesCount:self.puzzle.movesCount];
     
-    [self.view addSubview:self.winViewController.view];
+    UIView *view = self.winViewController.view;
+    CGPoint screenCenter = CGPointMake(CGRectGetMidX([UIScreen mainScreen].bounds),
+                                       CGRectGetMidY([UIScreen mainScreen].bounds));
+    view.center = CGPointMake(-CGRectGetWidth(view.frame) / 2, screenCenter.y);
+    [self.view addSubview:view];
 
-    self.winViewController.view.alpha = 0.0;
-    [UIView animateWithDuration:kTransparencyAnimationDuration animations:^{
-        self.winViewController.view.alpha = 1.0;
+    // play 2 staged sliding animation
+    [UIView animateWithDuration:0.5 delay:0.2 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        view.center = CGPointMake(screenCenter.x + 20.0, screenCenter.y);
     } completion:^(BOOL finished) {
-        [self.winViewController startAnimation];
+        [UIView animateWithDuration:0.2 animations:^{
+            view.center = screenCenter;
+        } completion:^(BOOL finished) {
+            // play win message content animation
+            [self.winViewController startAnimation];
+        }];
     }];
 }
 
@@ -665,10 +675,13 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         return;
     }
 
+    UIView *view = self.winViewController.view;
     [UIView animateWithDuration:kTransparencyAnimationDuration animations:^{
-         self.winViewController.view.alpha = 0.0;
+        view.center = CGPointMake(-CGRectGetWidth(view.frame) / 2,
+                                   CGRectGetMidY([UIScreen mainScreen].bounds));
+
     } completion:^(BOOL finished) {
-        [self.winViewController.view removeFromSuperview];
+        [view removeFromSuperview];
         self.winViewController = nil;
     }];
 }
