@@ -22,6 +22,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *movesLabel;
 @property (nonatomic, weak) IBOutlet UIButton *highScoresButton;
+@property (weak, nonatomic) IBOutlet UIButton *helpButton;
 @property (nonatomic, strong) NSString *tilesImageFile;
 
 - (IBAction)showHighscores:(UIButton *)aSender;

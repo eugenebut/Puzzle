@@ -491,7 +491,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }
     completion:^(BOOL finished) {
         self.helpMode = YES;
-        aSender.userInteractionEnabled = NO;
+        self.helpButton.userInteractionEnabled = NO;
     }];
 }
 
@@ -512,6 +512,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
         [self.helpViewController.view removeFromSuperview];
         self.helpViewController = nil;
         self.helpMode = NO;
+        self.helpButton.userInteractionEnabled = YES;
     }];
 }
 
