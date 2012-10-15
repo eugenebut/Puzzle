@@ -68,8 +68,12 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 
 @property (nonatomic, assign, getter=isHelpMode) BOOL helpMode;
 @property (nonatomic, assign) PZTileLocation allowedLocations;
-typedef void(^TileMoveBlock)(void);
-@property (nonatomic, strong) TileMoveBlock tileMoveBlock;
+typedef void(^PZTileMoveBlock)(void);
+@property (nonatomic, strong) PZTileMoveBlock tileMoveBlock;
+
+// tap gesture recognizer
+@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 
 @end
 
@@ -105,6 +109,9 @@ typedef void(^TileMoveBlock)(void);
 
     [[NSNotificationCenter defaultCenter] removeObserver:self
             name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    self.tapRecognizer = nil;
+    self.panRecognizer = nil;
 }
 
 - (void)viewDidAppear:(BOOL)anAnimated {
@@ -183,16 +190,14 @@ typedef void(^TileMoveBlock)(void);
 
 - (void)addGestureRecognizers {
     // tap gesture recognizer
-    UIGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]
-        initWithTarget:self action:@selector(handleTap:)];
-    tapRecognizer.delegate = self;
-    [self.view addGestureRecognizer:tapRecognizer];
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    self.tapRecognizer.delegate = self;
+    [self.view addGestureRecognizer:self.tapRecognizer];
 
     // pan gesture recognizer
-    UIGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]
-                                          initWithTarget:self action:@selector(handlePan:)];
-    panRecognizer.delegate = self;
-    [self.view addGestureRecognizer:panRecognizer];
+    self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    self.panRecognizer.delegate = self;
+    [self.view addGestureRecognizer:self.panRecognizer];
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)aRecognizer {
@@ -574,6 +579,7 @@ typedef void(^TileMoveBlock)(void);
     self.allowedLocations = PZTileLocationMake(2, 0);
     CALayer *guide = [self newTapGuideLayerForRect:[self rectForTileAtLocation:self.allowedLocations]];
     [self.layersView.layer addSublayer:guide];
+    self.panRecognizer.enabled = NO;
     self.tileMoveBlock = ^{
         [guide removeFromSuperlayer];
         aBlock();
