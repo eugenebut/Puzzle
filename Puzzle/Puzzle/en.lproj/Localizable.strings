@@ -18,4 +18,4 @@
 "Best Time:" = "Best Time:";
 "Puzzle_Help"  = "The 15-puzzle is a sliding puzzle that consists of numbered square tiles in random order with one tile missing.";
 "Puzzle_Objective"  = "The object is to place the tiles in order (see below) by making sliding moves using the empty space. Lets try this...";
-"Puzzle_Tutorial_Step_1" = "Excellent! Now tap tile #7. This will move it to the empty space.";
+"Puzzle_Tutorial_Step_1" = "Now we gonna learn how to move the tiles. Tap tile #7 to move it towards the empty space.";

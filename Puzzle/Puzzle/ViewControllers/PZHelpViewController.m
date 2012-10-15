@@ -67,7 +67,6 @@ static const NSTimeInterval kAnimationDuration = 0.5;
     completion:^(BOOL finished) {
         [self.delegate helpViewControllerShuflePuzzle:self completionBlock:^{
             self.textView.text = NSLocalizedString(@"Puzzle_Tutorial_Step_1", @"Puzzle Tutorial 1st step");
-            self.textView.font = [self.textView.font fontWithSize:20];
             
             [UIView animateWithDuration:kAnimationDuration animations:^{
                 self.textView.alpha = 1.0;
