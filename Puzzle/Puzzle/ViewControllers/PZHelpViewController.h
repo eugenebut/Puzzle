@@ -19,6 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIButton *hideButton;
+@property (weak, nonatomic) IBOutlet UIButton *nextButton;
 
 - (IBAction)hide;
 - (IBAction)beginTutorial:(UIButton *)sender;

@@ -13,6 +13,13 @@
 static const NSTimeInterval kAnimationDuration = 0.5;
 
 //////////////////////////////////////////////////////////////////////////////////////////
+@interface UIControl(TargetAction)
+
+- (void)PZSetTouchUpInsideAction:(SEL)anAction;
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////////
 @interface PZHelpViewController ()
 
 @end
@@ -31,21 +38,39 @@ static const NSTimeInterval kAnimationDuration = 0.5;
 - (IBAction)beginTutorial:(UIButton *)aSender {
     [UIView animateWithDuration:kAnimationDuration animations:^{
         self.hideButton.alpha = 0.0;
-        aSender.alpha = 0.0;
+        self.nextButton.alpha = 0.0;
         self.textView.alpha = 0.0;
-        self.view.userInteractionEnabled = NO;
-        // TODO: show progress
     }
     completion:^(BOOL finished) {
         self.hideButton.hidden = YES;
         
         [self.delegate helpViewControllerSolvePuzzle:self completionBlock:^{
             self.textView.text = NSLocalizedString(@"Puzzle_Objective", @"Puzzle Objective Description");
+            
+            [self.nextButton setTitle:NSLocalizedString(@"Shuffle Puzle", @"Shuffle button label") forState:UIControlStateNormal];
+            [self.nextButton PZSetTouchUpInsideAction:@selector(shuffle:)];
+            
             [UIView animateWithDuration:kAnimationDuration animations:^{
                 self.textView.alpha = 1.0;
+                self.nextButton.alpha = 1.0;
             }];
         }];
     }];
+}
+
+- (IBAction)shuffle:(UIButton *)aSender {
+
+}
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////////
+@implementation UIControl(TargetAction)
+
+- (void)PZSetTouchUpInsideAction:(SEL)anAction {
+    id target = [[self allTargets] anyObject];
+    [self removeTarget:target action:NULL forControlEvents:UIControlEventTouchUpInside];
+    [self addTarget:target action:anAction forControlEvents:UIControlEventTouchUpInside];
 }
 
 @end
