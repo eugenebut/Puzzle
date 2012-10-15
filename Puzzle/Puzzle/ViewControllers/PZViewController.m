@@ -26,6 +26,9 @@ static const CGFloat kAutoMoveAnimationDuration = 0.05;
 static const CGFloat kTransparencyAnimationDuration = 0.5;
 static const CGFloat kShowHelpAnimationDuration = 0.5;
 
+static const PZTileLocation kAllowedLocationsAll = {-1, -1};
+static const PZTileLocation kAllowedLocationsNone = {-2, -2};
+
 static const CGFloat kHelpShift = 70.0;
 static const CGFloat kHelpViewShift = 10.0;
 
@@ -64,6 +67,9 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 @property (nonatomic, assign) CGRect panConstraints;
 
 @property (nonatomic, assign, getter=isHelpMode) BOOL helpMode;
+@property (nonatomic, assign) PZTileLocation allowedLocations;
+typedef void(^TileMoveBlock)(void);
+@property (nonatomic, strong) TileMoveBlock tileMoveBlock;
 
 @end
 
@@ -90,6 +96,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     [self restoreState];
     
     self.highScoresButton.hidden = ![PZHighscoresViewController canShowHighscores];
+    self.allowedLocations = kAllowedLocationsAll;
 }
 
 - (void)viewDidUnload {
@@ -189,7 +196,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)aRecognizer {
-    if (self.isHelpMode) {
+    if (PZTileLocationEqualToLocation(kAllowedLocationsNone, self.allowedLocations)) {
         return NO;
     }
     
@@ -197,7 +204,10 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     
     if (CGRectContainsPoint([self tilesAreaOnScreen], [aRecognizer locationInView:self.view])) {
         PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
-        return kNoneDirection != [self.puzzle allowedMoveDirectionForTileAtLocation:location];
+        if (PZTileLocationEqualToLocation(kAllowedLocationsAll, self.allowedLocations) ||
+            PZTileLocationEqualToLocation(location, self.allowedLocations)) {
+            return kNoneDirection != [self.puzzle allowedMoveDirectionForTileAtLocation:location];
+        }
     }
     return NO;
 }
@@ -491,7 +501,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }
     completion:^(BOOL finished) {
         self.helpMode = YES;
-        self.helpButton.userInteractionEnabled = NO;
+        self.allowedLocations = kAllowedLocationsNone;
     }];
 }
 
@@ -506,8 +516,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
                 view.center = CGPointMake(view.center.x, view.center.y - kHelpShift);
             }
         }
-        
-     
+        self.allowedLocations = kAllowedLocationsAll;
     } completion:^(BOOL finished) {
         [self.helpViewController.view removeFromSuperview];
         self.helpViewController = nil;
@@ -562,17 +571,52 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 }
 
 - (void)helpViewControllerLearnTap:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
-    CGRect tileRect = [self rectForTileAtLocation:PZTileLocationMake(2, 0)];
-    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(CGRectGetWidth(tileRect) / 2,
-                                                                           CGRectGetWidth(tileRect) / 2) radius:CGRectGetWidth(tileRect) / 3 startAngle:0 endAngle:M_PI * 2 clockwise:YES];
-
-    CAShapeLayer *guide = [CAShapeLayer new];
-    guide.path = CGPathCreateCopy([path CGPath]);
-    guide.frame = tileRect;
-    guide.strokeColor = CGColorCreateCopy([[UIColor blackColor] CGColor]);
-    guide.fillColor = NULL;
-
+    self.allowedLocations = PZTileLocationMake(2, 0);
+    CALayer *guide = [self newTapGuideLayerForRect:[self rectForTileAtLocation:self.allowedLocations]];
     [self.layersView.layer addSublayer:guide];
+    self.tileMoveBlock = ^{
+        [guide removeFromSuperlayer];
+        aBlock();
+    };
+}
+
+- (CALayer *)newTapGuideLayerForRect:(CGRect)aRect {
+    CGPoint center = CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) / 2);
+    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:center radius:10.0
+                                                    startAngle:0 endAngle:M_PI * 2
+                                                     clockwise:YES];
+
+    CGColorRef color = CGColorCreate(CGColorSpaceCreateDeviceRGB(),
+                                     (CGFloat []){1.0, 0.82, 0.7, 1.0});
+    
+    CAShapeLayer *guide = [CAShapeLayer new];
+    guide.frame = aRect;
+    guide.path = CGPathCreateCopy([path CGPath]);
+    guide.strokeColor = color;
+    guide.fillColor = NULL;
+    
+    // scaling animation
+    CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    scale.duration = 2.0;
+    scale.removedOnCompletion = NO;
+    scale.repeatCount = HUGE_VALF;
+    scale.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)];
+    scale.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(3.0, 3.0, 1.0)];
+    scale.fillMode = kCAFillModeForwards;
+    [guide addAnimation:scale forKey:@"transform.scale"];
+    
+    // fading animation
+    CABasicAnimation *hide = [CABasicAnimation animationWithKeyPath:@"strokeColor"];
+    hide.duration = 1.0;
+    hide.removedOnCompletion = NO;
+    hide.repeatCount = HUGE_VALF;
+    hide.fromValue = (__bridge id)([[UIColor clearColor] CGColor]);
+    hide.toValue = (__bridge id)color;
+    hide.fillMode = kCAFillModeForwards;
+    hide.autoreverses = YES;
+    [guide addAnimation:hide forKey:@"strokeColor"];
+    
+    return guide;
 }
 
 #pragma mark -
@@ -670,6 +714,11 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     if (self.puzzle.isWin) {
         [self.stopWatch stop];
         [self showWinMessage];
+    }
+    
+    if (self.tileMoveBlock) {
+        self.tileMoveBlock();
+        self.tileMoveBlock = nil;
     }
 }
 
