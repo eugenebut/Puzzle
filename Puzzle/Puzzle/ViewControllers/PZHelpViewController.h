@@ -32,5 +32,6 @@
 - (void)helpViewControllerWantsHide:(PZHelpViewController *)aController;
 - (void)helpViewControllerSolvePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock;
 - (void)helpViewControllerShuflePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock;
+- (void)helpViewControllerLearnTap:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock;
 
 @end

@@ -558,6 +558,20 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     [self moveLayersAndTilesAtLocation:PZTileLocationMake(3, 0)];
 }
 
+- (void)helpViewControllerLearnTap:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
+    CGRect tileRect = [self rectForTileAtLocation:PZTileLocationMake(2, 0)];
+    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(CGRectGetWidth(tileRect) / 2,
+                                                                           CGRectGetWidth(tileRect) / 2) radius:CGRectGetWidth(tileRect) / 3 startAngle:0 endAngle:M_PI * 2 clockwise:YES];
+
+    CAShapeLayer *guide = [CAShapeLayer new];
+    guide.path = CGPathCreateCopy([path CGPath]);
+    guide.frame = tileRect;
+    guide.strokeColor = CGColorCreateCopy([[UIColor blackColor] CGColor]);
+    guide.fillColor = NULL;
+
+    [self.layersView.layer addSublayer:guide];
+}
+
 #pragma mark -
 #pragma mark Hightscores
 

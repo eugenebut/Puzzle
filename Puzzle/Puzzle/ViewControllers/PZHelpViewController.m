@@ -70,6 +70,9 @@ static const NSTimeInterval kAnimationDuration = 0.5;
             
             [UIView animateWithDuration:kAnimationDuration animations:^{
                 self.textView.alpha = 1.0;
+                [self.delegate helpViewControllerLearnTap:self completionBlock:^{
+                    
+                }];
             }];
         }];
     }];
