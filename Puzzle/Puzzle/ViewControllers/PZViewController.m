@@ -204,11 +204,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 }
 
 - (void)handleTap:(UIGestureRecognizer *)aRecognizer {
-    PZTileLocation location = [self tileLocationFromGestureRecognizer:aRecognizer];
-    NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:location];
-    [self moveLayersOfTiles:tiles direction:[self.puzzle allowedMoveDirectionForTileAtLocation:location]];
-    [self moveTileAtLocation:location];
-    [self updateZIndices];
+    [self moveLayersAndTilesAtLocation:[self tileLocationFromGestureRecognizer:aRecognizer]];
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)aRecognizer {
@@ -545,6 +541,19 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     }];
 }
 
+- (void)helpViewControllerShuflePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
+    [self moveLayersAndTilesAtLocation:PZTileLocationMake(3, 0)];
+    [CATransaction setCompletionBlock:^{
+        [self moveLayersAndTilesAtLocation:PZTileLocationMake(2, 0)];
+        [CATransaction setCompletionBlock:^{
+            [self moveLayersAndTilesAtLocation:PZTileLocationMake(2, 1)];
+            [CATransaction setCompletionBlock:^{
+                aBlock();
+            }];
+        }];
+    }];
+}
+
 #pragma mark -
 #pragma mark Hightscores
 
@@ -700,6 +709,13 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
             [self.layersView.layer addSublayer:layer];
         }
     }
+}
+
+- (void)moveLayersAndTilesAtLocation:(PZTileLocation)aLocation {
+    NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:aLocation];
+    [self moveLayersOfTiles:tiles direction:[self.puzzle allowedMoveDirectionForTileAtLocation:aLocation]];
+    [self moveTileAtLocation:aLocation];
+    [self updateZIndices];
 }
 
 @end

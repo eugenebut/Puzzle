@@ -59,7 +59,17 @@ static const NSTimeInterval kAnimationDuration = 0.5;
 }
 
 - (IBAction)shuffle:(UIButton *)aSender {
+    
+    [UIView animateWithDuration:kAnimationDuration animations:^{
+        self.nextButton.alpha = 0.0;
+        self.textView.alpha = 0.0;
+    }
+    completion:^(BOOL finished) {
+        [self.delegate helpViewControllerShuflePuzzle:self completionBlock:^{
+            
+        }];
 
+    }];
 }
 
 @end
