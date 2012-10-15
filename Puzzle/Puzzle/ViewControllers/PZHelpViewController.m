@@ -43,17 +43,17 @@ static const NSTimeInterval kAnimationDuration = 0.5;
     }
     completion:^(BOOL finished) {
         self.hideButton.hidden = YES;
+    }];
+
+    [self.delegate helpViewControllerSolvePuzzle:self completionBlock:^{
+        self.textView.text = NSLocalizedString(@"Puzzle_Objective", @"Puzzle Objective Description");
         
-        [self.delegate helpViewControllerSolvePuzzle:self completionBlock:^{
-            self.textView.text = NSLocalizedString(@"Puzzle_Objective", @"Puzzle Objective Description");
-            
-            [self.nextButton setTitle:NSLocalizedString(@"Shuffle Puzle", @"Shuffle button label") forState:UIControlStateNormal];
-            [self.nextButton PZSetTouchUpInsideAction:@selector(shuffle:)];
-            
-            [UIView animateWithDuration:kAnimationDuration animations:^{
-                self.textView.alpha = 1.0;
-                self.nextButton.alpha = 1.0;
-            }];
+        [self.nextButton setTitle:NSLocalizedString(@"Shuffle Puzle", @"Shuffle button label") forState:UIControlStateNormal];
+        [self.nextButton PZSetTouchUpInsideAction:@selector(shuffle:)];
+        
+        [UIView animateWithDuration:kAnimationDuration animations:^{
+            self.textView.alpha = 1.0;
+            self.nextButton.alpha = 1.0;
         }];
     }];
 }
@@ -63,16 +63,15 @@ static const NSTimeInterval kAnimationDuration = 0.5;
     [UIView animateWithDuration:kAnimationDuration animations:^{
         self.nextButton.alpha = 0.0;
         self.textView.alpha = 0.0;
-    }
-    completion:^(BOOL finished) {
-        [self.delegate helpViewControllerShuflePuzzle:self completionBlock:^{
-            self.textView.text = NSLocalizedString(@"Puzzle_Tutorial_Step_1", @"Puzzle Tutorial 1st step");
-            
-            [UIView animateWithDuration:kAnimationDuration animations:^{
-                self.textView.alpha = 1.0;
-                [self.delegate helpViewControllerLearnTap:self completionBlock:^{
-                    
-                }];
+    }];
+    
+    [self.delegate helpViewControllerShuflePuzzle:self completionBlock:^{
+        self.textView.text = NSLocalizedString(@"Puzzle_Tutorial_Step_1", @"Puzzle Tutorial 1st step");
+        
+        [UIView animateWithDuration:kAnimationDuration animations:^{
+            self.textView.alpha = 1.0;
+            [self.delegate helpViewControllerLearnTap:self completionBlock:^{
+                
             }];
         }];
     }];

@@ -533,7 +533,7 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
     
     // we have a quick solution
     [self.puzzle applySolution:solution animationBlock:^(NSArray *aTiles, PZMoveDirection aDirection, ChangeCompletion aChangeCompletion) {
-        [CATransaction setAnimationDuration:kAutoMoveAnimationDuration];
+        [CATransaction setAnimationDuration:0.4];
         [CATransaction setCompletionBlock:^{
             aChangeCompletion();
             if (self.puzzle.isWin) {
@@ -546,8 +546,11 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 }
 
 - (void)helpViewControllerShuflePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
+    [CATransaction setAnimationDuration:0.13];
     [CATransaction setCompletionBlock:^{
+        [CATransaction setAnimationDuration:0.13];
         [CATransaction setCompletionBlock:^{
+            [CATransaction setAnimationDuration:0.13];
             [CATransaction setCompletionBlock:^{
                 aBlock();
             }];
