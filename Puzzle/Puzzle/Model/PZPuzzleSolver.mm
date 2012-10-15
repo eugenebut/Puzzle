@@ -180,7 +180,7 @@ uint8_t puzzle_node::calculate_manhatten() const {
     puzzle_node *node = new puzzle_node(self);
     
     // we can't find solution for complex puzzles withing reasonable amount of time
-    if (20 < node->manhattan()) {
+    if (10 < node->manhattan()) {
         delete node;
         return nil;
     }
