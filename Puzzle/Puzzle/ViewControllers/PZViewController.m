@@ -531,31 +531,11 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (void)helpViewControllerSolvePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aSolveCompletionBlock {
-    // do we have a quick solution?
-    NSArray *solution = [self.puzzle solution];
-
-    if (nil == solution) {
-        // no quick solution available, lets solve instantly
-        [self.puzzle solveInstantly];
-        [UIView animateWithDuration:kAutoMoveAnimationDuration animations:^{
-            [self updateTilesLocations:[self.puzzle allTiles]];
-        } completion:^(BOOL finished) {
-            aSolveCompletionBlock();
-        }];
-        return;
-    }
-    
-    // we have a quick solution
-    [self.puzzle applySolution:solution animationBlock:^(NSArray *aTiles, PZMoveDirection aDirection, ChangeCompletion aChangeCompletion) {
-        [CATransaction setAnimationDuration:0.4];
-        [CATransaction setCompletionBlock:^{
-            aChangeCompletion();
-            if (self.puzzle.isWin) {
-                aSolveCompletionBlock();
-            }
-        }];
-        [self moveLayersOfTiles:aTiles direction:aDirection];
-        [self updateZIndices];
+    [self.puzzle solveInstantly];
+    [UIView animateWithDuration:kAutoMoveAnimationDuration animations:^{
+        [self updateTilesLocations:[self.puzzle allTiles]];
+    } completion:^(BOOL finished) {
+        aSolveCompletionBlock();
     }];
 }
 

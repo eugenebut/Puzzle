@@ -23,9 +23,7 @@
 		B75FC92415A0FEE6002D7185 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B75FC92215A0FEE6002D7185 /* Default-Portrait~ipad.png */; };
 		B75FC92915A10112002D7185 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF207159D6AE4006EFEF0 /* QuartzCore.framework */; };
 		B75FC92A15A1011D002D7185 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C3159C15F8006EFEF0 /* CoreGraphics.framework */; };
-		B78370F9162A8F6E00B06013 /* SmallObj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370F8162A8F6E00B06013 /* SmallObj.cpp */; };
 		B78370FA162A8F6E00B06013 /* SmallObj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370F8162A8F6E00B06013 /* SmallObj.cpp */; };
-		B78370FF162A935100B06013 /* Singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370FE162A935100B06013 /* Singleton.cpp */; };
 		B7837100162A935100B06013 /* Singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370FE162A935100B06013 /* Singleton.cpp */; };
 		B79C7CB516269631002B4357 /* PZHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79C7CB316269631002B4357 /* PZHelpViewController.m */; };
 		B79C7CBA1626966E002B4357 /* PZHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B79C7CB81626966E002B4357 /* PZHelpViewController.xib */; };
@@ -70,7 +68,6 @@
 		B7EEBE3515A0EE9200EC5BBB /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3115A0EE9100EC5BBB /* Icon.png */; };
 		B7EEBE3615A0EE9200EC5BBB /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3215A0EE9200EC5BBB /* Icon@2x.png */; };
 		B7F5E8161627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E8151627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m */; };
-		B7F5E819162887BA00AA2C24 /* PZPuzzleSolver.mm in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -539,9 +536,6 @@
 				B70858E6160F96BA007B1204 /* PZHighscoresViewController.m in Sources */,
 				B70858EA160FA882007B1204 /* PZHightscoresAccessor.m in Sources */,
 				B79C7CB516269631002B4357 /* PZHelpViewController.m in Sources */,
-				B7F5E819162887BA00AA2C24 /* PZPuzzleSolver.mm in Sources */,
-				B78370F9162A8F6E00B06013 /* SmallObj.cpp in Sources */,
-				B78370FF162A935100B06013 /* Singleton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
