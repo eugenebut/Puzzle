@@ -497,7 +497,10 @@ typedef void(^PZTileMoveBlock)(void);
     // animate UI
     [UIView animateWithDuration:kShowHelpAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         for (UIView *view in self.view.subviews) {
-            view.center = CGPointMake(view.center.x, view.center.y + kHelpShift);
+            // keep fake navigation bar in place to have tinted status bar
+            if (![view isKindOfClass:[UINavigationBar class]]) {
+                view.center = CGPointMake(view.center.x, view.center.y + kHelpShift);
+            }
         }
         
         // put help view in place
@@ -517,7 +520,8 @@ typedef void(^PZTileMoveBlock)(void);
         [self.helpViewController.view setOffscreenLocation];
 
         for (UIView *view in self.view.subviews) {
-            if (view != self.helpViewController.view) {
+            // keep fake navigation bar in place to have tinted status bar
+            if (view != self.helpViewController.view && ![view isKindOfClass:[UINavigationBar class]]) {
                 view.center = CGPointMake(view.center.x, view.center.y - kHelpShift);
             }
         }
