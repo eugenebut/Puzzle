@@ -52,6 +52,7 @@
 		B7AEF208159D6AE4006EFEF0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF207159D6AE4006EFEF0 /* QuartzCore.framework */; };
 		B7AEF20B159D735B006EFEF0 /* puzzle_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B7AEF20A159D735B006EFEF0 /* puzzle_iPhone.png */; };
 		B7AEF20C159D735B006EFEF0 /* puzzle_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B7AEF20A159D735B006EFEF0 /* puzzle_iPhone.png */; };
+		B7AFEAF6162D37D9006D95AE /* Bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7AFEAF5162D37D8006D95AE /* Bubble@2x.png */; };
 		B7B00A5E15FF0C840085434D /* Background_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B00A5C15FF0C830085434D /* Background_iPhone.png */; };
 		B7B00A5F15FF0C840085434D /* Tiles_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B00A5D15FF0C830085434D /* Tiles_iPhone.png */; };
 		B7B00A6615FF170C0085434D /* Frame_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B00A6515FF170C0085434D /* Frame_iPhone.png */; };
@@ -139,6 +140,7 @@
 		B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZTileLocation.m; sourceTree = "<group>"; };
 		B7AEF207159D6AE4006EFEF0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B7AEF20A159D735B006EFEF0 /* puzzle_iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puzzle_iPhone.png; sourceTree = "<group>"; };
+		B7AFEAF5162D37D8006D95AE /* Bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bubble@2x.png"; sourceTree = "<group>"; };
 		B7B00A5C15FF0C830085434D /* Background_iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background_iPhone.png; sourceTree = "<group>"; };
 		B7B00A5D15FF0C830085434D /* Tiles_iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tiles_iPhone.png; sourceTree = "<group>"; };
 		B7B00A6515FF170C0085434D /* Frame_iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Frame_iPhone.png; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 		B7F5E80F16276B8D00AA2C24 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B7AFEAF5162D37D8006D95AE /* Bubble@2x.png */,
 				B70858E1160EFEC7007B1204 /* Default@2x.png */,
 				B7B00A5C15FF0C830085434D /* Background_iPhone.png */,
 				B7BA97D415FF1D5B002E296D /* Background_iPhone@2x.png */,
@@ -489,6 +492,7 @@
 				B79C7CBA1626966E002B4357 /* PZHelpViewController.xib in Resources */,
 				B7D5506A162A7E9D00DC1047 /* HelpButton@2x.png in Resources */,
 				B7D5506B162A7E9D00DC1047 /* HelpButtonPressed@2x.png in Resources */,
+				B7AFEAF6162D37D9006D95AE /* Bubble@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
