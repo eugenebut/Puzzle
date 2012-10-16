@@ -67,11 +67,24 @@ static const NSTimeInterval kAnimationDuration = 0.5;
     
     [self.delegate helpViewControllerShuflePuzzle:self completionBlock:^{
         self.textView.text = NSLocalizedString(@"Puzzle_Tutorial_Step_1", @"Puzzle Tutorial 1st step");
-        
+        self.nextButton.hidden = YES;
         [UIView animateWithDuration:kAnimationDuration animations:^{
             self.textView.alpha = 1.0;
             [self.delegate helpViewControllerLearnTap:self completionBlock:^{
                 
+                [UIView animateWithDuration:0.25 animations:^{
+                    self.textView.alpha = 0.0;
+                } completion:^(BOOL finished) {
+                    self.textView.text = NSLocalizedString(@"Puzzle_Tutorial_Step_2", @"Puzzle Objective Description");
+                    [UIView animateWithDuration:0.25 animations:^{
+                        self.textView.alpha = 1.0;
+                    }];
+
+                }];
+
+                [self.delegate helpViewControllerLearnPan:self completionBlock:^{
+                }];
+
             }];
         }];
     }];

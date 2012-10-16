@@ -566,6 +566,16 @@ typedef void(^PZTileMoveBlock)(void);
     };
 }
 
+- (void)helpViewControllerLearnPan:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
+    self.allowedLocations = PZTileLocationMake(3, 0);
+    // TODO: add guide layer
+    self.panRecognizer.enabled = YES;
+    self.tapRecognizer.enabled = NO;
+    self.tileMoveBlock = ^{
+        aBlock();
+    };
+}
+
 - (CALayer *)newTapGuideLayerForRect:(CGRect)aRect {
     CGPoint center = CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) / 2);
     UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:center radius:10.0
