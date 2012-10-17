@@ -34,5 +34,6 @@
 - (void)helpViewControllerShuflePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock;
 - (void)helpViewControllerLearnTap:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock;
 - (void)helpViewControllerLearnPan:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock;
+- (void)helpViewControllerLearnMoveAll:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock;
 
 @end

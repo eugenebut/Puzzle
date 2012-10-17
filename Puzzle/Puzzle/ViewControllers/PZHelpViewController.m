@@ -75,7 +75,7 @@ static const NSTimeInterval kAnimationDuration = 0.5;
                 [UIView animateWithDuration:0.25 animations:^{
                     self.textView.alpha = 0.0;
                 } completion:^(BOOL finished) {
-                    self.textView.text = NSLocalizedString(@"Puzzle_Tutorial_Step_2", @"Puzzle Objective Description");
+                    self.textView.text = NSLocalizedString(@"Puzzle_Tutorial_Step_2", @"Puzzle Tutorial 2nd step");
                     [UIView animateWithDuration:0.25 animations:^{
                         self.textView.alpha = 1.0;
                     }];
@@ -83,8 +83,29 @@ static const NSTimeInterval kAnimationDuration = 0.5;
                 }];
 
                 [self.delegate helpViewControllerLearnPan:self completionBlock:^{
-                }];
 
+                    [UIView animateWithDuration:0.25 animations:^{
+                        self.textView.alpha = 0.0;
+                    } completion:^(BOOL finished) {
+                        self.textView.text = NSLocalizedString(@"Puzzle_Tutorial_Step_3", @"Puzzle Tutorial 3rd step");
+                        [UIView animateWithDuration:0.25 animations:^{
+                            self.textView.alpha = 1.0;
+                        }];
+                        
+                    }];
+                    
+                    [self.delegate helpViewControllerLearnMoveAll:self completionBlock:^{
+                        [UIView animateWithDuration:0.25 animations:^{
+                            self.textView.alpha = 0.0;
+                        } completion:^(BOOL finished) {
+                            self.textView.text = NSLocalizedString(@"Puzzle_Tutorial_End", @"Puzzle Tutorial end");
+                            [UIView animateWithDuration:0.25 animations:^{
+                                self.textView.alpha = 1.0;
+                            }];
+                        }];
+                    }];
+
+                }];
             }];
         }];
     }];

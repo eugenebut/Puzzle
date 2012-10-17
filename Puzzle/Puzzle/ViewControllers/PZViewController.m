@@ -587,6 +587,17 @@ typedef void(^PZTileMoveBlock)(void);
     };
 }
 
+- (void)helpViewControllerLearnMoveAll:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
+    self.allowedLocations = PZTileLocationMake(3, 3);
+    CALayer *guide = [self newTapGuideLayerForRect:[self rectForTileAtLocation:self.allowedLocations]];
+    [self.layersView.layer addSublayer:guide];
+    self.tapRecognizer.enabled = YES;
+    self.tileMoveBlock = ^{
+        [guide removeFromSuperlayer];
+        aBlock();
+    };
+}
+
 - (CALayer *)newTapGuideLayerForRect:(CGRect)aRect {
     CGPoint center = CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) / 2);
     UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:center radius:10.0
@@ -787,7 +798,7 @@ typedef void(^PZTileMoveBlock)(void);
     
     [self updateMoveLabel];
     
-    if (self.puzzle.isWin) {
+    if (self.puzzle.isWin && !self.isHelpMode) {
         [self.stopWatch stop];
         [self showWinMessage];
     }

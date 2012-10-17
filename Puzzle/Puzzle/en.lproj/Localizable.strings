@@ -20,3 +20,5 @@
 "Puzzle_Objective"  = "The object is to place the tiles in order (see below) by making sliding moves using the empty space. Lets try this...";
 "Puzzle_Tutorial_Step_1" = "Now we gonna learn how to move the tiles. Tap tile #7 to move it towards the empty space.";
 "Puzzle_Tutorial_Step_2" = "Exellent! You can also move a tile with sliding gesture. Now shift tile #3 to the left.";
+"Puzzle_Tutorial_Step_3" = "Three tiles aren't in place yet. Move them altogether either by taping tile #12 or by sliding it up.";
+"Puzzle_Tutorial_End" = "Well done. Now you know how to solve the puzzle. Shake your device to shuffle and start playing.";
