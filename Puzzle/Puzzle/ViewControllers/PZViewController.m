@@ -32,6 +32,8 @@ static const PZTileLocation kAllowedLocationsNone = {-2, -2};
 static const CGFloat kHelpShift = 70.0;
 static const CGFloat kHelpViewShift = 10.0;
 
+static const CGFloat kGuideColor[] = {1.0, 0.82, 0.7, 1.0};
+
 static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
 static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
 static NSString *const kWinController = @"PZWinControllerDefaults";
@@ -261,8 +263,8 @@ typedef void(^PZTileMoveBlock)(void);
                                  (distancePassed.height < CGRectGetHeight(originalTileRect) / 2);
             
             if (halfwayPassed) {
-                [self moveTileAtLocation:self.panTileLocation];
                 [self updateZIndices];
+                [self moveTileAtLocation:self.panTileLocation];
             }
         }
         
@@ -572,10 +574,15 @@ typedef void(^PZTileMoveBlock)(void);
 
 - (void)helpViewControllerLearnPan:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
     self.allowedLocations = PZTileLocationMake(3, 0);
-    // TODO: add guide layer
+    NSArray *guides = [self newPanGuideLayersForRect:[self rectForTileAtLocation:self.allowedLocations]];
+    for (CALayer *guide in guides) {
+        [self.layersView.layer addSublayer:guide];
+    }
+    
     self.panRecognizer.enabled = YES;
     self.tapRecognizer.enabled = NO;
     self.tileMoveBlock = ^{
+        [guides makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
         aBlock();
     };
 }
@@ -586,8 +593,7 @@ typedef void(^PZTileMoveBlock)(void);
                                                     startAngle:0 endAngle:M_PI * 2
                                                      clockwise:YES];
 
-    CGColorRef color = CGColorCreate(CGColorSpaceCreateDeviceRGB(),
-                                     (CGFloat []){1.0, 0.82, 0.7, 1.0});
+    CGColorRef color = CGColorCreate(CGColorSpaceCreateDeviceRGB(), kGuideColor);
     
     CAShapeLayer *guide = [CAShapeLayer new];
     guide.frame = aRect;
@@ -617,6 +623,76 @@ typedef void(^PZTileMoveBlock)(void);
     [guide addAnimation:hide forKey:@"strokeColor"];
     
     return guide;
+}
+
+- (NSArray *)newPanGuideLayersForRect:(CGRect)aRect {
+    
+    // create arrow head
+    UIBezierPath *headPath = [UIBezierPath new];
+    static const CGFloat kArrowMargin = 10.0;
+    [headPath moveToPoint:CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) / 3)];
+    [headPath addLineToPoint:CGPointMake(CGRectGetWidth(aRect) / 2, kArrowMargin)];
+    [headPath addLineToPoint:CGPointMake(kArrowMargin, CGRectGetHeight(aRect) / 2)];
+    [headPath addLineToPoint:CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) - kArrowMargin)];
+    [headPath addLineToPoint:CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) * 2 / 3)];
+    
+    CGColorRef color = CGColorCreate(CGColorSpaceCreateDeviceRGB(), kGuideColor);
+
+    CAShapeLayer *head = [CAShapeLayer new];
+    head.frame = aRect;
+    head.path = CGPathCreateCopy([headPath CGPath]);
+    head.strokeColor = color;
+    head.fillColor = NULL;
+    
+    // moving animation
+    CABasicAnimation *move = [CABasicAnimation animationWithKeyPath:@"position"];
+    move.duration = 2.0;
+    move.removedOnCompletion = NO;
+    move.repeatCount = HUGE_VALF;
+    move.fromValue = [NSValue valueWithCGPoint:head.position];
+    move.toValue = [NSValue valueWithCGPoint:CGPointMake(head.position.x - CGRectGetWidth(aRect), head.position.y)];
+    move.fillMode = kCAFillModeForwards;
+    [head addAnimation:move forKey:@"position"];
+
+    // fading animation
+    CABasicAnimation *hide = [CABasicAnimation animationWithKeyPath:@"strokeColor"];
+    hide.duration = 1.0;
+    hide.removedOnCompletion = NO;
+    hide.repeatCount = HUGE_VALF;
+    hide.fromValue = (__bridge id)([[UIColor clearColor] CGColor]);
+    hide.toValue = (__bridge id)color;
+    hide.fillMode = kCAFillModeForwards;
+    hide.autoreverses = YES;
+    [head addAnimation:hide forKey:@"strokeColor"];
+
+    // create arrow body
+    UIBezierPath *bodyPath = [UIBezierPath new];
+    [bodyPath moveToPoint:CGPointMake(CGRectGetWidth(aRect) - kArrowMargin, CGRectGetHeight(aRect) / 3)];
+    [bodyPath addLineToPoint:CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) / 3)];
+
+    [bodyPath moveToPoint:CGPointMake(CGRectGetWidth(aRect) - kArrowMargin, CGRectGetHeight(aRect) * 2 / 3)];
+    [bodyPath addLineToPoint:CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) * 2 / 3)];
+    
+    CAShapeLayer *body = [CAShapeLayer new];
+    body.frame = aRect;
+    body.path = CGPathCreateCopy([bodyPath CGPath]);
+    body.strokeColor = color;
+    body.fillColor = NULL;
+    
+    // streatching animation
+    CABasicAnimation *stretch = [CABasicAnimation animationWithKeyPath:@"transform.scale.x"];
+    stretch.duration = 2.0;
+    stretch.removedOnCompletion = NO;
+    stretch.repeatCount = HUGE_VALF;
+    stretch.fromValue = @0.0;
+    stretch.toValue = @-2.77;
+    stretch.fillMode = kCAFillModeForwards;
+    [body addAnimation:stretch forKey:@"transform.scale.x"];
+
+    // fading animation
+    [body addAnimation:hide forKey:@"strokeColor"];
+
+    return @[head, body];
 }
 
 #pragma mark -
@@ -717,8 +793,9 @@ typedef void(^PZTileMoveBlock)(void);
     }
     
     if (self.tileMoveBlock) {
-        self.tileMoveBlock();
+        __strong PZTileMoveBlock tileMoveBlock = self.tileMoveBlock;
         self.tileMoveBlock = nil;
+        tileMoveBlock();
     }
 }
 
@@ -784,8 +861,8 @@ typedef void(^PZTileMoveBlock)(void);
 - (void)moveLayersAndTilesAtLocation:(PZTileLocation)aLocation {
     NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:aLocation];
     [self moveLayersOfTiles:tiles direction:[self.puzzle allowedMoveDirectionForTileAtLocation:aLocation]];
-    [self moveTileAtLocation:aLocation];
     [self updateZIndices];
+    [self moveTileAtLocation:aLocation];
 }
 
 @end
