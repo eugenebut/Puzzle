@@ -414,17 +414,14 @@ typedef void(^PZTileMoveBlock)(void);
 
 - (void)motionEnded:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent {
     if (UIEventSubtypeMotionShake == aMotion) {
-        [self.stopWatch stop];
-        [self.stopWatch reset];
-
-        [self hideWinMessageIfNecessary];
-        [self hideHighscoresMessageIfNecessary];
-        
-        [self shuffleWithCompletionBlock:^{
-            [self.stopWatch start];
-            [self showHighscoresButtonIfNecessary];
-        }];
-        [self updateMoveLabel];
+        if (self.isHelpMode) {
+            [self hideHelpWithCompletionBlock:^{
+                [self shuffle];
+            }];
+        }
+        else {
+            [self shuffle];
+        }
     }
 }
 
@@ -432,6 +429,20 @@ typedef void(^PZTileMoveBlock)(void);
     if (UIEventSubtypeMotionShake == aMotion) {
         self.view.userInteractionEnabled = YES;
     }
+}
+
+- (void)shuffle {
+    [self.stopWatch stop];
+    [self.stopWatch reset];
+    
+    [self hideWinMessageIfNecessary];
+    [self hideHighscoresMessageIfNecessary];
+    
+    [self shuffleWithCompletionBlock:^{
+        [self.stopWatch start];
+        [self showHighscoresButtonIfNecessary];
+    }];
+    [self updateMoveLabel];
 }
 
 - (void)shuffleWithCompletionBlock:(void (^)(void))aBlock {
@@ -517,26 +528,13 @@ typedef void(^PZTileMoveBlock)(void);
 
 - (void)helpViewControllerWantsHide:(PZHelpViewController *)aController
 {
-    [UIView animateWithDuration:kShowHelpAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
-
-        [self.helpViewController.view setOffscreenLocation];
-
-        for (UIView *view in self.view.subviews) {
-            // keep fake navigation bar in place to have tinted status bar
-            if (view != self.helpViewController.view && ![view isKindOfClass:[UINavigationBar class]]) {
-                view.center = CGPointMake(view.center.x, view.center.y - kHelpShift);
-            }
-        }
-        self.allowedLocations = kAllowedLocationsAll;
-    } completion:^(BOOL finished) {
-        [self.helpViewController.view removeFromSuperview];
-        self.helpViewController = nil;
-        self.helpMode = NO;
-        self.helpButton.userInteractionEnabled = YES;
-    }];
+    [self hideHelpWithCompletionBlock:NULL];
 }
 
 - (void)helpViewControllerSolvePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aSolveCompletionBlock {
+
+    [self resignFirstResponder]; // disable shake handling
+
     [self.puzzle solveInstantly];
     [UIView animateWithDuration:kAutoMoveAnimationDuration animations:^{
         [self updateTilesLocations:[self.puzzle allTiles]];
@@ -588,6 +586,8 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (void)helpViewControllerLearnMoveAll:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
+    __weak id weakSelf = self;
+    
     self.allowedLocations = PZTileLocationMake(3, 3);
     CALayer *guide = [self newTapGuideLayerForRect:[self rectForTileAtLocation:self.allowedLocations]];
     [self.layersView.layer addSublayer:guide];
@@ -595,7 +595,31 @@ typedef void(^PZTileMoveBlock)(void);
     self.tileMoveBlock = ^{
         [guide removeFromSuperlayer];
         aBlock();
+        [weakSelf becomeFirstResponder]; // enable shake handling
     };
+}
+
+- (void)hideHelpWithCompletionBlock:(void(^)(void))aCompletionBlock {
+    [UIView animateWithDuration:kShowHelpAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+        
+        [self.helpViewController.view setOffscreenLocation];
+        
+        for (UIView *view in self.view.subviews) {
+            // keep fake navigation bar in place to have tinted status bar
+            if (view != self.helpViewController.view && ![view isKindOfClass:[UINavigationBar class]]) {
+                view.center = CGPointMake(view.center.x, view.center.y - kHelpShift);
+            }
+        }
+        self.allowedLocations = kAllowedLocationsAll;
+    } completion:^(BOOL finished) {
+        [self.helpViewController.view removeFromSuperview];
+        self.helpViewController = nil;
+        self.helpMode = NO;
+        self.helpButton.userInteractionEnabled = YES;
+        if (NULL != aCompletionBlock) {
+            aCompletionBlock();
+        }
+    }];
 }
 
 - (CALayer *)newTapGuideLayerForRect:(CGRect)aRect {
