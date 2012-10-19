@@ -159,6 +159,10 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (void)saveGameState {
+    if (self.isHelpMode) {
+        return;
+    }
+    
     [[NSUserDefaults standardUserDefaults] setObject:self.puzzle.state forKey:kPuzzleState];
     [[NSUserDefaults standardUserDefaults] setObject:
             [NSNumber numberWithUnsignedInteger:self.stopWatch.totalSeconds]
@@ -494,6 +498,7 @@ typedef void(^PZTileMoveBlock)(void);
 
 - (IBAction)showHelp:(UIButton *)aSender {
     [self hideHighscoresMessageIfNecessary];
+    [self saveGameState];
     [self showHelp];
 }
 
