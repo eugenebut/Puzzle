@@ -120,7 +120,6 @@ typedef void(^PZTileMoveBlock)(void);
     // support shakes handling
     [self becomeFirstResponder];
     
-    // shuffle if necessary
     if ([self hasSavedState]) {
         [self updateMoveLabel];
         [self updateTimeLabel];
@@ -129,10 +128,8 @@ typedef void(^PZTileMoveBlock)(void);
         }
     }
     else if (!self.isGameStarted) {
-        [self shuffleWithCompletionBlock:^{
-            [self.stopWatch start];
-            [self updateMoveLabel];
-        }];
+        // propose tutorial if necessary
+        [self showHelp];
         self.gameStarted = YES;
     }
 }
@@ -176,7 +173,8 @@ typedef void(^PZTileMoveBlock)(void);
     self.stopWatch.totalSeconds = [[[NSUserDefaults standardUserDefaults]
                                     objectForKey:kElapsedTime] unsignedIntegerValue];
     if (self.puzzle.isWin) {
-        self.view.userInteractionEnabled = NO;
+        // user interaction is enabled on first launch
+        self.view.userInteractionEnabled = ![self hasSavedState];
         NSData *controllerData = [[NSUserDefaults standardUserDefaults] objectForKey:kWinController];
         if (nil != controllerData) {
             self.winViewController = [NSKeyedUnarchiver unarchiveObjectWithData:
@@ -495,9 +493,11 @@ typedef void(^PZTileMoveBlock)(void);
 #pragma mark Help
 
 - (IBAction)showHelp:(UIButton *)aSender {
-    
     [self hideHighscoresMessageIfNecessary];
+    [self showHelp];
+}
 
+- (void)showHelp {
     // prepare help view
     self.helpViewController = [PZHelpViewController new];
     self.helpViewController.delegate = self;
@@ -528,7 +528,14 @@ typedef void(^PZTileMoveBlock)(void);
 
 - (void)helpViewControllerWantsHide:(PZHelpViewController *)aController
 {
-    [self hideHelpWithCompletionBlock:NULL];
+    [self hideHelpWithCompletionBlock:^{
+        if (self.puzzle.isWin) {
+            [self shuffleWithCompletionBlock:^{
+                [self.stopWatch start];
+                [self updateMoveLabel];
+            }];
+        }
+    }];
 }
 
 - (void)helpViewControllerSolvePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aSolveCompletionBlock {
