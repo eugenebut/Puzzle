@@ -15,3 +15,11 @@ ul.menu li a {
   background-color: #dddddd;
   text-align: center;
 }
+
+.right-align {
+  text-align: right;
+}
+
+.red-color {
+  color:#F30;
+}

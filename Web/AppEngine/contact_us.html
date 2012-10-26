@@ -1,5 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-Contact Us
+
+<form method="post">
+	<table>
+		<tr>
+			<td class="right-align">Name:</td>
+			<td><input style="width: 250px;" type="text" name="usr_name"></td>
+		</tr>
+		<tr>
+			<td class="right-align"><a class="red-color">*</a>Email:</td>
+			<td><input style="width: 250px;" type="text" name="email"></td>
+		</tr>
+		<tr>
+			<td class="right-align" style="vertical-align:top"><a class="red-color">*</a>Question / Comment:</td>
+			<td><textarea style="min-width: 250px; max-width: 250px; height:100; max-height:200;" type="text" name="question"></textarea></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><input type="submit"></td>
+		</tr>		
+	</table>
+</form>
+
 {% endblock %}

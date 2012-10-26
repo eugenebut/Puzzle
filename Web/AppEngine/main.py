@@ -19,9 +19,27 @@ from google.appengine.ext.webapp import template
 import os
 import webapp2
 
+
+def GetPath(file_name):
+	return os.path.join(os.path.dirname(__file__), file_name)
+
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        path = os.path.join(os.path.dirname(__file__), 'index.html')
-        self.response.out.write(template.render(path, {}))
+        self.response.out.write(template.render(GetPath('index.html'), {}))
 
-app = webapp2.WSGIApplication([('/', MainHandler)], debug=True)
+
+class FAQHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.out.write(template.render(GetPath('faq.html'), {}))
+
+
+class ContactUsHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.out.write(template.render(GetPath('contact_us.html'), {}))
+
+
+app = webapp2.WSGIApplication([('/', MainHandler),
+							   ('/faq', FAQHandler),
+  							   ('/contact_us', ContactUsHandler),
+ 							  ], debug=True)
