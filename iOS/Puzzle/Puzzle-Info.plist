@@ -14,14 +14,6 @@
 		<string>Default@2x.png</string>
 		<string>Icon.png</string>
 		<string>Icon@2x.png</string>
-		<string>Icon_iPad.png</string>
-		<string>Icon_iPad@2x.png</string>
-		<string>Default-Portrait~ipad.png</string>
-		<string>Default-Portrait@2x~ipad.png</string>
-		<string>Default-Portrait~ipad.png</string>
-		<string>Default-Portrait@2x~ipad.png</string>
-		<string>Default-Landscape~ipad.png</string>
-		<string>Default-Landscape@2x~ipad.png</string>
 	</array>
 	<key>CFBundleIcons</key>
 	<dict>
@@ -33,14 +25,6 @@
 				<string>Default@2x.png</string>
 				<string>Icon.png</string>
 				<string>Icon@2x.png</string>
-				<string>Icon_iPad.png</string>
-				<string>Icon_iPad@2x.png</string>
-				<string>Default-Portrait~ipad.png</string>
-				<string>Default-Portrait@2x~ipad.png</string>
-				<string>Default-Portrait~ipad.png</string>
-				<string>Default-Portrait@2x~ipad.png</string>
-				<string>Default-Landscape~ipad.png</string>
-				<string>Default-Landscape@2x~ipad.png</string>
 			</array>
 		</dict>
 	</dict>
@@ -75,11 +59,11 @@
 			<key>TintColor</key>
 			<dict>
 				<key>Blue</key>
-				<real>0.14901960784313725</real>
+				<real>0.1490196078431373</real>
 				<key>Green</key>
-				<real>0.32941176470588235</real>
+				<real>0.3294117647058823</real>
 				<key>Red</key>
-				<real>0.59607843137254901</real>
+				<real>0.596078431372549</real>
 			</dict>
 			<key>Translucent</key>
 			<false/>
