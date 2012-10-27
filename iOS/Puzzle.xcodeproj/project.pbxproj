@@ -88,6 +88,7 @@
 		B72877441604FE4A00FC253F /* PZMessageFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZMessageFormatter.m; sourceTree = "<group>"; };
 		B728774C1605225D00FC253F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B728774E1605227E00FC253F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B72EA0BD163CA21D00C4D3AD /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B78370F7162A8F5F00B06013 /* SmallObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallObj.h; sourceTree = "<group>"; };
 		B78370F8162A8F6E00B06013 /* SmallObj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallObj.cpp; sourceTree = "<group>"; };
 		B78370FB162A8F9E00B06013 /* LokiExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LokiExport.h; sourceTree = "<group>"; };
@@ -558,6 +559,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B7AEF1C9159C15F8006EFEF0 /* en */,
+				B72EA0BD163CA21D00C4D3AD /* ru */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
