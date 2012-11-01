@@ -16,6 +16,7 @@
 #
 
 import cgi
+import logging
 import os
 import webapp2
 
@@ -24,31 +25,19 @@ from google.appengine.ext.webapp import template
 
 
 def GetPath(file_name):
-  return os.path.join(os.path.dirname(__file__), file_name)
+  return os.path.join(os.path.join(os.path.dirname(__file__), 'templates', file_name))
 
 
 class MainHandler(webapp2.RequestHandler):
-    def get(self):
-        self.response.out.write(template.render(GetPath('index.html'), {}))
 
+    def get(self, tab):
+        map = {'faq': 'faq.html'}
+        self.response.out.write(template.render(GetPath(map.get(tab, 'index.html')), {}))
 
-class FAQHandler(webapp2.RequestHandler):
-    def get(self):
-        self.response.out.write(template.render(GetPath('faq.html'), {}))
-
-
-class ContactUsHandler(webapp2.RequestHandler):
-    def get(self):
-        self.response.out.write(template.render(GetPath('contact_us.html'), {}))
-    
-    def post(self):
+    def post(self, tab):
       sender = "{0} <{1}>".format(self.request.get('user_name'), self.request.get('email'))
       mail.send_mail(sender=sender, to="but.eugene@gmail.com", subject="Puzzle question", body=self.request.get('question'))
+      self.redirect(self.request.uri)
 
-      self.response.out.write(template.render(GetPath('thank_you_for_feedback.html'), {}))
 
-
-app = webapp2.WSGIApplication([('/', MainHandler),
-                               ('/faq', FAQHandler),
-                               ('/contact_us', ContactUsHandler),
-                               ], debug=True)
+app = webapp2.WSGIApplication([(r'/(.*)', MainHandler)], debug=True)
