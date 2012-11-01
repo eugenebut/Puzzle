@@ -54,6 +54,7 @@
 		B7BA97D815FF1D6A002E296D /* Frame_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BA97D715FF1D6A002E296D /* Frame_iPhone@2x.png */; };
 		B7BA97DA15FF1D79002E296D /* Tiles_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BA97D915FF1D79002E296D /* Tiles_iPhone@2x.png */; };
 		B7BA97E3160442C0002E296D /* PZStopWatch.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BA97E2160442C0002E296D /* PZStopWatch.m */; };
+		B7C8166B163FAEF9003B9AED /* WinMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C8166A163FAEF9003B9AED /* WinMessage@2x.png */; };
 		B7D5506A162A7E9D00DC1047 /* HelpButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D55068162A7E9D00DC1047 /* HelpButton@2x.png */; };
 		B7D5506B162A7E9D00DC1047 /* HelpButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D55069162A7E9D00DC1047 /* HelpButtonPressed@2x.png */; };
 		B7EEBE2215A0E69600EC5BBB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE2115A0E69600EC5BBB /* Default.png */; };
@@ -134,6 +135,7 @@
 		B7BA97D915FF1D79002E296D /* Tiles_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tiles_iPhone@2x.png"; sourceTree = "<group>"; };
 		B7BA97E1160442C0002E296D /* PZStopWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZStopWatch.h; sourceTree = "<group>"; };
 		B7BA97E2160442C0002E296D /* PZStopWatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZStopWatch.m; sourceTree = "<group>"; };
+		B7C8166A163FAEF9003B9AED /* WinMessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WinMessage@2x.png"; sourceTree = "<group>"; };
 		B7D55068162A7E9D00DC1047 /* HelpButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HelpButton@2x.png"; sourceTree = "<group>"; };
 		B7D55069162A7E9D00DC1047 /* HelpButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HelpButtonPressed@2x.png"; sourceTree = "<group>"; };
 		B7EEBE1C15A0C28D00EC5BBB /* PZTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PZTile.h; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				B7D55069162A7E9D00DC1047 /* HelpButtonPressed@2x.png */,
 				B70858F716118C1B007B1204 /* HighscoresButton@2x.png */,
 				B70858F816118C1B007B1204 /* HighscoresButtonPressed@2x.png */,
+				B7C8166A163FAEF9003B9AED /* WinMessage@2x.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 				B7D5506A162A7E9D00DC1047 /* HelpButton@2x.png in Resources */,
 				B7D5506B162A7E9D00DC1047 /* HelpButtonPressed@2x.png in Resources */,
 				B7AFEAF6162D37D9006D95AE /* Bubble@2x.png in Resources */,
+				B7C8166B163FAEF9003B9AED /* WinMessage@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
