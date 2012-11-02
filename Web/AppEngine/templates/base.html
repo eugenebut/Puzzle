@@ -8,6 +8,13 @@
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <script src="/js/bootstrap.js"></script>
 
+  {% if alert_title or alert_message %}
+    <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <strong>Thank you for your question!</strong> You should hear from up soon.
+    </div>
+  {% endif %}
+
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span8 offset2">

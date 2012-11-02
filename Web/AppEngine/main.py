@@ -31,13 +31,22 @@ def GetPath(file_name):
 class MainHandler(webapp2.RequestHandler):
 
     def get(self, tab):
-        map = {'faq': 'faq.html'}
-        self.response.out.write(template.render(GetPath(map.get(tab, 'index.html')), {}))
+        self.render_tab(tab)
 
     def post(self, tab):
       sender = "{0} <{1}>".format(self.request.get('user_name'), self.request.get('email'))
-      mail.send_mail(sender=sender, to="but.eugene@gmail.com", subject="Puzzle question", body=self.request.get('question'))
-      self.redirect(self.request.uri)
+      mail.send_mail(sender=sender,
+                     to="but.eugene@gmail.com",
+                     subject="Puzzle question",
+                     body=self.request.get('question'))
+
+      self.render_tab(tab, alert_title="Thank you for your question!",
+                           alert_message="You should hear from up soon.")
+
+    def render_tab(self, tab, alert_title="", alert_message=""):
+        map = {'faq': 'faq.html'}
+        context = {'alert_title': alert_title, 'alert_message': alert_message}
+        self.response.out.write(template.render(GetPath(map.get(tab, 'index.html')), context))
 
 
 app = webapp2.WSGIApplication([(r'/(.*)', MainHandler)], debug=True)
