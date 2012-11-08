@@ -23,6 +23,7 @@
 		B7837100162A935100B06013 /* Singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370FE162A935100B06013 /* Singleton.cpp */; };
 		B79C7CB516269631002B4357 /* PZHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79C7CB316269631002B4357 /* PZHelpViewController.m */; };
 		B79C7CBA1626966E002B4357 /* PZHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B79C7CB81626966E002B4357 /* PZHelpViewController.xib */; };
+		B7A4763C164B6ACA00EFC50B /* HelpMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7A4763B164B6ACA00EFC50B /* HelpMessage@2x.png */; };
 		B7AC83E01628C93000910916 /* PZPuzzleSolverTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AC83DF1628C93000910916 /* PZPuzzleSolverTest.m */; };
 		B7AC83E21628CDE600910916 /* PZPuzzleSolver.mm in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.mm */; };
 		B7AEF1C0159C15F8006EFEF0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1BF159C15F8006EFEF0 /* UIKit.framework */; };
@@ -97,6 +98,7 @@
 		B79C7CB216269631002B4357 /* PZHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZHelpViewController.h; sourceTree = "<group>"; };
 		B79C7CB316269631002B4357 /* PZHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZHelpViewController.m; sourceTree = "<group>"; };
 		B79C7CB91626966E002B4357 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PZHelpViewController.xib; sourceTree = "<group>"; };
+		B7A4763B164B6ACA00EFC50B /* HelpMessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HelpMessage@2x.png"; sourceTree = "<group>"; };
 		B7AC83DE1628C93000910916 /* PZPuzzleSolverTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZPuzzleSolverTest.h; sourceTree = "<group>"; };
 		B7AC83DF1628C93000910916 /* PZPuzzleSolverTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZPuzzleSolverTest.m; sourceTree = "<group>"; };
 		B7AEF1BB159C15F8006EFEF0 /* Puzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puzzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -353,6 +355,7 @@
 				B70858F716118C1B007B1204 /* HighscoresButton@2x.png */,
 				B70858F816118C1B007B1204 /* HighscoresButtonPressed@2x.png */,
 				B7C8166A163FAEF9003B9AED /* WinMessage@2x.png */,
+				B7A4763B164B6ACA00EFC50B /* HelpMessage@2x.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -463,6 +466,7 @@
 				B7D5506B162A7E9D00DC1047 /* HelpButtonPressed@2x.png in Resources */,
 				B7AFEAF6162D37D9006D95AE /* Bubble@2x.png in Resources */,
 				B7C8166B163FAEF9003B9AED /* WinMessage@2x.png in Resources */,
+				B7A4763C164B6ACA00EFC50B /* HelpMessage@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
