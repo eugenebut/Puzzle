@@ -19,6 +19,8 @@
 	<dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
+            <key>UIPrerenderedIcon</key>
+            <true/>
 			<key>CFBundleIconFiles</key>
 			<array>
 				<string>Default.png</string>
