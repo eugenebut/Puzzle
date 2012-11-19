@@ -34,12 +34,13 @@ class MainHandler(webapp2.RequestHandler):
         self.render_tab(tab)
 
     def post(self, tab):
-      sender = "{0} <{1}>".format(self.request.get('user_name'), self.request.get('email'))
-      mail.send_mail(sender=sender,
+      mail.send_mail(sender='15.puzzle.help@gmail.com',
                      to="15.puzzle.help@gmail.com",
                      cc=["but.eugene@gmail.com", "kateryna.but@gmail.com"],
                      subject="Puzzle question",
-                     body=self.request.get('question'))
+                     body='name: %s \nemail: %s \nquestion: %s' % (self.request.get('user_name'),
+                                                                  self.request.get('email'),
+                                                                  self.request.get('question')))
 
       self.render_tab(tab, alert_title="Thank you for your question!",
                            alert_message="You should hear from up soon.")
