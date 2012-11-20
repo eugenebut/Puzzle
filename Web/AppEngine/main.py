@@ -43,9 +43,9 @@ class MainHandler(webapp2.RequestHandler):
                      to="15.puzzle.help@gmail.com",
                      cc=["but.eugene@gmail.com", "kateryna.but@gmail.com"],
                      subject="Puzzle question",
-                     body='name: %s \nemail: %s \nquestion: %s' % (self.request.get('user_name'),
-                                                                   self.request.get('email'),
-                                                                   self.request.get('question')))
+                     reply_to=self.request.get('email'),
+                     body='name: %s \nquestion: %s' % (self.request.get('user_name'),
+                                                       self.request.get('question')))
 
       self.redirect(self.request.get('redirect') + '?feedback_succeeded=true')
 
