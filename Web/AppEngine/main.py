@@ -31,7 +31,12 @@ def GetPath(file_name):
 class MainHandler(webapp2.RequestHandler):
 
     def get(self, tab):
-        self.render_tab(tab)
+        feedback_succeeded = self.request.get('feedback_succeeded')
+        if 'true' == feedback_succeeded:
+          self.render_tab(tab, alert_title='Thank you for your question!',
+	                           alert_message='You should hear from up soon.')
+        else:
+          self.render_tab(tab)
 
     def post(self, tab):
       mail.send_mail(sender='15.puzzle.help@gmail.com',
@@ -39,11 +44,10 @@ class MainHandler(webapp2.RequestHandler):
                      cc=["but.eugene@gmail.com", "kateryna.but@gmail.com"],
                      subject="Puzzle question",
                      body='name: %s \nemail: %s \nquestion: %s' % (self.request.get('user_name'),
-                                                                  self.request.get('email'),
-                                                                  self.request.get('question')))
+                                                                   self.request.get('email'),
+                                                                   self.request.get('question')))
 
-      self.render_tab(tab, alert_title="Thank you for your question!",
-                           alert_message="You should hear from up soon.")
+      self.redirect(self.request.get('redirect') + '?feedback_succeeded=true')
 
     def render_tab(self, tab, alert_title="", alert_message=""):
         map = {'faq': 'faq.html'}
