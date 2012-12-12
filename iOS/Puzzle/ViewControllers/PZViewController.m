@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 static const BOOL kSupportsShadows = YES;
 static const NSUInteger kPuzzleSize = 4;
-static const NSUInteger kShufflesCount = 30;
+static const NSUInteger kShufflesCount = 40;
 
 static const CGFloat kAutoMoveAnimationDuration = 0.05;
 static const CGFloat kTransparencyAnimationDuration = 0.5;
