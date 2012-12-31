@@ -148,7 +148,9 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (void)applicationWillEnterForegroundNotification:(NSNotification *)aNotification {
-    [self.stopWatch start];
+    if (!self.puzzle.isWin) {
+        [self.stopWatch start];
+    }
 }
 
 #pragma mark -
@@ -836,6 +838,7 @@ typedef void(^PZTileMoveBlock)(void);
     
     if (self.puzzle.isWin && !self.isHelpMode) {
         [self.stopWatch stop];
+        [self updateTimeLabel];
         [self showWinMessage];
     }
     
