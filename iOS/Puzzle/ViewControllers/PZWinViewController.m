@@ -71,33 +71,39 @@ static NSTimeInterval kAnimationInterval = 0.01;
 
 - (void)timerDidFire:(NSTimer *)aTimer {
     // update numbers
-    if (self.animatedTime <= self.time ||
-        self.animatedMovesCount <= self.movesCount ||
-        self.animatedBestTime <= self.effectiveBestTime ||
-        self.animatedBestMovesCount <= self.effectiveBestMovesCount) {
-        if (self.animatedTime <= self.time) {
+    if (self.animatedTime < self.time ||
+        self.animatedMovesCount < self.movesCount ||
+        self.animatedBestTime < self.effectiveBestTime ||
+        self.animatedBestMovesCount < self.effectiveBestMovesCount) {
+        if (self.animatedTime < self.time) {
             self.yourTimeLabel.text = [PZMessageFormatter timeMessage:self.animatedTime];
             self.animatedTime += MAX(1, (self.time * kAnimationInterval));
         }
         
-        if (self.animatedMovesCount <= self.movesCount) {
+        if (self.animatedMovesCount < self.movesCount) {
             self.yourMovesLabel.text = [PZMessageFormatter movesCountMessage:self.animatedMovesCount];
             self.animatedMovesCount += MAX(1, (self.movesCount * kAnimationInterval));
         }
         
-        if (self.animatedBestTime <= self.effectiveBestTime) {
+        if (self.animatedBestTime < self.effectiveBestTime) {
             self.bestTimeLabel.text = [PZMessageFormatter timeMessage:self.animatedBestTime];
             self.animatedBestTime += MAX(1, (self.effectiveBestTime * kAnimationInterval));
         }
         
-        if (self.animatedBestMovesCount <= self.effectiveBestMovesCount) {
+        if (self.animatedBestMovesCount < self.effectiveBestMovesCount) {
             self.bestMovesLabel.text = [PZMessageFormatter movesCountMessage:self.animatedBestMovesCount];
             self.animatedBestMovesCount += MAX(1, (self.effectiveBestMovesCount * kAnimationInterval));
         }
         
         return;
     }
-    
+
+    // final labels update
+    self.yourTimeLabel.text = [PZMessageFormatter timeMessage:self.time];
+    self.yourMovesLabel.text = [PZMessageFormatter movesCountMessage:self.movesCount];
+    self.bestTimeLabel.text = [PZMessageFormatter timeMessage:self.effectiveBestTime];
+    self.bestMovesLabel.text = [PZMessageFormatter movesCountMessage:self.effectiveBestMovesCount];
+
     // show the message
     [UIView animateWithDuration:0.25 animations:^{
          self.messageLabel.alpha = 1.0;
