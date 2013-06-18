@@ -81,9 +81,6 @@ typedef void(^PZTileMoveBlock)(void);
 ////////////////////////////////////////////////////////////////////////////////
 @implementation PZViewController
 
-#pragma mark -
-#pragma mark View Lifecycle
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -150,6 +147,23 @@ typedef void(^PZTileMoveBlock)(void);
     if (!self.puzzle.isWin) {
         [self.stopWatch start];
     }
+}
+
+- (PZPuzzle *)puzzle {
+    if (nil == _puzzle) {
+        UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
+        CGFloat scale = [UIScreen mainScreen].scale;
+        CGRect rect = CGRectMake(CGRectGetMinX([self tilesAreaInView]) * scale,
+                                 (CGRectGetMinY([self tilesAreaInView]) + kHelpShift) * scale,
+                                 CGRectGetWidth([self tilesAreaInView]) * scale,
+                                 CGRectGetHeight([self tilesAreaInView]) * scale);
+        UIImage *tilesImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([wholeImage CGImage],
+                                                                                     rect)];
+        
+        NSDictionary *state = [[NSUserDefaults standardUserDefaults] objectForKey:kPuzzleState];
+        _puzzle = [[PZPuzzle alloc] initWithImage:tilesImage size:kPuzzleSize state:state];
+    }
+    return _puzzle;
 }
 
 #pragma mark -
@@ -282,7 +296,27 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 #pragma mark -
-#pragma mark Tiles moving
+#pragma mark Tiles And Layers
+
+- (void)addTilesLayers {
+    for (NSUInteger x = 0; x < kPuzzleSize; x++) {
+        for (NSUInteger y = 0; y < kPuzzleSize; y++) {
+            PZTileLocation tileLocation = PZTileLocationMake(x, y);
+            id<IPZTile> tile = [self.puzzle tileAtLocation:tileLocation];
+            CALayer *tileLayer = [CALayer new];
+            tile.representedObject = tileLayer;
+            
+            tileLayer.opaque = YES;
+            tileLayer.contents = (id)[tile.image CGImage];
+            tileLayer.frame = [self rectForTileAtLocation:tileLocation];
+            
+            if (kSupportsShadows) {
+                [tileLayer setupPuzzleShadow];
+            }
+            [self.layersView.layer addSublayer:tileLayer];
+        }
+    }
+}
 
 - (void)moveLayersOfTiles:(NSArray *)aTiles direction:(PZMoveDirection)aDirection {
     switch (aDirection) {
@@ -342,10 +376,51 @@ typedef void(^PZTileMoveBlock)(void);
     [self moveLayersOfTiles:aTiles offset:constrainedOffset];
 }
 
+- (void)moveLayersAndTilesAtLocation:(PZTileLocation)aLocation {
+    NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:aLocation];
+    PZMoveDirection direction = [self.puzzle allowedMoveDirectionForTileAtLocation:aLocation];
+    [self moveLayersOfTiles:tiles direction:direction];
+    [self updateZIndices];
+    [self moveTileAtLocation:aLocation];
+}
+
+- (void)moveTileAtLocation:(PZTileLocation)aLocation {
+    [self.puzzle moveTileAtLocation:aLocation];
+    
+    [self updateMoveLabel];
+    
+    if (self.puzzle.isWin && !self.isHelpMode) {
+        [self.stopWatch stop];
+        [self updateTimeLabel];
+        [self showWinMessage];
+    }
+    
+    if (self.tileMoveBlock) {
+        __strong PZTileMoveBlock tileMoveBlock = self.tileMoveBlock;
+        self.tileMoveBlock = nil;
+        tileMoveBlock();
+    }
+}
+
 - (void)updateTilesLocations:(NSArray *)aTiles {
     for (id<IPZTile>tile in aTiles) {
         CGRect frame = [self rectForTileAtLocation:tile.currentLocation];
         ((CALayer *)tile.representedObject).frame = frame;
+    }
+}
+
+- (void)updateZIndices {
+    if (!kSupportsShadows) {
+        return;
+    }
+    
+    for (NSUInteger y = 0; y < kPuzzleSize; y++) {
+        for (NSUInteger x = 0; x < kPuzzleSize; x++) {
+            id<IPZTile> tile = [self.puzzle tileAtLocation:PZTileLocationMake(x, y)];
+            CALayer *layer = [tile representedObject];
+            [layer removeFromSuperlayer];
+            [self.layersView.layer addSublayer:layer];
+        }
     }
 }
 
@@ -470,7 +545,7 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 #pragma mark -
-#pragma mark Time And Moves
+#pragma mark Time And Moves Labels
 
 - (PZStopWatch *)stopWatch {
     if (nil == _stopWatch) {
@@ -795,63 +870,9 @@ typedef void(^PZTileMoveBlock)(void);
         }];
     }
 }
+
 #pragma mark -
-#pragma mark Misc
-
-- (PZPuzzle *)puzzle {
-    if (nil == _puzzle) {
-        UIImage *wholeImage = [[UIImage alloc] initWithContentsOfFile:self.tilesImageFile];
-        CGFloat scale = [UIScreen mainScreen].scale;
-        CGRect rect = CGRectMake(CGRectGetMinX([self tilesAreaInView]) * scale,
-                                 (CGRectGetMinY([self tilesAreaInView]) + kHelpShift) * scale,
-                                 CGRectGetWidth([self tilesAreaInView]) * scale,
-                                 CGRectGetHeight([self tilesAreaInView]) * scale);
-        UIImage *tilesImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([wholeImage CGImage],
-                                                          rect)];
-
-        NSDictionary *state = [[NSUserDefaults standardUserDefaults] objectForKey:kPuzzleState];
-        _puzzle = [[PZPuzzle alloc] initWithImage:tilesImage size:kPuzzleSize state:state];
-    }
-    return _puzzle;
-}
-
-- (void)addTilesLayers {
-    for (NSUInteger x = 0; x < kPuzzleSize; x++) {
-        for (NSUInteger y = 0; y < kPuzzleSize; y++) {
-            PZTileLocation tileLocation = PZTileLocationMake(x, y);
-            id<IPZTile> tile = [self.puzzle tileAtLocation:tileLocation];
-            CALayer *tileLayer = [CALayer new];
-            tile.representedObject = tileLayer;
-            
-            tileLayer.opaque = YES;
-            tileLayer.contents = (id)[tile.image CGImage];
-            tileLayer.frame = [self rectForTileAtLocation:tileLocation];
-            
-            if (kSupportsShadows) {
-                [tileLayer setupPuzzleShadow];
-            }
-            [self.layersView.layer addSublayer:tileLayer];
-        }
-    }
-}
-
-- (void)moveTileAtLocation:(PZTileLocation)aLocation {
-    [self.puzzle moveTileAtLocation:aLocation];
-    
-    [self updateMoveLabel];
-    
-    if (self.puzzle.isWin && !self.isHelpMode) {
-        [self.stopWatch stop];
-        [self updateTimeLabel];
-        [self showWinMessage];
-    }
-    
-    if (self.tileMoveBlock) {
-        __strong PZTileMoveBlock tileMoveBlock = self.tileMoveBlock;
-        self.tileMoveBlock = nil;
-        tileMoveBlock();
-    }
-}
+#pragma mark Win
 
 - (void)showWinMessage {
     self.view.userInteractionEnabled = NO;
@@ -866,7 +887,7 @@ typedef void(^PZTileMoveBlock)(void);
                                        CGRectGetMidY([UIScreen mainScreen].bounds));
     view.center = CGPointMake(-CGRectGetWidth(view.frame) / 2, screenCenter.y);
     [self.view addSubview:view];
-
+    
     // play 2 staged sliding animation
     [UIView animateWithDuration:0.5 delay:0.2 options:UIViewAnimationOptionCurveEaseOut animations:^{
         view.center = CGPointMake(screenCenter.x + 20.0, screenCenter.y);
@@ -884,40 +905,16 @@ typedef void(^PZTileMoveBlock)(void);
     if (nil == self.winViewController) {
         return;
     }
-
+    
     UIView *view = self.winViewController.view;
     [UIView animateWithDuration:kTransparencyAnimationDuration animations:^{
         view.center = CGPointMake(-CGRectGetWidth(view.frame) / 2,
-                                   CGRectGetMidY([UIScreen mainScreen].bounds));
-
+                                  CGRectGetMidY([UIScreen mainScreen].bounds));
+        
     } completion:^(BOOL finished) {
         [view removeFromSuperview];
         self.winViewController = nil;
     }];
-}
-
-- (void)updateZIndices
-{
-    if (!kSupportsShadows) {
-        return;
-    }
-
-    for (NSUInteger y = 0; y < kPuzzleSize; y++) {
-        for (NSUInteger x = 0; x < kPuzzleSize; x++) {
-            id<IPZTile> tile = [self.puzzle tileAtLocation:PZTileLocationMake(x, y)];
-            CALayer *layer = [tile representedObject];
-            [layer removeFromSuperlayer];
-            [self.layersView.layer addSublayer:layer];
-        }
-    }
-}
-
-- (void)moveLayersAndTilesAtLocation:(PZTileLocation)aLocation {
-    NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:aLocation];
-    PZMoveDirection direction = [self.puzzle allowedMoveDirectionForTileAtLocation:aLocation];
-    [self moveLayersOfTiles:tiles direction:direction];
-    [self updateZIndices];
-    [self moveTileAtLocation:aLocation];
 }
 
 @end
