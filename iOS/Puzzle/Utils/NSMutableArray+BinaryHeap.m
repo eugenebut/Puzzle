@@ -6,10 +6,10 @@
 //
 //
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 #import "NSMutableArray+BinaryHeap.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 @implementation NSMutableArray (MaxHeap)
 
 - (void)binaryHeapHeapifyWithFunction:(NSComparisonResult (*)(id, id))aComparator {
@@ -37,25 +37,31 @@
     return result;
 }
 
-- (void)binaryHeapSwim:(NSUInteger)anIndex comparator:(NSComparisonResult (*)(id, id))aComparator; {
-    while (1 < anIndex && NSOrderedAscending == aComparator([self objectAtIndex:(anIndex / 2 - 1)], [self objectAtIndex:(anIndex - 1)])) {
+- (void)binaryHeapSwim:(NSUInteger)anIndex
+            comparator:(NSComparisonResult (*)(id, id))aComparator {
+    while (1 < anIndex &&
+           NSOrderedAscending == aComparator([self objectAtIndex:(anIndex / 2 - 1)],
+                                             [self objectAtIndex:(anIndex - 1)])) {
         [self exchangeObjectAtIndex:(anIndex / 2 - 1) withObjectAtIndex:(anIndex - 1)];
         anIndex = anIndex / 2;
     }    
 }
 
-- (void)binaryHeapSink:(NSUInteger)anIndex comparator:(NSComparisonResult (*)(id, id))aComparator; {
+- (void)binaryHeapSink:(NSUInteger)anIndex
+            comparator:(NSComparisonResult (*)(id, id))aComparator {
 
     NSUInteger count = self.count;
     NSUInteger childIndex = 2 * anIndex;
 
     while (childIndex < count) {
         if (childIndex < count &&
-            NSOrderedAscending == aComparator([self objectAtIndex:childIndex - 1], [self objectAtIndex:childIndex])) {
+            NSOrderedAscending == aComparator([self objectAtIndex:childIndex - 1],
+                                              [self objectAtIndex:childIndex])) {
             ++childIndex;
         }
         
-        if (NSOrderedAscending != aComparator([self objectAtIndex:anIndex - 1], [self objectAtIndex:childIndex - 1])) {
+        if (NSOrderedAscending != aComparator([self objectAtIndex:anIndex - 1],
+                                              [self objectAtIndex:childIndex - 1])) {
             break;
         }
         

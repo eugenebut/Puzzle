@@ -31,8 +31,9 @@ public:
     inline puzzle_node(puzzle_node *node, uint8_t empty_tile);
     inline ~puzzle_node();
     
-    inline void enqueue_neighbours(std::priority_queue<puzzle_node *, std::vector<puzzle_node *>,
-                            puzzle_node::comparator > *queue);
+    inline void enqueue_neighbours(std::priority_queue<puzzle_node *,
+                                   std::vector<puzzle_node *>,
+                                   puzzle_node::comparator > *queue);
 
     inline bool is_win() const {
         return 0 == manhattan_;
@@ -69,7 +70,7 @@ protected:
     inline uint8_t calculate_manhatten() const;
 
 private:
-    
+
     puzzle_node *previous_node_;
     uint8_t tiles_[kTilesCount];
     uint8_t refcount_;
@@ -131,28 +132,24 @@ void puzzle_node::enqueue_neighbours(std::priority_queue<puzzle_node *, std::vec
     if (0 < empty_x && next_empty_tile != previous_empty_tile) {
         puzzle_node *node = new puzzle_node(this, next_empty_tile);
         queue->push(node);
-        //        std::cout << "Pushed Manhattan: " << (int)node->manhattan() << " weight: " << node->weight() << std::endl;
     }
     
     next_empty_tile = empty_tile_ + 1;
     if (empty_x < kPuzzleSize - 1 && next_empty_tile != previous_empty_tile) {
         puzzle_node *node = new puzzle_node(this, next_empty_tile);
         queue->push(node);
-        //        std::cout << "Pushed Manhattan: " << (int)node->manhattan() << " weight: " << node->weight() << std::endl;
     }
     
     next_empty_tile = empty_tile_ + kPuzzleSize;
     if (empty_y < kPuzzleSize - 1 && next_empty_tile != previous_empty_tile) {
         puzzle_node *node = new puzzle_node(this, next_empty_tile);
         queue->push(node);
-        //        std::cout << "Pushed Manhattan: " << (int)node->manhattan() << " weight: " << node->weight() << std::endl;
     }
     
     next_empty_tile = empty_tile_ - kPuzzleSize;
     if (0 < empty_y && next_empty_tile != previous_empty_tile) {
         puzzle_node *node = new puzzle_node(this, next_empty_tile);
         queue->push(node);
-        //        std::cout << "Pushed Manhattan: " << (int)node->manhattan() << " weight: " << node->weight() << std::endl;
     }
 }
 
@@ -186,13 +183,10 @@ uint8_t puzzle_node::calculate_manhatten() const {
     }
     
     std::priority_queue<puzzle_node *, std::vector<puzzle_node *>, puzzle_node::comparator > queue;
-    //size_t size = sizeof(puzzle_node);
     queue.push(node);
-    //std::cout << "Initial manhattan: " << (int)node->manhattan() << std::endl;
     
     while (!queue.empty()) {
         puzzle_node *node = queue.top();
-//        std::cout << "Popped Manhattan: " << (int)node->manhattan() << " weight: " << node->weight() << std::endl;
         
         if (node->is_win()) {
             NSMutableArray *solution = [NSMutableArray new];
@@ -227,7 +221,9 @@ uint8_t puzzle_node::calculate_manhatten() const {
 
 - (void)applySolution:(NSArray *)solution
                 index:(NSUInteger)anIndex
-          animationBlock:(void (^)(NSArray *aTiles, PZMoveDirection aDirection, ChangeCompletion aCompletion))aBlock
+       animationBlock:(void (^)(NSArray *aTiles,
+                       PZMoveDirection aDirection,
+                       ChangeCompletion aCompletion))aBlock
 {
     if (solution.count <= anIndex) {
         return;

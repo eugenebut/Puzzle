@@ -30,8 +30,7 @@
 }
 
 - (void)reset {
-    if (0 != self.totalSeconds)
-    {
+    if (0 != self.totalSeconds) {
         self.totalSeconds = 0;
         [self.delegate PZStopWatchDidChangeTime:self];
     }

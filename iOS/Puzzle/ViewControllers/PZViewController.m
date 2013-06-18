@@ -3,10 +3,9 @@
 //  Puzzle
 //
 //  Created by Eugene But on 6/27/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 #import "PZViewController.h"
 #import "PZWinViewController.h"
 #import "PZHighscoresViewController.h"
@@ -17,7 +16,7 @@
 #import "PZMessageFormatter.h"
 #import <QuartzCore/QuartzCore.h>
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 static const BOOL kSupportsShadows = YES;
 static const NSUInteger kPuzzleSize = 4;
 static const NSUInteger kShufflesCount = 40;
@@ -38,21 +37,21 @@ static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
 static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
 static NSString *const kWinController = @"PZWinControllerDefaults";
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 @interface UIView(PZExtentions)
 
 - (void)setOffscreenLocation;
 
 @end
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 @interface CALayer(PZExtentions)
 
 - (void)setupPuzzleShadow;
 
 @end
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 @interface PZViewController ()
 
 @property (nonatomic, strong) PZPuzzle *puzzle;
@@ -79,7 +78,7 @@ typedef void(^PZTileMoveBlock)(void);
 
 @end
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 @implementation PZViewController
 
 #pragma mark -
@@ -375,8 +374,7 @@ typedef void(^PZTileMoveBlock)(void);
 - (CGFloat)tileWidth {
     static CGFloat result = 0.0;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-    {
+    dispatch_once(&onceToken, ^{
         result = CGRectGetWidth([self tilesAreaInView]) / kPuzzleSize;
     });
     return result;
@@ -385,8 +383,7 @@ typedef void(^PZTileMoveBlock)(void);
 - (CGFloat)tileHeight {
     static CGFloat result = 0.0;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-    {
+    dispatch_once(&onceToken, ^{
         result = CGRectGetHeight([self tilesAreaInView]) / kPuzzleSize;
     });
     return result;
@@ -515,7 +512,9 @@ typedef void(^PZTileMoveBlock)(void);
     [helpView setOffscreenLocation];
     
     // animate UI
-    [UIView animateWithDuration:kShowHelpAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:kShowHelpAnimationDuration
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut animations:^{
         for (UIView *view in self.view.subviews) {
             // keep fake navigation bar in place to have tinted status bar
             if (![view isKindOfClass:[UINavigationBar class]]) {
@@ -545,7 +544,8 @@ typedef void(^PZTileMoveBlock)(void);
     }];
 }
 
-- (void)helpViewControllerSolvePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aSolveCompletionBlock {
+- (void)helpViewControllerSolvePuzzle:(PZHelpViewController *)aController
+                      completionBlock:(void(^)(void))aSolveCompletionBlock {
 
     [self resignFirstResponder]; // disable shake handling
 
@@ -557,7 +557,8 @@ typedef void(^PZTileMoveBlock)(void);
     }];
 }
 
-- (void)helpViewControllerShuflePuzzle:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
+- (void)helpViewControllerShuflePuzzle:(PZHelpViewController *)aController
+                       completionBlock:(void(^)(void))aBlock {
     [CATransaction setAnimationDuration:0.13];
     [CATransaction setCompletionBlock:^{
         [CATransaction setAnimationDuration:0.13];
@@ -573,7 +574,8 @@ typedef void(^PZTileMoveBlock)(void);
     [self moveLayersAndTilesAtLocation:PZTileLocationMake(3, 0)];
 }
 
-- (void)helpViewControllerLearnTap:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
+- (void)helpViewControllerLearnTap:(PZHelpViewController *)aController
+                   completionBlock:(void(^)(void))aBlock {
     self.allowedLocations = PZTileLocationMake(2, 0);
     CALayer *guide = [self newTapGuideLayerForRect:[self rectForTileAtLocation:self.allowedLocations]];
     [self.layersView.layer addSublayer:guide];
@@ -584,7 +586,8 @@ typedef void(^PZTileMoveBlock)(void);
     };
 }
 
-- (void)helpViewControllerLearnPan:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
+- (void)helpViewControllerLearnPan:(PZHelpViewController *)aController
+                   completionBlock:(void(^)(void))aBlock {
     self.allowedLocations = PZTileLocationMake(3, 0);
     NSArray *guides = [self newPanGuideLayersForRect:[self rectForTileAtLocation:self.allowedLocations]];
     for (CALayer *guide in guides) {
@@ -599,7 +602,8 @@ typedef void(^PZTileMoveBlock)(void);
     };
 }
 
-- (void)helpViewControllerLearnMoveAll:(PZHelpViewController *)aController completionBlock:(void(^)(void))aBlock {
+- (void)helpViewControllerLearnMoveAll:(PZHelpViewController *)aController
+                       completionBlock:(void(^)(void))aBlock {
     __weak id weakSelf = self;
     
     self.allowedLocations = PZTileLocationMake(3, 3);
@@ -910,7 +914,8 @@ typedef void(^PZTileMoveBlock)(void);
 
 - (void)moveLayersAndTilesAtLocation:(PZTileLocation)aLocation {
     NSArray *tiles = [self.puzzle affectedTilesByTileMoveAtLocation:aLocation];
-    [self moveLayersOfTiles:tiles direction:[self.puzzle allowedMoveDirectionForTileAtLocation:aLocation]];
+    PZMoveDirection direction = [self.puzzle allowedMoveDirectionForTileAtLocation:aLocation];
+    [self moveLayersOfTiles:tiles direction:direction];
     [self updateZIndices];
     [self moveTileAtLocation:aLocation];
 }

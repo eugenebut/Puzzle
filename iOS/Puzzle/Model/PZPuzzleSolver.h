@@ -6,18 +6,19 @@
 //
 //
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 #import "PZPuzzle.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 @interface PZPuzzle (Solver)
 
 - (NSArray *)solution;
 
 typedef void (^ChangeCompletion)(void);
 
-- (void)applySolution:(NSArray *)solution animationBlock:(void (^)(NSArray *aTiles,
-                                                                PZMoveDirection aDirection,
-                                                                ChangeCompletion aCompletion))aBlock;
+- (void)applySolution:(NSArray *)solution
+       animationBlock:(void (^)(NSArray *aTiles,
+                       PZMoveDirection aDirection,
+                       ChangeCompletion aCompletion))aBlock;
 
 @end

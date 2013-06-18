@@ -26,7 +26,8 @@ static const NSUInteger kPuzzleSize = 4;
 
 - (void)setUp {
     [super setUp];
-    self.testable = [[PZPuzzle alloc] initWithImage:[UIImage imageNamed:@"puzzle_iPhone"] size:kPuzzleSize state:nil];
+    self.testable = [[PZPuzzle alloc] initWithImage:[UIImage imageNamed:@"puzzle_iPhone"]
+                                               size:kPuzzleSize state:nil];
 }
 
 - (void)tearDown {
