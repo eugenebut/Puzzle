@@ -41,7 +41,7 @@ class MainHandler(webapp2.RequestHandler):
     def post(self, tab):
       mail.send_mail(sender='15.puzzle.help@gmail.com',
                      to="15.puzzle.help@gmail.com",
-                     cc=["but.eugene@gmail.com", "kateryna.but@gmail.com"],
+                     cc=[],
                      subject="Puzzle question",
                      reply_to=self.request.get('email'),
                      body='name: %s \nquestion: %s' % (self.request.get('user_name'),
