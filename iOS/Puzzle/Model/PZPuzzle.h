@@ -10,14 +10,13 @@
 @protocol IPZTile;
 
 ////////////////////////////////////////////////////////////////////////////////
-typedef enum {
+typedef NS_ENUM(NSUInteger, PZMoveDirection) {
     kNoneDirection = 0,
     kLeftDirection,
     kRightDirection,
     kUpDirection,
     kDownDirection
-    
-} PZMoveDirection;
+};
 
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZPuzzle : NSObject
