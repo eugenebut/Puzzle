@@ -26,7 +26,7 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
 #pragma mark -
 #pragma mark Interface
 
-- (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize state:(NSDictionary *)aState {
+- (instancetype)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize state:(NSDictionary *)aState {
     if (nil != (self = [super init])) {
         self.mutableTiles = [[self class] newTilesWithImage:anImage size:aSize];
         self.emptyTileLocation = PZTileLocationMake(aSize - 1, aSize - 1);

@@ -12,7 +12,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface PZWinViewController : UIViewController
 
-- (id)initWithTime:(NSUInteger)aTime movesCount:(NSUInteger)aMovesCount;
+- (instancetype)initWithTime:(NSUInteger)aTime
+                  movesCount:(NSUInteger)aMovesCount;
 
 - (void)startAnimation;
 

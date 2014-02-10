@@ -9,9 +9,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface PZTileImpl : NSObject<IPZTile>
 
-- (id)initWithImage:(UIImage *)anImage
-    currentLocation:(PZTileLocation)aCurrentLocation
-        winLocation:(PZTileLocation)aWinLocation;
+- (instancetype)initWithImage:(UIImage *)anImage
+              currentLocation:(PZTileLocation)aCurrentLocation
+                  winLocation:(PZTileLocation)aWinLocation;
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) PZTileLocation winLocation;

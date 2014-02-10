@@ -21,7 +21,7 @@ typedef NS_ENUM(NSUInteger, PZMoveDirection) {
 //////////////////////////////////////////////////////////////////////////////////////////
 @interface PZPuzzle : NSObject
 
-- (id)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize state:(NSDictionary *)aState;
+- (instancetype)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize state:(NSDictionary *)aState;
 
 @property (nonatomic, assign) NSUInteger size;
 @property (nonatomic, readonly) PZTileLocation emptyTileLocation;

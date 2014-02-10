@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 @implementation NSValue (PZTileLocation)
 
-- (id)initWithTileLocation:(PZTileLocation)aLocation {
+- (instancetype)initWithTileLocation:(PZTileLocation)aLocation {
     return [self initWithBytes:&aLocation objCType:@encode(PZTileLocation)];
 }
 

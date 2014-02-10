@@ -37,7 +37,7 @@ static inline bool PZTileLocationInSameRowAsLocation(PZTileLocation loc1,
 ////////////////////////////////////////////////////////////////////////////////
 @interface NSValue (PZTileLocation)
 
-- (id)initWithTileLocation:(PZTileLocation)aLocation;
+- (instancetype)initWithTileLocation:(PZTileLocation)aLocation;
 - (PZTileLocation)tileLocation;
 
 @end
