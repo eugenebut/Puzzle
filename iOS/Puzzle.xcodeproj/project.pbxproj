@@ -19,13 +19,9 @@
 		B728774B1605225D00FC253F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B728774D1605225D00FC253F /* Localizable.strings */; };
 		B75FC92915A10112002D7185 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF207159D6AE4006EFEF0 /* QuartzCore.framework */; };
 		B75FC92A15A1011D002D7185 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C3159C15F8006EFEF0 /* CoreGraphics.framework */; };
-		B78370FA162A8F6E00B06013 /* SmallObj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370F8162A8F6E00B06013 /* SmallObj.cpp */; };
-		B7837100162A935100B06013 /* Singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78370FE162A935100B06013 /* Singleton.cpp */; };
 		B79C7CB516269631002B4357 /* PZHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79C7CB316269631002B4357 /* PZHelpViewController.m */; };
 		B79C7CBA1626966E002B4357 /* PZHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B79C7CB81626966E002B4357 /* PZHelpViewController.xib */; };
 		B7A4763C164B6ACA00EFC50B /* HelpMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7A4763B164B6ACA00EFC50B /* HelpMessage@2x.png */; };
-		B7AC83E01628C93000910916 /* PZPuzzleSolverTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7AC83DF1628C93000910916 /* PZPuzzleSolverTest.m */; };
-		B7AC83E21628CDE600910916 /* PZPuzzleSolver.mm in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.mm */; };
 		B7AEF1C0159C15F8006EFEF0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1BF159C15F8006EFEF0 /* UIKit.framework */; };
 		B7AEF1C2159C15F8006EFEF0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C1159C15F8006EFEF0 /* Foundation.framework */; };
 		B7AEF1C4159C15F8006EFEF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AEF1C3159C15F8006EFEF0 /* CoreGraphics.framework */; };
@@ -61,7 +57,6 @@
 		B7EEBE2215A0E69600EC5BBB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE2115A0E69600EC5BBB /* Default.png */; };
 		B7EEBE3515A0EE9200EC5BBB /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3115A0EE9100EC5BBB /* Icon.png */; };
 		B7EEBE3615A0EE9200EC5BBB /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EEBE3215A0EE9200EC5BBB /* Icon@2x.png */; };
-		B7F5E8161627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F5E8151627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,18 +84,10 @@
 		B72877431604FE4A00FC253F /* PZMessageFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZMessageFormatter.h; sourceTree = "<group>"; };
 		B72877441604FE4A00FC253F /* PZMessageFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZMessageFormatter.m; sourceTree = "<group>"; };
 		B728774C1605225D00FC253F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		B78370F7162A8F5F00B06013 /* SmallObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallObj.h; sourceTree = "<group>"; };
-		B78370F8162A8F6E00B06013 /* SmallObj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallObj.cpp; sourceTree = "<group>"; };
-		B78370FB162A8F9E00B06013 /* LokiExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LokiExport.h; sourceTree = "<group>"; };
-		B78370FC162A8FB100B06013 /* Threads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Threads.h; sourceTree = "<group>"; };
-		B78370FD162A8FBF00B06013 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
-		B78370FE162A935100B06013 /* Singleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Singleton.cpp; sourceTree = "<group>"; };
 		B79C7CB216269631002B4357 /* PZHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZHelpViewController.h; sourceTree = "<group>"; };
 		B79C7CB316269631002B4357 /* PZHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZHelpViewController.m; sourceTree = "<group>"; };
 		B79C7CB91626966E002B4357 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PZHelpViewController.xib; sourceTree = "<group>"; };
 		B7A4763B164B6ACA00EFC50B /* HelpMessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HelpMessage@2x.png"; sourceTree = "<group>"; };
-		B7AC83DE1628C93000910916 /* PZPuzzleSolverTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZPuzzleSolverTest.h; sourceTree = "<group>"; };
-		B7AC83DF1628C93000910916 /* PZPuzzleSolverTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZPuzzleSolverTest.m; sourceTree = "<group>"; };
 		B7AEF1BB159C15F8006EFEF0 /* Puzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puzzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7AEF1BF159C15F8006EFEF0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B7AEF1C1159C15F8006EFEF0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -144,12 +131,6 @@
 		B7EEBE2115A0E69600EC5BBB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B7EEBE3115A0EE9100EC5BBB /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		B7EEBE3215A0EE9200EC5BBB /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		B7F5E81116276C9800AA2C24 /* NSMutableArray+BinaryHeap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+BinaryHeap.h"; sourceTree = "<group>"; };
-		B7F5E81216276C9800AA2C24 /* NSMutableArray+BinaryHeap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+BinaryHeap.m"; sourceTree = "<group>"; };
-		B7F5E8141627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+BinaryHeapTest.h"; sourceTree = "<group>"; };
-		B7F5E8151627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+BinaryHeapTest.m"; sourceTree = "<group>"; };
-		B7F5E817162887BA00AA2C24 /* PZPuzzleSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZPuzzleSolver.h; sourceTree = "<group>"; };
-		B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PZPuzzleSolver.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,31 +165,8 @@
 			children = (
 				B72877431604FE4A00FC253F /* PZMessageFormatter.h */,
 				B72877441604FE4A00FC253F /* PZMessageFormatter.m */,
-				B7F5E81116276C9800AA2C24 /* NSMutableArray+BinaryHeap.h */,
-				B7F5E81216276C9800AA2C24 /* NSMutableArray+BinaryHeap.m */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		B78370F1162A8EDB00B06013 /* ThirdParty */ = {
-			isa = PBXGroup;
-			children = (
-				B78370F2162A8EDB00B06013 /* Loki */,
-			);
-			path = ThirdParty;
-			sourceTree = "<group>";
-		};
-		B78370F2162A8EDB00B06013 /* Loki */ = {
-			isa = PBXGroup;
-			children = (
-				B78370FC162A8FB100B06013 /* Threads.h */,
-				B78370FB162A8F9E00B06013 /* LokiExport.h */,
-				B78370FD162A8FBF00B06013 /* Singleton.h */,
-				B78370FE162A935100B06013 /* Singleton.cpp */,
-				B78370F7162A8F5F00B06013 /* SmallObj.h */,
-				B78370F8162A8F6E00B06013 /* SmallObj.cpp */,
-			);
-			path = Loki;
 			sourceTree = "<group>";
 		};
 		B7AEF1B0159C15F8006EFEF0 = {
@@ -248,7 +206,6 @@
 				B7AEF1F7159C174E006EFEF0 /* Model */,
 				B7AEF209159D735B006EFEF0 /* Resources */,
 				B7AEF1C6159C15F8006EFEF0 /* Supporting Files */,
-				B78370F1162A8EDB00B06013 /* ThirdParty */,
 				B7BB51111627311700E4F762 /* ViewControllers */,
 				B72877421604FE0800FC253F /* Utils */,
 				B7AEF1CE159C15F8006EFEF0 /* PZAppDelegate.h */,
@@ -272,12 +229,8 @@
 		B7AEF1E6159C15F9006EFEF0 /* PuzzleTests */ = {
 			isa = PBXGroup;
 			children = (
-				B7F5E8141627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.h */,
-				B7F5E8151627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m */,
 				B7AEF1EC159C15F9006EFEF0 /* PZPuzzleTest.h */,
 				B7AEF1ED159C15F9006EFEF0 /* PZPuzzleTest.m */,
-				B7AC83DE1628C93000910916 /* PZPuzzleSolverTest.h */,
-				B7AC83DF1628C93000910916 /* PZPuzzleSolverTest.m */,
 				B7AEF1E7159C15F9006EFEF0 /* Supporting Files */,
 			);
 			path = PuzzleTests;
@@ -306,8 +259,6 @@
 				B7AEF1F9159C177C006EFEF0 /* PZTileImpl.m */,
 				B7AEF200159D3704006EFEF0 /* PZTileLocation.h */,
 				B7AEF204159D37D6006EFEF0 /* PZTileLocation.m */,
-				B7F5E817162887BA00AA2C24 /* PZPuzzleSolver.h */,
-				B7F5E818162887BA00AA2C24 /* PZPuzzleSolver.mm */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -524,11 +475,6 @@
 				B7AEF1FB159C177C006EFEF0 /* PZTileImpl.m in Sources */,
 				B7AEF1FF159C18D0006EFEF0 /* PZPuzzle.m in Sources */,
 				B7AEF206159D37D6006EFEF0 /* PZTileLocation.m in Sources */,
-				B7F5E8161627771D00AA2C24 /* NSMutableArray+BinaryHeapTest.m in Sources */,
-				B7AC83E01628C93000910916 /* PZPuzzleSolverTest.m in Sources */,
-				B7AC83E21628CDE600910916 /* PZPuzzleSolver.mm in Sources */,
-				B78370FA162A8F6E00B06013 /* SmallObj.cpp in Sources */,
-				B7837100162A935100B06013 /* Singleton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

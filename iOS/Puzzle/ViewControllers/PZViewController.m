@@ -11,7 +11,6 @@
 #import "PZHighscoresViewController.h"
 #import "PZHelpViewController.h"
 #import "PZPuzzle.h"
-#import "PZPuzzleSolver.h"
 #import "PZTile.h"
 #import "PZMessageFormatter.h"
 #import <QuartzCore/QuartzCore.h>
