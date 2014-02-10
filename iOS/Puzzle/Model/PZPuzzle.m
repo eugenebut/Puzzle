@@ -40,7 +40,7 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
 
 - (BOOL)isWin {
     for (NSUInteger tileIndex = 0; tileIndex < self.mutableTiles.count; tileIndex++) {
-        PZTileImpl *tile = [self.mutableTiles objectAtIndex:tileIndex];
+        PZTileImpl *tile = self.mutableTiles[tileIndex];
         if (!PZTileLocationEqualToLocation([self locationForTileAtIndex:tileIndex],
                                            tile.winLocation)) {
             return NO;
@@ -53,7 +53,7 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     if (PZTileLocationEqualToLocation(self.emptyTileLocation, aLocation)) {
         return nil;
     }
-    return [self.mutableTiles objectAtIndex:[self indexOfTileAtLocation:aLocation]];
+    return self.mutableTiles[[self indexOfTileAtLocation:aLocation]];
 }
 
 - (NSArray *)tilesAtLocations:(NSArray *)aLocations {
@@ -200,8 +200,8 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     [self.mutableTiles exchangeObjectAtIndex:tile1Index withObjectAtIndex:tile2Index];
     
     // update locations
-    [[self.mutableTiles objectAtIndex:tile1Index] setCurrentLocation:aLocation1];
-    [[self.mutableTiles objectAtIndex:tile2Index] setCurrentLocation:aLocation2];
+    [self.mutableTiles[tile1Index] setCurrentLocation:aLocation1];
+    [self.mutableTiles[tile2Index] setCurrentLocation:aLocation2];
 }
 
 - (PZTileLocation)randomHorizontalMovableTileLocation {
@@ -247,7 +247,7 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     PZTileLocation emptyLocation = self.emptyTileLocation;
     return @{kTilesState: [NSArray arrayWithArray:tiles], 
              kEmptyTileLocationState: [[NSData alloc] initWithBytes:&emptyLocation length:sizeof(emptyLocation)],
-             kMovesCountState: [NSNumber numberWithUnsignedInteger:self.movesCount]};
+             kMovesCountState: @(self.movesCount)};
 }
 
 - (void)setStatePrivate:(NSDictionary *)aState
@@ -256,21 +256,21 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
         return;
     }
     
-    NSArray *tiles = [aState objectForKey:kTilesState];
+    NSArray *tiles = aState[kTilesState];
     NSMutableArray *newTiles = [[NSMutableArray alloc] initWithCapacity:tiles.count];
     [tiles enumerateObjectsUsingBlock:^(NSData *tileData, NSUInteger index, BOOL *stop) {
         PZTileLocation location;
         [tileData getBytes:&location length:sizeof(location)];
-        PZTileImpl *tile = [self.mutableTiles objectAtIndex:[self indexOfTileAtLocation:location]];
+        PZTileImpl *tile = self.mutableTiles[[self indexOfTileAtLocation:location]];
         tile.currentLocation = [self locationForTileAtIndex:index];
         [newTiles addObject:tile];
     }];
     self.mutableTiles = newTiles;
     
     PZTileLocation emptyLocation;
-    [[aState objectForKey:kEmptyTileLocationState] getBytes:&emptyLocation length:sizeof(emptyLocation)];
+    [aState[kEmptyTileLocationState] getBytes:&emptyLocation length:sizeof(emptyLocation)];
     self.emptyTileLocation = emptyLocation;
-    self.movesCount = [[aState objectForKey:kMovesCountState] unsignedIntegerValue];
+    self.movesCount = [aState[kMovesCountState] unsignedIntegerValue];
 }
 
 - (void)solveInstantly {
@@ -283,7 +283,7 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     self.movesCount = 0;
     
     [self.mutableTiles sortUsingComparator:^NSComparisonResult(id<IPZTile> obj1, id<IPZTile> obj2) {
-        return [[NSNumber numberWithUnsignedInteger:[self indexOfTileAtLocation:obj1.currentLocation]] compare:[NSNumber numberWithUnsignedInteger:[self indexOfTileAtLocation:obj2.currentLocation]]];
+        return [@([self indexOfTileAtLocation:obj1.currentLocation]) compare:@([self indexOfTileAtLocation:obj2.currentLocation])];
     }];
 }
 

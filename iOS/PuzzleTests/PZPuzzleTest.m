@@ -60,17 +60,16 @@ static const NSUInteger kPuzzleSize = 4;
 
 - (void)testBulkTilesAccess {
     NSValue *emptyLocation = [[NSValue alloc] initWithTileLocation:self.testable.emptyTileLocation];
-    NSArray *tiles = [self.testable tilesAtLocations:[NSArray arrayWithObject:emptyLocation]];
+    NSArray *tiles = [self.testable tilesAtLocations:@[emptyLocation]];
     STAssertTrue(1 == tiles.count, @"");
     STAssertTrue([[tiles lastObject] isKindOfClass:[NSNull class]], @"");
 }
 
 - (void)testMoving {
     // remember our vertical line
-    NSArray *verticalTiles = [self.testable tilesAtLocations:[NSArray arrayWithObjects:
-            [[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 0)],
+    NSArray *verticalTiles = [self.testable tilesAtLocations:@[[[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 0)],
             [[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 1)],
-            [[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 2)], nil]];
+            [[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 2)]]];
 
     PZTileLocation moveLocation = PZTileLocationMake(3, 0);
     STAssertEqualObjects(verticalTiles, [self.testable affectedTilesByTileMoveAtLocation:moveLocation], @"");
@@ -82,10 +81,9 @@ static const NSUInteger kPuzzleSize = 4;
     STAssertFalse(self.testable.isWin, @"");
     STAssertEquals(moveLocation, self.testable.emptyTileLocation, @"");
 
-    NSArray *newVerticalTiles = [self.testable tilesAtLocations:[NSArray arrayWithObjects:
-            [[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 1)],
+    NSArray *newVerticalTiles = [self.testable tilesAtLocations:@[[[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 1)],
             [[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 2)],
-            [[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 3)], nil]];
+            [[NSValue alloc] initWithTileLocation:PZTileLocationMake(3, 3)]]];
 
     STAssertEqualObjects(verticalTiles, newVerticalTiles, @"");
 }

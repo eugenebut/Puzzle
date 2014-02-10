@@ -28,7 +28,7 @@
         [sFormatter setFormatWidth:4];
     });
     
-    return [sFormatter stringFromNumber:[NSNumber numberWithUnsignedInteger:aCount]];
+    return [sFormatter stringFromNumber:@(aCount)];
 }
 
 + (NSString *)movesCountLongMessage:(NSUInteger)aCount {
@@ -40,7 +40,7 @@
         [sFormatter setFormatWidth:7];
     });
 
-    return [sFormatter stringFromNumber:[NSNumber numberWithUnsignedInteger:aCount]];
+    return [sFormatter stringFromNumber:@(aCount)];
 }
 
 + (NSNumberFormatter *)newFormatter {
@@ -48,7 +48,7 @@
     [result setLocale:[NSLocale autoupdatingCurrentLocale]];
     [result setNumberStyle:kCFNumberFormatterNoStyle];
     [result setPaddingCharacter:[result stringFromNumber:
-                                 [NSNumber numberWithUnsignedInteger:0]]];
+                                 @0U]];
     return result;
 }
 

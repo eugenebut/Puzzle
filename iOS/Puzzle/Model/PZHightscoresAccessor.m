@@ -31,7 +31,7 @@ NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
     NSNumber *bestValue = [[NSUserDefaults standardUserDefaults] objectForKey:aKey];
     if (nil == bestValue || aValue < [bestValue unsignedIntegerValue]) {
         [[NSUserDefaults standardUserDefaults] setObject:
-            [NSNumber numberWithUnsignedInteger:aValue] forKey:aKey];
+            @(aValue) forKey:aKey];
     }
 }
 

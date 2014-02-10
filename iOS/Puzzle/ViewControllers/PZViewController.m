@@ -179,7 +179,7 @@ typedef void(^PZTileMoveBlock)(void);
     
     [[NSUserDefaults standardUserDefaults] setObject:self.puzzle.state forKey:kPuzzleState];
     [[NSUserDefaults standardUserDefaults] setObject:
-            [NSNumber numberWithUnsignedInteger:self.stopWatch.totalSeconds]
+            @(self.stopWatch.totalSeconds)
             forKey:kElapsedTime];
 
     [[NSUserDefaults standardUserDefaults]
