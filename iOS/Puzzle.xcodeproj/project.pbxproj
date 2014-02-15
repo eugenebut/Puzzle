@@ -95,7 +95,6 @@
 		B7AEF1C7159C15F8006EFEF0 /* Puzzle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Puzzle-Info.plist"; sourceTree = "<group>"; };
 		B7AEF1C9159C15F8006EFEF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B7AEF1CB159C15F8006EFEF0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B7AEF1CD159C15F8006EFEF0 /* Puzzle-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Puzzle-Prefix.pch"; sourceTree = "<group>"; };
 		B7AEF1CE159C15F8006EFEF0 /* PZAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PZAppDelegate.h; sourceTree = "<group>"; };
 		B7AEF1CF159C15F8006EFEF0 /* PZAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PZAppDelegate.m; sourceTree = "<group>"; };
 		B7AEF1D1159C15F8006EFEF0 /* PZViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PZViewController.h; sourceTree = "<group>"; };
@@ -219,7 +218,6 @@
 			children = (
 				B7AEF1C8159C15F8006EFEF0 /* InfoPlist.strings */,
 				B728774D1605225D00FC253F /* Localizable.strings */,
-				B7AEF1CD159C15F8006EFEF0 /* Puzzle-Prefix.pch */,
 				B7AEF1C7159C15F8006EFEF0 /* Puzzle-Info.plist */,
 				B7AEF1CB159C15F8006EFEF0 /* main.m */,
 			);
@@ -548,6 +546,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Eugene But (C59BANDBE9)";
@@ -577,6 +576,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Eugene But";
@@ -599,8 +599,6 @@
 		B7AEF1F2159C15F9006EFEF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Puzzle/Puzzle-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Puzzle/Puzzle-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -613,8 +611,6 @@
 		B7AEF1F3159C15F9006EFEF0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Puzzle/Puzzle-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Puzzle/Puzzle-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -633,7 +629,6 @@
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Puzzle/Puzzle-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "PuzzleTests/PuzzleTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -651,7 +646,6 @@
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Puzzle/Puzzle-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "PuzzleTests/PuzzleTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";

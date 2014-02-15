@@ -10,6 +10,7 @@
 #import "PZWinViewController.h"
 #import "PZMessageFormatter.h"
 #import "PZHightscoresAccessor.h"
+@import UIKit;
 
 static NSTimeInterval kAnimationInterval = 0.01;
 

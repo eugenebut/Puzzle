@@ -7,7 +7,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 @implementation PZTileImpl
-@synthesize image, currentLocation, winLocation, representedObject;
 
 - (instancetype)initWithImage:(UIImage *)anImage
               currentLocation:(PZTileLocation)aCurrentLocation

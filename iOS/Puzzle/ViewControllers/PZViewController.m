@@ -13,7 +13,7 @@
 #import "PZPuzzle.h"
 #import "PZTile.h"
 #import "PZMessageFormatter.h"
-#import <QuartzCore/QuartzCore.h>
+@import QuartzCore;
 
 ////////////////////////////////////////////////////////////////////////////////
 static const BOOL kSupportsShadows = YES;

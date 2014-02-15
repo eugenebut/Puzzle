@@ -6,6 +6,7 @@
 #import "PZPuzzleTest.h"
 #import "PZPuzzle.h"
 #import "PZTile.h"
+@import UIKit;
 
 ////////////////////////////////////////////////////////////////////////////////
 static const NSUInteger kPuzzleSize = 4;
