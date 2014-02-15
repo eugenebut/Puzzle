@@ -23,7 +23,7 @@ static const NSUInteger kPuzzleSize = 4;
 
 - (void)setUp {
     [super setUp];
-    self.testable = [[PZPuzzle alloc] initWithImage:[UIImage imageNamed:@"puzzle_iPhone"]
+    self.testable = [[PZPuzzle alloc] initWithImage:[UIImage imageNamed:@"Tiles_iPhone"]
                                                size:kPuzzleSize state:nil];
 }
 
