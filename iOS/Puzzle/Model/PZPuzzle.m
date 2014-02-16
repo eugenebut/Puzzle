@@ -26,7 +26,9 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
 #pragma mark -
 #pragma mark Interface
 
-- (instancetype)initWithImage:(UIImage *)anImage size:(NSUInteger)aSize state:(NSDictionary *)aState {
+- (instancetype)initWithImage:(UIImage *)anImage
+                         size:(NSUInteger)aSize
+                        state:(NSDictionary *)aState {
     if (nil != (self = [super init])) {
         self.mutableTiles = [[self class] newTilesWithImage:anImage size:aSize];
         self.emptyTileLocation = PZTileLocationMake(aSize - 1, aSize - 1);
@@ -175,7 +177,8 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
 #pragma mark -
 #pragma mark Implementation
 
-+ (NSMutableArray *)newTilesWithImage:(UIImage *)anImage size:(NSUInteger)aSize {
++ (NSMutableArray *)newTilesWithImage:(UIImage *)anImage
+                                 size:(NSUInteger)aSize {
     CGFloat tileWidth = (anImage.size.width / aSize);
     CGFloat tileHeight = (anImage.size.height / aSize);
 
@@ -233,7 +236,8 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     return [[self class] locationForTileAtIndex:anIndex size:self.size];
 }
 
-+ (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex size:(NSUInteger)aSize {
++ (PZTileLocation)locationForTileAtIndex:(NSUInteger)anIndex
+                                    size:(NSUInteger)aSize {
     NSUInteger y = anIndex / aSize;
     NSUInteger x = anIndex - y * aSize;
     
@@ -249,11 +253,13 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     NSMutableArray *tiles = [[NSMutableArray alloc] initWithCapacity:self.mutableTiles.count];
     for (PZTileImpl *tile in self.mutableTiles) {
         PZTileLocation location = tile.winLocation;        
-        [tiles addObject:[[NSData alloc] initWithBytes:&location length:sizeof(location)]];
+        [tiles addObject:[[NSData alloc] initWithBytes:&location
+                                                length:sizeof(location)]];
     }
     PZTileLocation emptyLocation = self.emptyTileLocation;
     return @{kTilesState: [NSArray arrayWithArray:tiles], 
-             kEmptyTileLocationState: [[NSData alloc] initWithBytes:&emptyLocation length:sizeof(emptyLocation)],
+             kEmptyTileLocationState: [[NSData alloc] initWithBytes:&emptyLocation
+                                                             length:sizeof(emptyLocation)],
              kMovesCountState: @(self.movesCount)};
 }
 
@@ -275,7 +281,8 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     self.mutableTiles = newTiles;
     
     PZTileLocation emptyLocation;
-    [aState[kEmptyTileLocationState] getBytes:&emptyLocation length:sizeof(emptyLocation)];
+    [aState[kEmptyTileLocationState] getBytes:&emptyLocation
+                                       length:sizeof(emptyLocation)];
     self.emptyTileLocation = emptyLocation;
     self.movesCount = [aState[kMovesCountState] unsignedIntegerValue];
 }

@@ -45,7 +45,8 @@ static const NSTimeInterval kAnimationDuration = 0.5;
         self.textView.text = NSLocalizedString(@"Puzzle_Objective",
                                                @"Puzzle Objective Description");
         
-        [self.nextButton setTitle:NSLocalizedString(@"Shuffle Puzle", @"Shuffle button label") forState:UIControlStateNormal];
+        [self.nextButton setTitle:NSLocalizedString(@"Shuffle Puzle", @"Shuffle button label")
+                         forState:UIControlStateNormal];
         [self.nextButton PZSetTouchUpInsideAction:@selector(shuffle:)];
         
         [UIView animateWithDuration:kAnimationDuration animations:^{
@@ -115,8 +116,14 @@ static const NSTimeInterval kAnimationDuration = 0.5;
 
 - (void)PZSetTouchUpInsideAction:(SEL)anAction {
     id target = [[self allTargets] anyObject];
-    [self removeTarget:target action:NULL forControlEvents:UIControlEventTouchUpInside];
-    [self addTarget:target action:anAction forControlEvents:UIControlEventTouchUpInside];
+    
+    [self removeTarget:target
+                action:NULL
+      forControlEvents:UIControlEventTouchUpInside];
+   
+    [self addTarget:target
+             action:anAction
+   forControlEvents:UIControlEventTouchUpInside];
 }
 
 @end

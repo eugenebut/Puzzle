@@ -15,8 +15,6 @@
 - (instancetype)initWithTime:(NSUInteger)aTime
                   movesCount:(NSUInteger)aMovesCount;
 
-- (void)startAnimation;
-
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *yourMovesLabel;
 @property (nonatomic, weak) IBOutlet UILabel *yourTimeLabel;
@@ -28,6 +26,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *yourScoreLabel;
 @property (nonatomic, weak) IBOutlet UILabel *highScoreLabel;
 
+- (void)startAnimation;
 - (void)updateMessages;
 
 @end

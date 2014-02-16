@@ -21,7 +21,9 @@
 
 - (void)start {
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self
-                  selector:@selector(timeDidFire) userInfo:nil repeats:YES];
+                                                selector:@selector(timeDidFire)
+                                                userInfo:nil
+                                                 repeats:YES];
 }
 
 - (void)stop {

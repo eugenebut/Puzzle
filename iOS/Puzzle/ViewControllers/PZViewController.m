@@ -177,14 +177,14 @@ typedef void(^PZTileMoveBlock)(void);
         return;
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:self.puzzle.state forKey:kPuzzleState];
-    [[NSUserDefaults standardUserDefaults] setObject:
-            @(self.stopWatch.totalSeconds)
-            forKey:kElapsedTime];
+    [[NSUserDefaults standardUserDefaults] setObject:self.puzzle.state
+                                              forKey:kPuzzleState];
+    [[NSUserDefaults standardUserDefaults] setObject:@(self.stopWatch.totalSeconds)
+                                              forKey:kElapsedTime];
 
     [[NSUserDefaults standardUserDefaults]
             setObject:[NSKeyedArchiver archivedDataWithRootObject:self.winViewController]
-            forKey:kWinController];
+               forKey:kWinController];
 }
 
 - (void)restoreState {
@@ -208,12 +208,14 @@ typedef void(^PZTileMoveBlock)(void);
 
 - (void)addGestureRecognizers {
     // tap gesture recognizer
-    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                 action:@selector(handleTap:)];
     self.tapRecognizer.delegate = self;
     [self.view addGestureRecognizer:self.tapRecognizer];
 
     // pan gesture recognizer
-    self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                                 action:@selector(handlePan:)];
     self.panRecognizer.delegate = self;
     [self.view addGestureRecognizer:self.panRecognizer];
 }
@@ -249,7 +251,8 @@ typedef void(^PZTileMoveBlock)(void);
         UIGestureRecognizerStateChanged == aRecognizer.state) {
         if (UIGestureRecognizerStateBegan == aRecognizer.state) {
             // remember location we started pan from
-            self.panTileLocation = [self tileLocationAtPoint:[aRecognizer locationOfTouch:0 inView:self.view]];
+            self.panTileLocation = [self tileLocationAtPoint:[aRecognizer locationOfTouch:0
+                                                                                   inView:self.view]];
             
             // remember all tiles we going to move
             NSArray *tilesLocations = [self.puzzle affectedTilesLocationsByTileMoveAtLocation:self.panTileLocation];
@@ -525,7 +528,8 @@ typedef void(^PZTileMoveBlock)(void);
     [self shufflePuzzleWithNumberOfMoves:kShufflesCount completionBlock:aBlock];
 }
 
-- (void)shufflePuzzleWithNumberOfMoves:(NSUInteger)aNumberOfMoves completionBlock:(void (^)(void))aBlock {
+- (void)shufflePuzzleWithNumberOfMoves:(NSUInteger)aNumberOfMoves
+                       completionBlock:(void (^)(void))aBlock {
     if (0 == aNumberOfMoves) {
         // we done shuffling
         self.view.userInteractionEnabled = YES;
@@ -606,8 +610,7 @@ typedef void(^PZTileMoveBlock)(void);
     }];
 }
 
-- (void)helpViewControllerWantsHide:(PZHelpViewController *)aController
-{
+- (void)helpViewControllerWantsHide:(PZHelpViewController *)aController {
     [self hideHelpWithCompletionBlock:^{
         if (self.puzzle.isWin) {
             [self shuffleWithCompletionBlock:^{
@@ -692,7 +695,9 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (void)hideHelpWithCompletionBlock:(void(^)(void))aCompletionBlock {
-    [UIView animateWithDuration:kShowHelpAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+    [UIView animateWithDuration:kShowHelpAnimationDuration
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
         
         [self.helpViewController.view setOffscreenLocation];
         
@@ -716,7 +721,8 @@ typedef void(^PZTileMoveBlock)(void);
 
 - (CALayer *)newTapGuideLayerForRect:(CGRect)aRect {
     CGPoint center = CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) / 2);
-    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:center radius:10.0
+    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:center
+                                                        radius:10.0
                                                     startAngle:0 endAngle:M_PI * 2
                                                      clockwise:YES];
 
@@ -879,7 +885,7 @@ typedef void(^PZTileMoveBlock)(void);
     // create view and add it to hierarchy offscreen
     self.winViewController = [[PZWinViewController alloc]
                               initWithTime:self.stopWatch.totalSeconds
-                              movesCount:self.puzzle.movesCount];
+                                movesCount:self.puzzle.movesCount];
     
     UIView *view = self.winViewController.view;
     CGPoint screenCenter = CGPointMake(CGRectGetMidX([UIScreen mainScreen].bounds),
@@ -888,7 +894,10 @@ typedef void(^PZTileMoveBlock)(void);
     [self.view addSubview:view];
     
     // play 2 staged sliding animation
-    [UIView animateWithDuration:0.5 delay:0.2 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.5
+                          delay:0.2
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
         view.center = CGPointMake(screenCenter.x + 20.0, screenCenter.y);
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.2 animations:^{

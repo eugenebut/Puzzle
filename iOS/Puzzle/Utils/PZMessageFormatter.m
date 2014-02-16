@@ -47,8 +47,7 @@
     NSNumberFormatter *result = [NSNumberFormatter new];
     [result setLocale:[NSLocale autoupdatingCurrentLocale]];
     [result setNumberStyle:kCFNumberFormatterNoStyle];
-    [result setPaddingCharacter:[result stringFromNumber:
-                                 @0U]];
+    [result setPaddingCharacter:[result stringFromNumber:@0U]];
     return result;
 }
 
