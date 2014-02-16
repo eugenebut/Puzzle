@@ -38,6 +38,13 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     return self;
 }
 
+- (instancetype)init {
+    [[NSException exceptionWithName:NSInternalInconsistencyException
+                             reason:@"Use designated initializer"
+                             userInfo:nil] raise];
+    return nil;
+}
+
 - (BOOL)isWin {
     for (NSUInteger tileIndex = 0; tileIndex < self.mutableTiles.count; tileIndex++) {
         PZTileImpl *tile = self.mutableTiles[tileIndex];
