@@ -158,8 +158,9 @@ typedef void(^PZTileMoveBlock)(void);
                                  (CGRectGetMinY([self tilesAreaInView]) + kHelpShift) * scale,
                                  CGRectGetWidth([self tilesAreaInView]) * scale,
                                  CGRectGetHeight([self tilesAreaInView]) * scale);
-        UIImage *tilesImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([wholeImage CGImage],
-                                                                                     rect)];
+        CGImageRef image = CGImageCreateWithImageInRect([wholeImage CGImage], rect);
+        UIImage *tilesImage = [UIImage imageWithCGImage:image];
+        CGImageRelease(image);
         
         NSDictionary *state = [[NSUserDefaults standardUserDefaults] objectForKey:kPuzzleState];
         _puzzle = [[PZPuzzle alloc] initWithImage:tilesImage size:kPuzzleSize state:state];
@@ -728,13 +729,16 @@ typedef void(^PZTileMoveBlock)(void);
                                                     startAngle:0 endAngle:M_PI * 2
                                                      clockwise:YES];
 
-    CGColorRef color = CGColorCreate(CGColorSpaceCreateDeviceRGB(), kGuideColor);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGColorRef color = CGColorCreate(colorSpace, kGuideColor);
+    CGColorSpaceRelease(colorSpace);
     
     CAShapeLayer *guide = [CAShapeLayer new];
     guide.frame = aRect;
-    guide.path = CGPathCreateCopy([path CGPath]);
+    guide.path = [path CGPath];
     guide.strokeColor = color;
     guide.fillColor = NULL;
+    CGColorRelease(color);
     
     // scaling animation
     CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
@@ -771,11 +775,13 @@ typedef void(^PZTileMoveBlock)(void);
     [headPath addLineToPoint:CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) - kArrowMargin)];
     [headPath addLineToPoint:CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) * 2 / 3)];
     
-    CGColorRef color = CGColorCreate(CGColorSpaceCreateDeviceRGB(), kGuideColor);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGColorRef color = CGColorCreate(colorSpace, kGuideColor);
+    CGColorSpaceRelease(colorSpace);
 
     CAShapeLayer *head = [CAShapeLayer new];
     head.frame = aRect;
-    head.path = CGPathCreateCopy([headPath CGPath]);
+    head.path = [headPath CGPath];
     head.strokeColor = color;
     head.fillColor = NULL;
     
@@ -810,9 +816,10 @@ typedef void(^PZTileMoveBlock)(void);
     
     CAShapeLayer *body = [CAShapeLayer new];
     body.frame = aRect;
-    body.path = CGPathCreateCopy([bodyPath CGPath]);
+    body.path = [bodyPath CGPath];
     body.strokeColor = color;
     body.fillColor = NULL;
+    CGColorRelease(color);
     
     // streatching animation
     CABasicAnimation *stretch = [CABasicAnimation animationWithKeyPath:@"transform.scale.x"];

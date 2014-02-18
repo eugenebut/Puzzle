@@ -195,6 +195,7 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
         id tile = [[PZTileImpl alloc] initWithImage:[[UIImage alloc] initWithCGImage:CGImage]
                                     currentLocation:location winLocation:location];
 
+        CGImageRelease(CGImage);
         [result addObject:tile];
     }
 
