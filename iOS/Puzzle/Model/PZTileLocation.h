@@ -41,4 +41,3 @@ static inline bool PZTileLocationInSameRowAsLocation(PZTileLocation loc1,
 - (PZTileLocation)tileLocation;
 
 @end
-
