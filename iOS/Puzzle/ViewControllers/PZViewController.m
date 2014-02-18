@@ -51,7 +51,9 @@ static NSString *const kWinController = @"PZWinControllerDefaults";
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
-@interface PZViewController ()
+@interface PZViewController () <UIGestureRecognizerDelegate,
+                                PZStopWatchDelegate,
+                                PZHelpViewControllerDelegate>
 
 @property (nonatomic, strong) PZPuzzle *puzzle;
 @property (nonatomic, strong) PZStopWatch *stopWatch;

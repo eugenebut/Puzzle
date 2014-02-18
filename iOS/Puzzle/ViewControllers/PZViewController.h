@@ -11,9 +11,7 @@
 @class PZPuzzle;
 
 ////////////////////////////////////////////////////////////////////////////////
-@interface PZViewController : UIViewController<UIGestureRecognizerDelegate,
-                                               PZStopWatchDelegate,
-                                               PZHelpViewControllerDelegate> {
+@interface PZViewController : UIViewController {
 @private
     PZStopWatch *_stopWatch;
     PZPuzzle *_puzzle;
