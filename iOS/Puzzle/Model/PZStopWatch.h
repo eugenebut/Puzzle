@@ -19,7 +19,7 @@
 - (void)stop;
 - (void)reset;
 
-@property (nonatomic, assign) id<PZStopWatchDelegate> delegate;
+@property (nonatomic, weak) id<PZStopWatchDelegate> delegate;
 
 @property (nonatomic, assign) NSUInteger totalSeconds;
 

@@ -6,21 +6,62 @@
 //
 //
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 #import "PZStopWatch.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////
-@interface PZStopWatch ()
+////////////////////////////////////////////////////////////////////////////////
+// NSTimer retains it's target and to avoid a retain cycle we don't want
+// PZStopWatch to be a timer target. This utility class will be a taged for
+// NSTimer.
+@interface PZStopWatchTimerTarget: NSObject
 
-@property (nonatomic, weak) NSTimer *timer;
+- (instancetype)initWithBlock:(void (^)())aBlock;
+
+@property (nonatomic, copy, readonly) void (^block)();
 
 @end
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+@implementation PZStopWatchTimerTarget
+
+- (instancetype)initWithBlock:(void (^)())aBlock {
+    if (nil != (self = [super init])) {
+        _block = [aBlock copy];
+    }
+    return self;
+}
+
+- (void)timeDidFire {
+    self.block();
+}
+
+@end
+
+
+////////////////////////////////////////////////////////////////////////////////
+@interface PZStopWatch ()
+
+@property (nonatomic, weak) NSTimer *timer;
+@property (nonatomic, strong) PZStopWatchTimerTarget *timerTarget;
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////
 @implementation PZStopWatch
 
+- (void)dealloc {
+    [self stop];
+}
+
 - (void)start {
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self
+    __weak typeof(self) weakSelf = self;
+    self.timerTarget = [[PZStopWatchTimerTarget alloc] initWithBlock:^{
+        weakSelf.totalSeconds++;
+        [weakSelf.delegate PZStopWatchDidChangeTime:self];
+    }];
+
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                  target:self.timerTarget
                                                 selector:@selector(timeDidFire)
                                                 userInfo:nil
                                                  repeats:YES];
@@ -29,6 +70,7 @@
 - (void)stop {
     [self.timer invalidate];
     self.timer = nil;
+    self.timerTarget = nil;
 }
 
 - (void)reset {
@@ -36,11 +78,6 @@
         self.totalSeconds = 0;
         [self.delegate PZStopWatchDidChangeTime:self];
     }
-}
-
-- (void)timeDidFire {
-    self.totalSeconds++;
-    [self.delegate PZStopWatchDidChangeTime:self];
 }
 
 @end
