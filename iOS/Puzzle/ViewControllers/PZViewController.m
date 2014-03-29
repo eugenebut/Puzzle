@@ -20,17 +20,17 @@ static const BOOL kSupportsShadows = YES;
 static const NSUInteger kPuzzleSize = 4;
 static const NSUInteger kShufflesCount = 40;
 
-static const CGFloat kAutoMoveAnimationDuration = 0.05;
-static const CGFloat kTransparencyAnimationDuration = 0.5;
-static const CGFloat kShowHelpAnimationDuration = 0.5;
+static const CGFloat kAutoMoveAnimationDuration = 0.05f;
+static const CGFloat kTransparencyAnimationDuration = 0.5f;
+static const CGFloat kShowHelpAnimationDuration = 0.5f;
 
 static const PZTileLocation kAllowedLocationsAll = {-1, -1};
 static const PZTileLocation kAllowedLocationsNone = {-2, -2};
 
-static const CGFloat kHelpShift = 70.0;
-static const CGFloat kHelpViewShift = 10.0;
+static const CGFloat kHelpShift = 70.0f;
+static const CGFloat kHelpViewShift = 10.0f;
 
-static const CGFloat kGuideColor[] = {1.0, 0.82, 0.7, 1.0};
+static const CGFloat kGuideColor[] = {1.0f, 0.82f, 0.7f, 1.0f};
 
 static NSString *const kPuzzleState = @"PZPuzzleStateDefaults";
 static NSString *const kElapsedTime = @"PZElapsedTimeDefaults";
@@ -452,7 +452,7 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (CGFloat)tileWidth {
-    static CGFloat result = 0.0;
+    static CGFloat result = 0.0f;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         result = CGRectGetWidth([self tilesAreaInView]) / kPuzzleSize;
@@ -461,7 +461,7 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (CGFloat)tileHeight {
-    static CGFloat result = 0.0;
+    static CGFloat result = 0.0f;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         result = CGRectGetHeight([self tilesAreaInView]) / kPuzzleSize;
@@ -768,7 +768,7 @@ typedef void(^PZTileMoveBlock)(void);
     
     // create arrow head
     UIBezierPath *headPath = [UIBezierPath new];
-    static const CGFloat kArrowMargin = 10.0;
+    static const CGFloat kArrowMargin = 10.0f;
     [headPath moveToPoint:CGPointMake(CGRectGetWidth(aRect) / 2, CGRectGetHeight(aRect) / 3)];
     [headPath addLineToPoint:CGPointMake(CGRectGetWidth(aRect) / 2, kArrowMargin)];
     [headPath addLineToPoint:CGPointMake(kArrowMargin, CGRectGetHeight(aRect) / 2)];
