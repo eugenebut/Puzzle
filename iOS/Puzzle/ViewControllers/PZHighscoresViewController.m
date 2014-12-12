@@ -22,9 +22,9 @@
     [super viewDidLoad];
     
     self.movesValueLabel.text = [PZMessageFormatter movesCountLongMessage:
-            [PZHightscoresAccessor defaultsIntegerForKey:kBestMovesDefaultsKey]];
+            [PZHightscoresAccessor defaultsUIntegerForKey:kBestMovesDefaultsKey]];
     self.timeValueLabel.text = [PZMessageFormatter timeMessage:
-            [PZHightscoresAccessor defaultsIntegerForKey:kBestTimeDefaultsKey]];
+            [PZHightscoresAccessor defaultsUIntegerForKey:kBestTimeDefaultsKey]];
     
     self.movesLabel.text = NSLocalizedString(@"Min Moves:", @"Highscores Best Time");
     self.timeLabel.text = NSLocalizedString(@"Best Time:", @"Highscores Best Time");

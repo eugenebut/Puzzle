@@ -22,13 +22,13 @@ NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
            nil != [defaults objectForKey:kBestMovesDefaultsKey];
 }
 
-+ (NSUInteger)defaultsIntegerForKey:(NSString *)aKey {
++ (NSUInteger)defaultsUIntegerForKey:(NSString *)aKey {
     NSNumber *result = [[NSUserDefaults standardUserDefaults] objectForKey:aKey];
     return (nil != result) ? [result unsignedIntegerValue] : ULONG_MAX;
 }
 
-+ (void)updateDefaultsInteger:(NSUInteger)aValue forKey:(NSString *)aKey {
-    if (aValue < [self defaultsIntegerForKey:aKey]) {
++ (void)updateDefaultsUInteger:(NSUInteger)aValue forKey:(NSString *)aKey {
+    if (aValue < [self defaultsUIntegerForKey:aKey]) {
         [[NSUserDefaults standardUserDefaults] setObject:@(aValue)
                                                   forKey:aKey];
     }

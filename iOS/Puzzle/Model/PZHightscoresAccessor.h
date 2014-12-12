@@ -18,7 +18,7 @@ extern NSString *const kBestMovesDefaultsKey;
 
 + (BOOL)hasHighscores;
 
-+ (NSUInteger)defaultsIntegerForKey:(NSString *)aKey;
-+ (void)updateDefaultsInteger:(NSUInteger)aValue forKey:(NSString *)aKey;
++ (NSUInteger)defaultsUIntegerForKey:(NSString *)aKey;
++ (void)updateDefaultsUInteger:(NSUInteger)aValue forKey:(NSString *)aKey;
 
 @end

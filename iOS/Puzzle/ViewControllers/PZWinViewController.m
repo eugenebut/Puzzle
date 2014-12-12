@@ -41,14 +41,16 @@ static NSTimeInterval kAnimationInterval = 0.01;
         _time = aTime;
         _movesCount = aMovesCount;
 
-        _bestTime = [PZHightscoresAccessor defaultsIntegerForKey:kBestTimeDefaultsKey];
-        _bestMovesCount = [PZHightscoresAccessor defaultsIntegerForKey:kBestMovesDefaultsKey];
+        _bestTime = [PZHightscoresAccessor defaultsUIntegerForKey:kBestTimeDefaultsKey];
+        _bestMovesCount = [PZHightscoresAccessor defaultsUIntegerForKey:kBestMovesDefaultsKey];
         
-        _effectiveBestTime = MIN(self.bestTime, self.time);
-        _effectiveBestMovesCount = MIN(self.bestMovesCount, self.movesCount);
+        _effectiveBestTime = MIN(_bestTime, _time);
+        _effectiveBestMovesCount = MIN(_bestMovesCount, _movesCount);
 
-        [PZHightscoresAccessor updateDefaultsInteger:self.time forKey:kBestTimeDefaultsKey];
-        [PZHightscoresAccessor updateDefaultsInteger:self.movesCount forKey:kBestMovesDefaultsKey];
+        [PZHightscoresAccessor updateDefaultsUInteger:_time
+                                               forKey:kBestTimeDefaultsKey];
+        [PZHightscoresAccessor updateDefaultsUInteger:_movesCount
+                                               forKey:kBestMovesDefaultsKey];
     }
     return self;
 }
