@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, PZMoveDirection) {
     kDownDirection
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 @interface PZPuzzle : NSObject
 
 - (instancetype)initWithImage:(UIImage *)anImage
@@ -50,8 +50,8 @@ typedef NS_ENUM(NSUInteger, PZMoveDirection) {
 - (BOOL)moveTileAtLocation:(PZTileLocation)aLocation;
 
 // allows shuffling the puzzle
-- (void)moveTileToRandomLocationWithCompletionBlock:
-    (void (^)(NSArray *aTiles, PZMoveDirection aDirection))aBlock;
+- (void)moveTileToRandomLocationWithCompletionHandler:
+    (void (^)(NSArray *aTiles, PZMoveDirection aDirection))aHandler;
 
 - (void)solveInstantly;
 

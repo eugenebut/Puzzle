@@ -31,14 +31,14 @@
 
 - (void)helpViewControllerWantsHide:(PZHelpViewController *)aController;
 - (void)helpViewControllerSolvePuzzle:(PZHelpViewController *)aController
-                      completionBlock:(void(^)(void))aBlock;
+                    completionHandler:(void(^)(void))aHandler;
 - (void)helpViewControllerShuflePuzzle:(PZHelpViewController *)aController
-                       completionBlock:(void(^)(void))aBlock;
+                     completionHandler:(void(^)(void))aHandler;
 - (void)helpViewControllerLearnTap:(PZHelpViewController *)aController
-                   completionBlock:(void(^)(void))aBlock;
+                 completionHandler:(void(^)(void))aHandler;
 - (void)helpViewControllerLearnPan:(PZHelpViewController *)aController
-                   completionBlock:(void(^)(void))aBlock;
+                 completionHandler:(void(^)(void))aHandler;
 - (void)helpViewControllerLearnMoveAll:(PZHelpViewController *)aController
-                       completionBlock:(void(^)(void))aBlock;
+                     completionHandler:(void(^)(void))aHandler;
 
 @end

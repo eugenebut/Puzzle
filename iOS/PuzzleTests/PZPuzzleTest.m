@@ -91,7 +91,7 @@ static const NSUInteger kPuzzleSize = 4;
 
 - (void)testRandomizing {
     // at least we should not be in win state
-    [self.testable moveTileToRandomLocationWithCompletionBlock:^(NSArray *aTiles, PZMoveDirection aDirection) {}];
+    [self.testable moveTileToRandomLocationWithCompletionHandler:nil];
     STAssertFalse(self.testable.isWin, @"");
 }
 

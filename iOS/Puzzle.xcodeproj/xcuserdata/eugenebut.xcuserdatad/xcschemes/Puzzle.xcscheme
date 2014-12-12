@@ -39,10 +39,10 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "PZPuzzleSolverTest">
+                  Identifier = "NSMutableArray_BinaryHeapTest">
                </Test>
                <Test
-                  Identifier = "NSMutableArray_BinaryHeapTest">
+                  Identifier = "PZPuzzleSolverTest">
                </Test>
             </SkippedTests>
          </TestableReference>

@@ -496,7 +496,7 @@ typedef void(^PZTileMoveBlock)(void);
 - (void)motionEnded:(UIEventSubtype)aMotion withEvent:(UIEvent *)anEvent {
     if (UIEventSubtypeMotionShake == aMotion) {
         if (self.isHelpMode) {
-            [self hideHelpWithCompletionBlock:^{
+            [self hideHelpWithCompletionHandler:^{
                 [self shuffle];
             }];
         }
@@ -519,31 +519,33 @@ typedef void(^PZTileMoveBlock)(void);
     [self hideWinMessageIfNecessary];
     [self hideHighscoresMessageIfNecessary];
     
-    [self shuffleWithCompletionBlock:^{
+    [self shuffleWithCompletionHandler:^{
         [self.stopWatch start];
         [self showHighscoresButtonIfNecessary];
     }];
     [self updateMoveLabel];
 }
 
-- (void)shuffleWithCompletionBlock:(void (^)(void))aBlock {
+- (void)shuffleWithCompletionHandler:(void (^)(void))aHandler {
     self.view.userInteractionEnabled = NO;
-    [self shufflePuzzleWithNumberOfMoves:kShufflesCount completionBlock:aBlock];
+    [self shufflePuzzleWithNumberOfMoves:kShufflesCount
+                       completionHandler:aHandler];
 }
 
 - (void)shufflePuzzleWithNumberOfMoves:(NSUInteger)aNumberOfMoves
-                       completionBlock:(void (^)(void))aBlock {
+                     completionHandler:(void (^)(void))aHandler {
     if (0 == aNumberOfMoves) {
         // we done shuffling
         self.view.userInteractionEnabled = YES;
-        aBlock();
+        aHandler();
         return;
     }
 
-    [self.puzzle moveTileToRandomLocationWithCompletionBlock:^(NSArray *aTiles, PZMoveDirection aDirection) {
+    [self.puzzle moveTileToRandomLocationWithCompletionHandler:^(NSArray *aTiles, PZMoveDirection aDirection) {
         [CATransaction setAnimationDuration:kAutoMoveAnimationDuration];
         [CATransaction setCompletionBlock:^{
-            [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1 completionBlock:aBlock];
+            [self shufflePuzzleWithNumberOfMoves:aNumberOfMoves - 1
+                               completionHandler:aHandler];
         }];
         [self moveLayersOfTiles:aTiles direction:aDirection];
         [self updateZIndices];
@@ -614,9 +616,9 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (void)helpViewControllerWantsHide:(PZHelpViewController *)aController {
-    [self hideHelpWithCompletionBlock:^{
+    [self hideHelpWithCompletionHandler:^{
         if (self.puzzle.isWin) {
-            [self shuffleWithCompletionBlock:^{
+            [self shuffleWithCompletionHandler:^{
                 [self.stopWatch start];
                 [self updateMoveLabel];
             }];
@@ -625,7 +627,7 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (void)helpViewControllerSolvePuzzle:(PZHelpViewController *)aController
-                      completionBlock:(void(^)(void))aSolveCompletionBlock {
+                    completionHandler:(void(^)(void))aSolveCompletionHandler {
 
     [self resignFirstResponder]; // disable shake handling
 
@@ -633,19 +635,19 @@ typedef void(^PZTileMoveBlock)(void);
     [UIView animateWithDuration:kAutoMoveAnimationDuration animations:^{
         [self updateTilesLocations:[self.puzzle allTiles]];
     } completion:^(BOOL finished) {
-        aSolveCompletionBlock();
+        aSolveCompletionHandler();
     }];
 }
 
 - (void)helpViewControllerShuflePuzzle:(PZHelpViewController *)aController
-                       completionBlock:(void(^)(void))aBlock {
+                     completionHandler:(void(^)(void))aHandler {
     [CATransaction setAnimationDuration:0.13];
     [CATransaction setCompletionBlock:^{
         [CATransaction setAnimationDuration:0.13];
         [CATransaction setCompletionBlock:^{
             [CATransaction setAnimationDuration:0.13];
             [CATransaction setCompletionBlock:^{
-                aBlock();
+                aHandler();
             }];
             [self moveLayersAndTilesAtLocation:PZTileLocationMake(2, 1)];
         }];
@@ -655,19 +657,19 @@ typedef void(^PZTileMoveBlock)(void);
 }
 
 - (void)helpViewControllerLearnTap:(PZHelpViewController *)aController
-                   completionBlock:(void(^)(void))aBlock {
+                 completionHandler:(void(^)(void))aHandler {
     self.allowedLocations = PZTileLocationMake(2, 0);
     CALayer *guide = [self newTapGuideLayerForRect:[self rectForTileAtLocation:self.allowedLocations]];
     [self.layersView.layer addSublayer:guide];
     self.panRecognizer.enabled = NO;
     self.tileMoveBlock = ^{
         [guide removeFromSuperlayer];
-        aBlock();
+        aHandler();
     };
 }
 
 - (void)helpViewControllerLearnPan:(PZHelpViewController *)aController
-                   completionBlock:(void(^)(void))aBlock {
+                 completionHandler:(void(^)(void))aHandler {
     self.allowedLocations = PZTileLocationMake(3, 0);
     NSArray *guides = [self newPanGuideLayersForRect:[self rectForTileAtLocation:self.allowedLocations]];
     for (CALayer *guide in guides) {
@@ -678,12 +680,12 @@ typedef void(^PZTileMoveBlock)(void);
     self.tapRecognizer.enabled = NO;
     self.tileMoveBlock = ^{
         [guides makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-        aBlock();
+        aHandler();
     };
 }
 
 - (void)helpViewControllerLearnMoveAll:(PZHelpViewController *)aController
-                       completionBlock:(void(^)(void))aBlock {
+                     completionHandler:(void(^)(void))aHandler {
     __weak id weakSelf = self;
     
     self.allowedLocations = PZTileLocationMake(3, 3);
@@ -692,12 +694,12 @@ typedef void(^PZTileMoveBlock)(void);
     self.tapRecognizer.enabled = YES;
     self.tileMoveBlock = ^{
         [guide removeFromSuperlayer];
-        aBlock();
+        aHandler();
         [weakSelf becomeFirstResponder]; // enable shake handling
     };
 }
 
-- (void)hideHelpWithCompletionBlock:(void(^)(void))aCompletionBlock {
+- (void)hideHelpWithCompletionHandler:(void(^)(void))aCompletionHandler {
     [UIView animateWithDuration:kShowHelpAnimationDuration
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
@@ -716,8 +718,8 @@ typedef void(^PZTileMoveBlock)(void);
         self.helpViewController = nil;
         self.helpMode = NO;
         self.helpButton.userInteractionEnabled = YES;
-        if (NULL != aCompletionBlock) {
-            aCompletionBlock();
+        if (nil != aCompletionHandler) {
+            aCompletionHandler();
         }
     }];
 }

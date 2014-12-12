@@ -41,7 +41,7 @@ static const NSTimeInterval kAnimationDuration = 0.5;
         self.hideButton.hidden = YES;
     }];
 
-    [self.delegate helpViewControllerSolvePuzzle:self completionBlock:^{
+    [self.delegate helpViewControllerSolvePuzzle:self completionHandler:^{
         self.textView.text = NSLocalizedString(@"Puzzle_Objective",
                                                @"Puzzle Objective Description");
         
@@ -63,12 +63,12 @@ static const NSTimeInterval kAnimationDuration = 0.5;
         self.textView.alpha = 0.0;
     }];
     
-    [self.delegate helpViewControllerShuflePuzzle:self completionBlock:^{
+    [self.delegate helpViewControllerShuflePuzzle:self completionHandler:^{
         self.textView.text = NSLocalizedString(@"Puzzle_Tutorial_Step_1", @"Puzzle Tutorial 1st step");
         self.nextButton.hidden = YES;
         [UIView animateWithDuration:kAnimationDuration animations:^{
             self.textView.alpha = 1.0;
-            [self.delegate helpViewControllerLearnTap:self completionBlock:^{
+            [self.delegate helpViewControllerLearnTap:self completionHandler:^{
                 
                 [UIView animateWithDuration:0.25 animations:^{
                     self.textView.alpha = 0.0;
@@ -80,7 +80,7 @@ static const NSTimeInterval kAnimationDuration = 0.5;
 
                 }];
 
-                [self.delegate helpViewControllerLearnPan:self completionBlock:^{
+                [self.delegate helpViewControllerLearnPan:self completionHandler:^{
 
                     [UIView animateWithDuration:0.25 animations:^{
                         self.textView.alpha = 0.0;
@@ -92,7 +92,7 @@ static const NSTimeInterval kAnimationDuration = 0.5;
                         
                     }];
                     
-                    [self.delegate helpViewControllerLearnMoveAll:self completionBlock:^{
+                    [self.delegate helpViewControllerLearnMoveAll:self completionHandler:^{
                         [UIView animateWithDuration:0.25 animations:^{
                             self.textView.alpha = 0.0;
                         } completion:^(BOOL finished) {

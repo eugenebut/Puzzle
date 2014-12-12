@@ -152,8 +152,8 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     return result;
 }
 
-- (void)moveTileToRandomLocationWithCompletionBlock:
-    (void (^)(NSArray *tiles, PZMoveDirection direction))aBlock {
+- (void)moveTileToRandomLocationWithCompletionHandler:
+    (void (^)(NSArray *tiles, PZMoveDirection direction))aHandler {
     // we have alternate horizontal and vertical moves to have good random moves
     PZTileLocation newLocation = self.previousRandomMoveWasHorizontal ?
         [self randomVerticalMovableTileLocation] :
@@ -169,8 +169,8 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
     self.previousRandomMoveWasHorizontal = kLeftDirection == direction ||
                                            kRightDirection == direction;    
     // notify about move completion
-    if (NULL != aBlock) {
-        aBlock(tiles, direction);
+    if (nil != aHandler) {
+        aHandler(tiles, direction);
     }
 }
 
