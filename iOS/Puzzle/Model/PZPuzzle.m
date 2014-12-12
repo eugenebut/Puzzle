@@ -30,10 +30,10 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
                          size:(NSUInteger)aSize
                         state:(NSDictionary *)aState {
     if (nil != (self = [super init])) {
-        self.mutableTiles = [[self class] newTilesWithImage:anImage size:aSize];
-        self.emptyTileLocation = PZTileLocationMake(aSize - 1, aSize - 1);
-        self.size = aSize;
-        self.movesCount = 0;
+        _mutableTiles = [[self class] newTilesWithImage:anImage size:aSize];
+        _emptyTileLocation = PZTileLocationMake(aSize - 1, aSize - 1);
+        _size = aSize;
+        _movesCount = 0;
         
         [self setStatePrivate:aState];
     }
@@ -279,13 +279,15 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
         tile.currentLocation = [self locationForTileAtIndex:index];
         [newTiles addObject:tile];
     }];
-    self.mutableTiles = newTiles;
+    _mutableTiles = newTiles;
     
     PZTileLocation emptyLocation;
     [aState[kEmptyTileLocationState] getBytes:&emptyLocation
                                        length:sizeof(emptyLocation)];
-    self.emptyTileLocation = emptyLocation;
-    self.movesCount = [aState[kMovesCountState] unsignedIntegerValue];
+    // This method is called from initializer, where using properties may be
+    // error prone.
+    _emptyTileLocation = emptyLocation;
+    _movesCount = [aState[kMovesCountState] unsignedIntegerValue];
 }
 
 - (void)solveInstantly {

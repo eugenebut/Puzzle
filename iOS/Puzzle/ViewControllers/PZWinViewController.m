@@ -34,17 +34,18 @@ static NSTimeInterval kAnimationInterval = 0.01;
 ////////////////////////////////////////////////////////////////////////////////
 @implementation PZWinViewController
 
-- (id)initWithTime:(NSUInteger)aTime movesCount:(NSUInteger)aMovesCount {
+- (instancetype)initWithTime:(NSUInteger)aTime
+                  movesCount:(NSUInteger)aMovesCount {
     self = [super init];
     if (nil != self) {
-        self.time = aTime;
-        self.movesCount = aMovesCount;
+        _time = aTime;
+        _movesCount = aMovesCount;
 
-        self.bestTime = [PZHightscoresAccessor defaultsIntegerForKey:kBestTimeDefaultsKey];
-        self.bestMovesCount = [PZHightscoresAccessor defaultsIntegerForKey:kBestMovesDefaultsKey];
+        _bestTime = [PZHightscoresAccessor defaultsIntegerForKey:kBestTimeDefaultsKey];
+        _bestMovesCount = [PZHightscoresAccessor defaultsIntegerForKey:kBestMovesDefaultsKey];
         
-        self.effectiveBestTime = MIN(self.bestTime, self.time);
-        self.effectiveBestMovesCount = MIN(self.bestMovesCount, self.movesCount);
+        _effectiveBestTime = MIN(self.bestTime, self.time);
+        _effectiveBestMovesCount = MIN(self.bestMovesCount, self.movesCount);
 
         [PZHightscoresAccessor updateDefaultsInteger:self.time forKey:kBestTimeDefaultsKey];
         [PZHightscoresAccessor updateDefaultsInteger:self.movesCount forKey:kBestMovesDefaultsKey];

@@ -12,9 +12,9 @@
               currentLocation:(PZTileLocation)aCurrentLocation
                   winLocation:(PZTileLocation)aWinLocation {
     if (nil != (self = [super init])) {
-        self.image = anImage;
-        self.currentLocation = aCurrentLocation;
-        self.winLocation = aWinLocation;
+        _image = anImage;
+        _currentLocation = aCurrentLocation;
+        _winLocation = aWinLocation;
     }
     return self;
 }
