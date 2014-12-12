@@ -28,10 +28,9 @@ NSString *const kBestMovesDefaultsKey = @"PZBestMovesDefaults";
 }
 
 + (void)updateDefaultsInteger:(NSUInteger)aValue forKey:(NSString *)aKey {
-    NSNumber *bestValue = [[NSUserDefaults standardUserDefaults] objectForKey:aKey];
-    if (nil == bestValue || aValue < [bestValue unsignedIntegerValue]) {
-        [[NSUserDefaults standardUserDefaults] setObject:
-            @(aValue) forKey:aKey];
+    if (aValue < [self defaultsIntegerForKey:aKey]) {
+        [[NSUserDefaults standardUserDefaults] setObject:@(aValue)
+                                                  forKey:aKey];
     }
 }
 
