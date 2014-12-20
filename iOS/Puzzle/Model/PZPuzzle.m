@@ -317,13 +317,14 @@ static NSString *const kMovesCountState = @"PZMovesCountState";
             [result appendString:@"--"];
         }
         else {
-            [result appendFormat:@"%02d", winIndex + 1];
+            [result appendFormat:@"%02lu", (unsigned long)(winIndex + 1)];
         }
         [result appendString:(0 == ((currentIndex + 1) % self.size)) ? @"\n" : @" "];
     }];
     
-    [result appendFormat:@"\nempty tile: %d-%d\n", self.emptyTileLocation.x,
-                                                   self.emptyTileLocation.y];
+    [result appendFormat:@"\nempty tile: %lu-%lu\n",
+        (unsigned long)self.emptyTileLocation.x,
+        (unsigned long)self.emptyTileLocation.y];
 
     return [NSString stringWithString:result];
 }

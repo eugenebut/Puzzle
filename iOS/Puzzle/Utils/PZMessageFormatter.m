@@ -13,10 +13,10 @@
 @implementation PZMessageFormatter
 
 + (NSString *)timeMessage:(NSUInteger)aSeconds {
-    return [NSString stringWithFormat:@"%02d:%02d:%02d",
-            aSeconds / 60 / 60,
-            aSeconds / 60 % 60,
-            aSeconds % 60];
+    return [NSString stringWithFormat:@"%02lu:%02lu:%02lu",
+            (unsigned long)(aSeconds / 60 / 60),
+            (unsigned long)(aSeconds / 60 % 60),
+            (unsigned long)(aSeconds % 60)];
 }
 
 + (NSString *)movesCountMessage:(NSUInteger)aCount {

@@ -27,9 +27,11 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:
-            @"Current location: %d-%d\nWin location: %d-%d",
-            self.currentLocation.x, self.currentLocation.y,
-            self.winLocation.x, self.winLocation.y];
+            @"Current location: %lu-%lu\nWin location: %lu-%lu",
+            (unsigned long)self.currentLocation.x,
+            (unsigned long)self.currentLocation.y,
+            (unsigned long)self.winLocation.x,
+            (unsigned long)self.winLocation.y];
 }
 
 @end
